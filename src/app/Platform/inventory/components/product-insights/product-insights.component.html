@@ -103,50 +103,68 @@
     styleClass="p-datatable-customers"
     [filterDelay]="0"
   >
-    <ng-template pTemplate="caption">
-      <div class="row no-gutters">
-        <div class="col-lg-2 pb-2 d-flex custom" id="drop">
-          <p-dropdown
-            [options]="Days"
-            (onChange)="secondDrop($event.value.day)"
-            placeholder="Filter By Days"
-            optionLabel="label"
-            optionValue="day"
-            [(ngModel)]="day"
-          >
-          </p-dropdown>
-          <p-button
-          type="button"
-          *ngIf="day!=''"
-          class=" float-end "
-          icon="pi pi-refresh"
-          (click)="dayFilterReset();dt1.filterGlobal('', 'contains')"
-          styleClass="p-button-text p-button-outlined"
-        ></p-button>
+  <ng-template pTemplate="caption">
+    <div class="">
+      <form class="form-caption   form-inline"> 
+     
+     
+        <div class="input-group col-lg-2 col-sm-6    " id="drop">    
+       
+            <p-dropdown
+              
+              [options]="Days"
+              (onChange)="secondDrop($event.value.day)"
+              placeholder="Filter By Days"
+              optionLabel="label"
+              optionValue="day"
+              [(ngModel)]="day"
+              [ngModelOptions]="{standalone: true}"
+            >
+            
+            </p-dropdown>
+            <div class="input-group-append ">  
+            <p-button
+            type="button"
+            *ngIf="day!=''"
+            class=" float-end "
+            icon="pi pi-refresh"
+            (click)="dayFilterReset();dt1.filterGlobal('', 'contains')"
+            styleClass="p-button-text p-button-outlined"
+          ></p-button>
+            </div>   
         </div>
 
-        <div class="col-lg-3 pb-2 d-flex custom">
-          <p-dropdown
+        <div class="input-group  col-lg-2 col-sm-6    ">
+         
+            <p-dropdown
             [options]="marketplaces"
             (onChange)="onMarketplaceChange($event.value.globalMarketplaceId)"
             placeholder="Filter By MarketPlaces"
             optionLabel="globalMarketplaceName"
             optionValue="globalMarketplaceId"
             [(ngModel)]="globalMarketplace"
+            [ngModelOptions]="{standalone: true}"
           >
           </p-dropdown>
-          <p-button
-          type="button"
-          *ngIf="globalMarketplace!=''"
-          class=" float-end "
-          icon="pi pi-refresh"
-          (click)="marketFilterReset();dt1.filterGlobal('', 'contains')"
-          styleClass="p-button-text p-button-outlined"
-        ></p-button>
+            <div class="input-group-append ">
+              <p-button
+              type="button"
+              *ngIf="globalMarketplace!=''"
+              class=" float-end "
+              icon="pi pi-refresh"
+              (click)="marketFilterReset();dt1.filterGlobal('', 'contains')"
+              styleClass="p-button-text p-button-outlined"
+            ></p-button>
+            </div>
+          
+          
+          
         </div>
         <!-- <div class="col-md-1"></div> -->
-        <div class="col-lg-2 pb-2">
-          <input
+        <div class="  col-lg-2    pb-2"></div>
+        <div class="input-group  col-lg-2 col-sm-4  pb-2">
+        
+            <input
             class="form-control date"
             type="date"
             id="start"
@@ -156,49 +174,70 @@
             triggers="mouseenter:mouseleave"
             popoverTitle="Please, select start date"
             [(ngModel)]="calander1"
+            [ngModelOptions]="{standalone: true}"
           />
-          <p-button style="display: none;"
-          type="button"
-          *ngIf="calander1!=''"
-          class=" float-end "
-          icon="pi pi-refresh"
-          (click)="dateFilterReset();dt1.filterGlobal('', 'contains')"
-          styleClass="p-button-text p-button-outlined"
-        ></p-button>
-        </div>
-        <div class="col-lg-3 pb-2 d-flex">
-          <input
-          class="form-control date"
-          type="date"
-          id="end"
-          placeholder="end"
-          (change)="val1($event)"
-          ngbPopover=""
-          triggers="mouseenter:mouseleave"
-          popoverTitle="Please, select end date"
-          [(ngModel)]="calander2"
-        />
-        <p-button
-          type="button"
-          *ngIf="calander2!=''"
-          class=" float-end "
-          icon="pi pi-refresh"
-          (click)="dateFilterReset();dt1.filterGlobal('', 'contains')"
-          styleClass="p-button-text p-button-outlined"
-        ></p-button>       
+            <div class="input-group-append">
+              <!-- <p-button style="display: none;"
+              type="button"
+              *ngIf="calander1!=''"
+              class=" float-end "
+              icon="pi pi-refresh"
+              (click)="dateFilterReset();dt1.filterGlobal('', 'contains')"
+              styleClass="p-button-text p-button-outlined"
+            ></p-button> -->
+            </div>              
+       
         </div>
 
-        <div class="col-lg-2 pb-2">
+        <div class="input-group  col-lg-2 col-sm-4  pb-2">
+         
             <input
-              class="search"
+            class="form-control date"
+            type="date"
+            id="end"
+            placeholder="end"
+            (change)="val1($event)"
+            ngbPopover=""
+            triggers="mouseenter:mouseleave"
+            
+            [(ngModel)]="calander2"
+            [ngModelOptions]="{standalone: true}"
+          />
+            <div class="input-group-append">
+              <p-button
+        type="button"
+        *ngIf="calander2!=''"
+        class=" float-end "
+        icon="pi pi-refresh"
+        (click)="dateFilterReset();dt1.filterGlobal('', 'contains')"
+        styleClass="p-button-text p-button-outlined"
+      ></p-button>
+            </div>
+        
+           
+        
+       
+       
+        </div>
+        <!-- <div class="col-lg-2">
+
+        </div> -->
+        <div class=" col-lg-2 col-sm-4  pb-2 pr-2">
+
+            <input
+            class="search"
               pInputText
               type="text"
               (input)="dt1.filterGlobal($event.target.value, 'contains')"
               placeholder="Search keyword"
             />
         </div>
-      </div>
-    </ng-template>
+      
+    </form> 
+    </div>
+    
+    
+  </ng-template>
 
     <ng-template pTemplate="header">
       <tr>

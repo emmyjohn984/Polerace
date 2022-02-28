@@ -13,6 +13,7 @@ import * as moment from 'moment';
 export class MarketPlacesProfitListComponent implements OnInit {
   userData: any;
   loading: boolean = false;
+  borderRadius: boolean = false;
   data;
   productTitle: any =[];
   productID: any = [];
@@ -94,6 +95,7 @@ export class MarketPlacesProfitListComponent implements OnInit {
       .getProductList(this.userData.companyId)
       .subscribe(res => {
       this.data  = res.body.data;
+      console.log(this.data);
         let product= [];
         this.data.map(r=>{
           this.productTitle.push({label:r.products.title,value:r.products.productId})
@@ -108,6 +110,7 @@ export class MarketPlacesProfitListComponent implements OnInit {
       (res) => {
         this.data = res.body.data;
         this.marketplaces = res.body.data;
+        console.log(this.marketplaces)
       },
       (err) => {
         this.toastrService.error(
@@ -118,6 +121,7 @@ export class MarketPlacesProfitListComponent implements OnInit {
   }
 
   getMarketPlacesProfitList(productID,marketplaceId,lastDays,startDate,endDate){
+    this.loading =true;
     let data = {
       productId: productID,
       marketplaceId: marketplaceId,
@@ -126,7 +130,7 @@ export class MarketPlacesProfitListComponent implements OnInit {
       endDate:endDate
     }
     this.reportService.getMarketPlacesProfitList(data).subscribe(res=>{
-      this.loading =true;
+
       if (res.body.data) {
         this.reportsData = res.body.data;
          this.loading=false;
@@ -157,12 +161,16 @@ export class MarketPlacesProfitListComponent implements OnInit {
     }
 
     secondDrop(event){
-      this.productId = event.value.products.productId;
+      this.borderRadius = true;
+      console.log(event.target.value);
+      this.productId =event.target.value;
       this.getMarketPlacesProfitList(this.productId,this.marketid,this.days,this.startDate,this.endDate)
     }
 
     getLastDays(event){
-      if(event.value.value==7){
+      this.borderRadius = true;
+      console.log(event.target.value);
+      if(event.target.value==7){
         this.startDate=  moment(moment().startOf('isoWeek')).format('yyyy-MM-DD')
         this.endDate=moment(moment().endOf('isoWeek')).format('yyyy-MM-DD')
         this.calander1  = this.startDate;
@@ -182,12 +190,12 @@ export class MarketPlacesProfitListComponent implements OnInit {
         // this.startDate=moment().subtract(event.value.value, 'days').calendar();
         // this.endDate=moment().;         
 let today=new Date()
-         this.startDate=moment(moment().subtract(event.value.value, 'days').calendar()).format('yyyy-MM-DD');
+         this.startDate=moment(moment().subtract(event.target.value, 'days').calendar()).format('yyyy-MM-DD');
         this.endDate=moment(today).format('yyyy-MM-DD')
         this.calander1  = this.startDate;
         this.calander2 = this.endDate;
-        this.days =event.value.value;
-        this.di = event.value.value;
+        this.days =event.target.value;
+        this.di = event.target.value;
       this.getMarketPlacesProfitList(this.productId,this.marketid,this.days,this.startDate,this.endDate)
 
       }
@@ -339,7 +347,9 @@ let today=new Date()
     }
 
     onMarketplaceChange(e) {
-      this.marketid = e;
+      this.borderRadius = true;
+      console.log(e.target.value);
+      this.marketid = e.target.value;
       this.getMarketPlacesProfitList(
         this.productId,
         this.marketid,

@@ -67,8 +67,8 @@
             scrollDirection="both" [scrollable]="true" scrollHeight="400px" 
             >
               <ng-template pTemplate="caption">
-                <div class="row no-gutters">
-                  <div class="col-lg-2 d-flex  pb-2 custom">
+                <form class="form-inline form-caption ">
+                  <div class="input-group  col-lg-3 col-sm-6 pb-2 ">
                     <p-dropdown
                       [options]="data"
                       placeholder="Filter By Products"
@@ -79,7 +79,7 @@
                       [ngModelOptions]="{standalone: true}"
                     >
                     </p-dropdown> 
-                    <!-- <span class="input-group-append"> -->
+                    <span class="input-group-append">
                     <p-button
                     type="button"
                     *ngIf="title!=''"
@@ -88,15 +88,15 @@
                     (click)="productFilterReset();dt1.filterGlobal('', 'contains')"
                     styleClass="p-button-text p-button-outlined"
                   ></p-button>
-                  <!-- </span> -->
+                  </span>
                   </div>
 
                  
-                  <div class="col-lg-3 d-flex pb-2 custom">
+                  <div class="input-group  col-lg-3 col-sm-6  pb-2  ">
                     <!-- <span class="custom"> -->
 
                     <p-dropdown
-                  
+
                       [options]="lastDays"
                       placeholder="Filter By Last Days"
                       optionLabel="label"
@@ -108,7 +108,7 @@
                     </p-dropdown>
 
 
-                    <!-- <span class="input-group-append"> -->
+                    <span class="input-group-append">
                     <p-button
                     type="button"
                     *ngIf="day!=''"
@@ -118,13 +118,13 @@
                     styleClass="p-button-text p-button-outlined"
                   ></p-button>
                   
-                    <!-- </span> -->
+                    </span>
                 <!-- </span> -->
                   </div>
                   
                   
-
-                  <div class=" col-lg-2  pb-2">
+                  <!-- <div class="  col-lg-2    pb-2"></div> -->
+                  <div class=" input-group  col-lg-2 col-sm-4  pb-2">
                     <input
                       class="form-control  border-right-0 border date"
                       type="date"
@@ -135,6 +135,7 @@
                       [(ngModel)]="calander1"
                       [ngModelOptions]="{standalone: true}"
                     />
+                    <span class="input-group-append">
                     <!-- <p-button style="display: none;"
                     type="button"
                     *ngIf="calander1!=''"
@@ -143,10 +144,11 @@
                     (click)="dateFilterReset();dt1.filterGlobal('', 'contains')"
                     styleClass="p-button-text p-button-outlined"
                   ></p-button> -->
+                </span>
                   </div>
                   
                   <!-- <div class="col-sm-1"></div> -->
-                  <div class="col-lg-3 d-flex pb-2">
+                  <div class="input-group  col-lg-2 col-sm-4  pb-2">
                     <input
                       class="form-control  border-right-0 border date"
                       type="date"
@@ -157,7 +159,7 @@
                       placeholder="end date"
                       
                     />
-                    <!-- <span class="input-group-append"> -->
+                    <span class="input-group-append">
                     <p-button
                     type="button"
                     *ngIf="calander2!=''"
@@ -166,12 +168,12 @@
                     (click)="dateFilterReset();dt1.filterGlobal('', 'contains')"
                     styleClass="p-button-text p-button-outlined"
                   ></p-button>
-                <!-- </span> -->
+                </span>
                   </div>
 
                   <!-- <div class="col-sm-1"></div> -->
 
-                  <div class="col-lg-2 pb-2">
+                  <div class="col-lg-2 col-sm-4  pb-2">
                     <input 
                     type="text" 
                     class="search"
@@ -180,7 +182,7 @@
                     placeholder="Search keyword">                     
                   </div>
 
-                </div>
+                </form>
               </ng-template>
           
               <ng-template pTemplate="header">
