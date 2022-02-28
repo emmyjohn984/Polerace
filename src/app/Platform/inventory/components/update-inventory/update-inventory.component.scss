@@ -1,0 +1,103 @@
+#cardheader{
+  background-color: #850273;
+}
+
+// .loader {
+//   border: 16px solid #f3f3f3;
+//   border-radius: 50%;
+//   border-top: 16px solid #850273  ;
+//   width: 120px;
+//   height: 120px;
+//   -webkit-animation: spin 2s linear infinite; /* Safari */
+//   animation: spin 2s linear infinite;
+//   margin: 55px auto;
+//   position: fixed;
+//   left: 0;
+//   right: 0;
+//   top: 0;
+//   bottom: 0;
+//   // opacity: 0.5;
+//   margin-top: 400px;
+//   z-index: 1;
+//   }
+
+// /* Safari */
+// @-webkit-keyframes spin {
+//   0% { -webkit-transform: rotate(0deg); }
+//   100% { -webkit-transform: rotate(360deg); }
+// }
+
+// @keyframes spin {
+//   0% { transform: rotate(0deg); }
+//   100% { transform: rotate(360deg); }
+// }
+
+// .container-fluid{
+//   opacity: 0.2;
+// }
+
+// :host::ng-deep  .ui-dropdown{
+//   width: inherit !important;
+// }
+
+// .inventoryVariations{
+//   border: #e5e0e0 1px solid !important;
+// }
+
+
+// #productinfo,#others,#price,#Shipping,#pictures,#seo,#inventory{
+//   text-decoration: none;
+//   color: #000;
+//   font-weight: 500;
+//   outline: none;
+// }
+
+.btn-link {
+  font-weight: 400;
+  color: #000!important;
+  text-decoration: none;
+}
+
+ .purple-btn {
+ 	background-color: #850273 !important;
+ 	color: #fff!important;
+ }
+ .purple-btn-pill {
+ 	background-color: #850273!important;
+ 	color: #fff!important;
+ 	border-radius: 50px!important;
+ }
+.grey-btn {
+	background-color: #d4d4d4!important;
+	color: #000!important;
+  margin-right: 5px;
+}
+
+.pull-right{
+  float: right;
+}
+
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #850273  ;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+  margin: 55px auto;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  // opacity: 0.5;
+  margin-top: 400px;
+  z-index: 1;
+
+  }
+
+  .container-fluid{
+    opacity: 0.2;
+  }

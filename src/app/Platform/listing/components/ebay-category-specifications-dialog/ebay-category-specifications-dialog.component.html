@@ -1,0 +1,223 @@
+<div class="mat-dialog-content" >
+    <div class="container" style="position: relative;">
+        <div class="header-acc">
+          <h6>eBay Category & Specifications</h6>
+          <button type="button" class="close close-btn-top" (click)="onCancelClick()">×</button>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <form [formGroup]="setupeBayFormGroup">
+              <mat-tab-group [(selectedIndex)]="selectedIndex">
+                <mat-tab label="Category">
+                  <div class="col-sm-12">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <mat-form-field class="example-full-width">
+                          <mat-label>Select Category</mat-label>
+                          <mat-select matInput placeholder="Category" formControlName="parentCategoryId"
+                            (selectionChange)="handleParentCategoryChange($event)" required>
+                            <mat-option *ngFor="let category of eBayCategories" [value]="category.categoryId">
+                              {{category.categoryName}} ({{category.categoryId}})
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-sm-6" *ngIf="eBayCategoryLevel1Categories.length>0">
+                        <mat-form-field class="example-full-width">
+                          <mat-label>Select Sub-Category</mat-label>
+                          <mat-select matInput placeholder="Category" formControlName="categoryLevel1"
+                            (selectionChange)="handleParentCategoryLevel1Change($event)">
+                            <mat-option *ngFor="let category of eBayCategoryLevel1Categories" [value]="category.categoryId">
+                              {{category.categoryName}} ({{category.categoryId}})
+                            </mat-option>
+                          </mat-select>
+      
+                        </mat-form-field>
+                      </div>
+                    </div>
+      
+      
+                    <div class="row">
+                      <div class="col-sm-6" *ngIf="eBayCategoryLevel2Categories.length>0">
+                        <mat-form-field class="example-full-width">
+                          <mat-label>Select Sub-Category</mat-label>
+                          <mat-select matInput placeholder="Category" formControlName="categoryLevel2"
+                            (selectionChange)="handleParentCategoryLevel2Change($event)">
+                            <mat-option *ngFor="let category of eBayCategoryLevel2Categories" [value]="category.categoryId">
+                              {{category.categoryName}} ({{category.categoryId}})
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-sm-6" *ngIf="eBayCategoryLevel3Categories.length>0">
+                        <mat-form-field class="example-full-width">
+                          <mat-label>Select Sub-Category</mat-label>
+                          <mat-select matInput placeholder="Category" formControlName="categoryLevel3"
+                            (selectionChange)="handleParentCategoryLevel3Change($event)">
+                            <mat-option *ngFor="let category of eBayCategoryLevel3Categories" [value]="category.categoryId">
+                              {{category.categoryName}} ({{category.categoryId}})
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+      
+                    <div class="row">
+                      <div class="col-sm-6" *ngIf="eBayCategoryLevel4Categories.length>0">
+                        <mat-form-field class="example-full-width">
+                          <mat-label>Select Sub-Category</mat-label>
+                          <mat-select matInput placeholder="Category" formControlName="categoryLevel4"
+                            (selectionChange)="handleParentCategoryLevel4Change($event)">
+                            <mat-option *ngFor="let category of eBayCategoryLevel4Categories" [value]="category.categoryId">
+                              {{category.categoryName}} ({{category.categoryId}})
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-sm-6" *ngIf="eBayCategoryLevel5Categories.length>0">
+                        <mat-form-field class="example-full-width">
+                          <mat-label>Select Sub-Category</mat-label>
+                          <mat-select matInput placeholder="Category" formControlName="categoryLevel5"
+                            (selectionChange)="handleParentCategoryLevel5Change($event)">
+                            <mat-option *ngFor="let category of eBayCategoryLevel5Categories" [value]="category.categoryId">
+                              {{category.categoryName}} ({{category.categoryId}})
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+      
+      
+      
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <mat-form-field class="example-full-width">
+                          <mat-label>Listing Style</mat-label>
+                          <mat-select matInput placeholder="Listing Style" formControlName="listingStyle" (selectionChange)="handleListingStyleChange($event)"required>
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let style of eBayListingStyle" [value]="style.text">
+                              {{style.text}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="formControls.listingStyle.errors?.required">
+                            Please select listing style
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-sm-6">
+                        <mat-form-field class="example-full-width">
+                          <mat-label>Listing Duration</mat-label>
+                          <mat-select matInput placeholder="Listing Duration" formControlName="listingDuration" required>
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let duration of eBayListingDurationFiltered" [value]="duration.text">
+                              {{duration.text}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="formControls.listingDuration.errors?.required">
+                            Please select listing duration
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <mat-form-field class="example-full-width">
+                          <mat-label>Listing Condition</mat-label>
+                          <mat-select matInput placeholder="Listing Condition" formControlName="conditionTypeId" required>
+                            <mat-option *ngFor="let condition of eBayListingCondition" [value]="condition.value">
+                              {{condition.text}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="formControls.conditionTypeId.errors?.required">
+                            Please select listing condition
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-sm-6">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <mat-form-field class="example-full-width">
+                          <mat-label>Condition Notes</mat-label>
+                          <textarea matInput placeholder="Condition Notes" formControlName='description'></textarea>
+                        </mat-form-field>
+                      </div>
+                      <!-- <div [formArrayName]="customAttributesForm" style="display: none;">
+                        <div class="row">
+                          <div class="col-sm-4">
+                           
+                          </div>
+                          <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                              <mat-select  matInput placeholder="Select" formControlName="id"
+                                >
+                                <mat-option>None</mat-option>
+                                <mat-option value="eBayRecommended">eBay Recommended</mat-option>
+                                <mat-option value="CustomAttributes">Custom Attributes</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                              <mat-select  matInput placeholder="Select" formControlName="pass"
+                                >
+                                <mat-option>None</mat-option>                     
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div> -->
+                    </div>
+                  </div>
+                </mat-tab>
+                <mat-tab label="Specifications">
+                 <div formArrayName="customAttributes" >
+                  <div formGroupName="{{i}}" *ngFor="let aspect of eBayCategoryAspects; let i=index">
+                    <div class="row">
+                      <div class="col-sm-4">
+                        {{aspect.localizedAspectName}}
+                      </div>
+                      <div class="col-sm-4">
+                        <mat-form-field class="example-full-width">
+                          <mat-select id="specifications_{{i}}" matInput placeholder="Select" formControlName="id"
+                            (selectionChange)="handleSpecificationsChange($event,i,aspect.localizedAspectName)">
+                            <mat-option>None</mat-option>
+                            <mat-option value="eBayRecommended">eBay Recommended</mat-option>
+                            <mat-option value="CustomAttributes">Custom Attributes</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-sm-4">
+                        <mat-form-field class="example-full-width">
+                          <mat-select id="eBayRecommended_{{i}}" matInput placeholder="Select" formControlName="pass"
+                            (selectionChange)="handleSpecificationsValueChange($event,i,aspect.localizedAspectName,null)">
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let customAttribute of customAttributesFilter[i]"
+                              [value]="customAttribute.value">
+                              {{customAttribute.text}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </mat-tab>
+              </mat-tab-group>
+            </form>
+      
+          </div>
+        </div>
+      
+        <div class="example-button-row custumbtn next-right">
+          <button mat-raised-button type="button" class="float-left" color="primary" (click)="previousStep();"
+            *ngIf="selectedIndex!==0">Back</button>
+          <button mat-raised-button type="submit" class="float-right" color="primary" (click)="nextStep();"
+            *ngIf="selectedIndex!==1">Next</button>
+          <button mat-raised-button class="float-right" color="primary" *ngIf="selectedIndex==1"
+            (click)="onSubmit()">Save</button>
+        </div>
+      
+      </div>
+  </div >

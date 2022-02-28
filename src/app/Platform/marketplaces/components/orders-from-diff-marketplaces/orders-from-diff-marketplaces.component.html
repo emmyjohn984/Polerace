@@ -1,0 +1,257 @@
+<div *ngIf="loading" class="loader" id="loader"></div>
+
+<!-- Begin Page Content -->
+<div class="container-fluid" [ngClass]="{ 'container-fluid': loading }">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item">
+        <a href="#" class="text-muted" routerLink="/dashboard">Dashboard</a>
+      </li>
+      <li class="breadcrumb-item" routerLinkActive="Active" aria-current="page">
+        Marketplaces
+      </li>
+    </ol>
+  </nav>
+
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-3">
+    <h4 class="brown font-weight-bold">Manage order for sale channels</h4>
+  </div>
+
+  <!-- Content Row -->
+  <div class="bg-white card2 border shadow p-2">
+    <div class="d-sm-flex align-items-center justify-content-between">
+      <button
+        class="btn btn-light text-uppercase pcolor2 font-weight-bold"
+        id="addbtn"
+        routerLink="/marketplaces/channelconfigurations"
+      >
+        <i class="fa fa-plus"></i> Add New MarketPlace
+      </button>
+      <label
+      type="button"
+      pButton
+      pRipple
+      icon="pi pi-file-excel"
+      class="xcl"
+      pTooltip="Export Excel"
+      tooltipPosition="bottom"
+      id="csvFileUpload"
+      (click)="exportExcel()"
+      >
+      </label>
+      <button
+        type="submit"
+        (click)="onSubmit()"
+        class="btn purple-btn font-weight-bold"
+      >
+        Update Status
+      </button>
+    </div>
+  </div>
+
+  <!-- Content Row -->
+  <div class="row">
+    <div class="col-lg-12">
+      <div
+        class="d-sm-flex align-items-center justify-content-between mt-4 mb-3"
+      >
+        <h5 class="text-uppercase font-weight-bold">
+          List of order for sale channels
+        </h5>
+        <mat-list-item class="primary-imenu-item" role="listitem">
+          <mat-form-field class="select-form">
+            <mat-select
+              placeholder="Add Columns"
+              name="coloumns"
+              class="filter-select"
+              [(ngModel)]="selectedColoumns"
+              [compareWith]="equals"
+              multiple
+              (selectionChange)="addColoumns($event)"
+              #yearSelect="ngModel"
+            >
+              <mat-option *ngFor="let data of rowData" [value]="data.value">
+                {{ data.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-list-item>
+      </div>
+      <div class="card card2 shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <!-- Card Body -->
+        <div class="card-body">
+          <p-table
+            #dt
+            [value]="dataSource"
+            [columns]="cols"
+            [paginator]="true"
+            paginatorPosition="bottom"
+            [rows]="10"
+            [rowHover]="true"
+            [lazyLoadOnInit]="false"
+            [lazy]="true"
+            (onLazyLoad)="loadOrders($event)"
+            [rows]="pageSize"
+            pageLinks="4"
+            [rowsPerPageOptions]="[5, 10, 15, 20]"
+            [totalRecords]="totalRecords"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true"
+            [(selection)]="selectedRecord"
+            [globalFilterFields]="baseColoumns"
+            styleClass="p-datatable-customers"
+          >
+            <ng-template pTemplate="caption">
+              <div class="p-d-flex">
+                <div class="pull-right">
+                  <span class="p-input-icon-left">
+                    <!-- <i class="pi pi-search"></i> -->
+                    <input
+                      pInputText
+                      type="text"
+                      class="form-control"
+                      (input)="dt.filterGlobal($event.target.value, 'contains')"
+                      placeholder="Global Search"
+                    />
+                  </span>
+                </div>
+                <div class="drop">
+                  <p-dropdown
+                    [options]="marketplaces"
+                    (onChange)="onMarketplaceChange($event.value.globalMarketplaceId)"
+                    placeholder="Filter By Channel "
+                    optionLabel="globalMarketplaceName"
+                    [(ngModel)]="globalMarketplaceName"
+                  >
+                  </p-dropdown>
+                  <!-- <p-dropdown [options]="marketplaces" [(ngModel)]="marketplace1" placeholder="Select a City" optionLabel="globalMarketplaceName"
+	                [showClear]="true"></p-dropdown> -->
+                  <p-button
+                    type="button"
+                    *ngIf="filterOn"
+                    class="float-end"
+                    icon="pi pi-refresh"
+                    (click)="filterReset()"
+                    styleClass="p-button-text p-button-outlined"
+                  ></p-button>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th style="width: 3rem">
+                  <p-tableHeaderCheckbox style="text-align: center;"
+                    (click)="select()"
+                  ></p-tableHeaderCheckbox>
+                </th>
+                <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+                  {{ col.header }}
+                  <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+                <th>Actions</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-Orders>
+              <tr>
+                <p-tableCheckbox
+                  [value]="Orders"
+                  (click)="selectOrders(Orders.orderId, Orders.globalMarketplaceId)"
+                ></p-tableCheckbox>
+                <td *ngFor="let data of getData(Orders)">{{ data }}</td>
+                <td>
+                  <a
+                    pTooltip="View"
+                    tooltipPosition="top"
+                    type="button"
+                    (click)="view(Orders.orderId, Orders.globalMarketplaceId)"
+                  >
+                    <i
+                      class="pi pi-eye"
+                      style="font-size: 1rem; margin-right: 10px"
+                    ></i>
+                  </a>
+                  <!-- <img
+                    pTooltip="Delete"
+                    tooltipPosition="top"
+                    type="button"
+                    src="../../../../../assets/img/bin.png"
+                    id="delete"
+                    height="20"
+                    width="20"
+                    (click)="(Orders.orderId)"
+                    data-toggle="modal"
+                    data-target="#deleteModal"
+                  /> -->
+                </td>
+              </tr>
+            </ng-template>
+            <!-- <ng-template *ngIf="!all" pTemplate="body" let-AllOrders>
+              <tr>
+                <td>{{ AllOrders.productName }}</td>
+                <td>{{ AllOrders.sku }}</td>
+                <td>{{ AllOrders.price }}</td>
+                <td>{{ AllOrders.totalQuantity }}</td>
+                <td>{{ AllOrders.userMarketplaceName }}</td>
+                <td>{{ Orders.createdDate }}</td>
+
+                <td>
+                  <img type="button" src="../../../../../assets/img/pencil.png" (click)="(Orders.orderId)"
+                    id="edit" height="20" width="20" />
+                  <img type="button" src="../../../../../assets/img/bin.png" id="delete" height="20" width="20"
+                    (click)="(Orders.orderId)" data-toggle="modal" data-target="#deleteModal" />
+                </td>
+              </tr>
+            </ng-template> -->
+            <ng-template pTemplate="emptymessage" let-columns>
+              <tr>
+                <td [attr.colspan]="columns ? 9 : 9">No records found</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+</div>
+
+<div
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ready to Delete?</h5>
+        <button
+          class="close"
+          type="button"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Select "Delete" below if you are ready to Delete Supplier.
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">
+          Cancel
+        </button>
+        <a
+          class="btn btn-primary"
+          style="color: white !important"
+          data-dismiss="modal"
+          >Delete</a
+        >
+      </div>
+    </div>
+  </div>
+</div>

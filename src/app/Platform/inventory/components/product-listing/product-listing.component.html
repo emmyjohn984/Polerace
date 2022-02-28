@@ -1,0 +1,230 @@
+<div class="page_content amazon-order">
+  <div class="container-fluid">
+    <h1>Manage Products</h1>
+    <div class="row">
+      <div class="col-sm-12">
+
+        <div class="head_common_section">
+          <div class="row">
+            <div class="col-sm-2" *ngIf="permissionsHelper.isEditable('inventory')">
+              <div class="title_common_section" >
+                <img src="../../../../../assets/img/add.svg" [routerLink]="['/inventory/addproduct']"> 
+                <span [routerLink]="['/inventory/addproduct']">Add Product</span>
+              </div>
+            </div>
+            <div class="col-sm-3">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Select Filter</mat-label>
+                  <mat-select matInput placeholder="Select Filter" [(ngModel)]="defaultFilter" (selectionChange)="handleFilterChange($event)">
+                    <mat-option value="None">None</mat-option>
+                    <mat-option *ngFor="let customFilter of customFilters" [value]="customFilter.filterId">
+                      {{customFilter.filterName}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            <div class="col-sm-7 text-right" *ngIf="permissionsHelper.isEditable('inventory')">
+              <!-- <div class="example-button-row custumbtn">
+                   <button mat-raised-button color="primary">Cancel</button>
+                 </div> -->
+              <div class="example-button-row custumbtn">
+                <button mat-raised-button color="primary" [routerLink]="['/inventory/importproductviaexcel']">Add
+                  Product Via Excel</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="mat-elevation-z8">
+          <div class="table-responsive">
+          <table class="custum-table-input" mat-table [dataSource]="dataSource" matSort>
+            <!--SKU Column -->
+            <ng-container matColumnDef="sku">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>SKU
+
+                <div class="mt10">
+                  <mat-form-field *ngFor="let filter of filterSelectObj| slice:0:1; let i=index">
+                    <mat-label>contains</mat-label>
+                    <select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.queryType"
+                      (change)="filterChange(filter,$event)">
+                      <option [value]="item" *ngFor="let item of filter.options">{{item}}</option>
+                    </select>
+                  </mat-form-field>
+                </div>
+                <div class="mt10">
+                  <mat-form-field *ngFor="let filter of filterSelectObj| slice:0:1; let i=index">
+                    <input matInput placeholder="Search" (keyup)="filterChange(filter,$event)"
+                      [(ngModel)]="filter.modelValue">
+                  </mat-form-field>
+                </div>
+
+              </th>
+              <td mat-cell *matCellDef="let element" class="colorblue"> {{element.sku}} </td>
+            </ng-container>
+
+
+            <!--Title Column -->
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Title
+
+                <div class="mt10">
+                  <mat-form-field *ngFor="let filter of filterSelectObj| slice:1:2; let i=index">
+                    <mat-label>contains</mat-label>
+                    <select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.queryType"
+                      (change)="filterChange(filter,$event)">
+                      <option [value]="item" *ngFor="let item of filter.options">{{item}}</option>
+                    </select>
+                  </mat-form-field>
+                </div>
+                <div class="mt10">
+                  <mat-form-field *ngFor="let filter of filterSelectObj| slice:1:2; let i=index">
+                    <input matInput placeholder="Search" (keyup)="filterChange(filter,$event)"
+                      [(ngModel)]="filter.modelValue">
+                  </mat-form-field>
+                </div>
+              </th>
+              <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+            </ng-container>
+
+            <!--ASIN Column -->
+            <ng-container matColumnDef="asin">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>ASIN
+                <mat-checkbox [(ngModel)]="hasAsin" (change)="getProductList()"> </mat-checkbox>
+                <div class="asin-check">
+                  <mat-form-field *ngFor="let filter of filterSelectObj| slice:2:3; let i=index">
+                    <mat-label>contains</mat-label>
+                    <select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.queryType"
+                      (change)="filterChange(filter,$event)">
+                      <option [value]="item" *ngFor="let item of filter.options">{{item}}</option>
+                    </select>
+                  </mat-form-field>
+                </div>
+                <div class="mt10">
+                  <mat-form-field *ngFor="let filter of filterSelectObj| slice:2:3; let i=index">
+                    <input matInput placeholder="Search" (keyup)="filterChange(filter,$event)"
+                      [(ngModel)]="filter.modelValue">
+                  </mat-form-field>
+                </div>
+              </th>
+              <td mat-cell *matCellDef="let element" class="coloryellow"> {{element.asin}} </td>
+            </ng-container>
+
+            <!-- Cost Price Column-->
+            <ng-container matColumnDef="initialCostPrice">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Cost Price
+                <div class="mt10">
+                  <mat-form-field *ngFor="let filter of filterSelectObj| slice:3:4; let i=index">
+                    <mat-label>contains</mat-label>
+                    <select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.queryType"
+                      (change)="filterChange(filter,$event)">
+                      <option [value]="item" *ngFor="let item of filter.options">{{item}}</option>
+                    </select>
+                  </mat-form-field>
+                </div>
+                <div class="mt10">
+                  <mat-form-field *ngFor="let filter of filterSelectObj| slice:3:4; let i=index">
+                    <input matInput placeholder="Search" (keyup)="filterChange(filter,$event)"
+                      [(ngModel)]="filter.modelValue">
+                  </mat-form-field>
+                </div>
+              </th>
+              <td mat-cell *matCellDef="let element"> {{element.initialCostPrice}} </td>
+            </ng-container>
+
+            <!-- sellingPrice Column -->
+            <ng-container matColumnDef="retailPrice">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Retail Price (MSRP)
+                <div class="mt10">
+                  <mat-form-field *ngFor="let filter of filterSelectObj| slice:4:5; let i=index">
+                    <mat-label>contains</mat-label>
+                    <select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.queryType"
+                      (change)="filterChange(filter,$event)">
+                      <option [value]="item" *ngFor="let item of filter.options">{{item}}</option>
+                    </select>
+                  </mat-form-field>
+                </div>
+                <div class="mt10">
+                  <mat-form-field *ngFor="let filter of filterSelectObj| slice:4:5; let i=index">
+                    <input matInput placeholder="Search" (keyup)="filterChange(filter,$event)"
+                      [(ngModel)]="filter.modelValue">
+                  </mat-form-field>
+                </div>
+              </th>
+              <td mat-cell *matCellDef="let element"> {{element.retailPrice}} </td>
+            </ng-container>
+
+            <!-- Quantity Column -->
+            <ng-container matColumnDef="quantity">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity
+                <div class="mt10">
+                  <mat-form-field *ngFor="let filter of filterSelectObj| slice:5:6; let i=index">
+                    <mat-label>contains</mat-label>
+                    <select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.queryType"
+                      (change)="filterChange(filter,$event)">
+                      <option [value]="item" *ngFor="let item of filter.options">{{item}}</option>
+                    </select>
+                  </mat-form-field>
+                </div>
+                <div class="mt10">
+                  <mat-form-field *ngFor="let filter of filterSelectObj| slice:5:6; let i=index">
+                    <input matInput placeholder="Search" (keyup)="filterChange(filter,$event)"
+                      [(ngModel)]="filter.modelValue">
+                  </mat-form-field>
+                </div>
+              </th>
+              <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>
+                <div class="">
+                  <p class="products-actions">Actions</p>
+                </div>
+                <div class="row searchall-containter">
+                  <mat-form-field>
+                    <input matInput placeholder="Search all" (keyup)="filterChange('All',$event)"
+                      [(ngModel)]="SearchAllTextVal">
+                  </mat-form-field>
+                </div>
+                <div class="row col-sm-1"></div>
+                <div class="col-sm-1 text-left">
+                  <a (click)="getProductList()" class="pointer-reset-filter action-padding-top">Apply</a>
+                  <a (click)="saveFilters()" class="pointer-reset-filter action-padding-top" *ngIf="permissionsHelper.isEditable('inventory')">Save</a>
+                  <a (click)="resetFilters()" class="pointer-reset-filter action-padding-top">Reset</a>
+                </div>
+              </th>
+              <mat-cell *matCellDef="let row">
+                <button mat-icon-button matTooltip="Click to Edit" class="iconbutton" color="primary" *ngIf="permissionsHelper.isEditable('inventory')">
+                  <mat-icon aria-label="Edit" (click)="editProduct(row.inventoryId)"><img
+                      src="../../../../../assets/img/edit.svg"></mat-icon>
+                </button>
+                <button mat-icon-button matTooltip="Click to Delete" class="iconbutton" color="warn" *ngIf="permissionsHelper.isDelete('inventory')">
+                  <mat-icon aria-label="Delete" (click)="openDialog(row.inventoryId)"><img
+                      src="../../../../../assets/img/delete.svg"></mat-icon>
+                </button>
+              </mat-cell>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          </div>
+          <div *ngIf="products.length === 0" class="text-center">No records found</div>
+          <mat-paginator [pageSizeOptions]="[5, 10, 20,50,100]" [length]="metaData['totalRecords']"
+          [pageIndex]="metaData['currentPage'] - 1" [pageSize]="metaData['pageSize']"
+          (page)="onPageChangeEvent($event)" showFirstLastButtons></mat-paginator>
+
+        </div>
+      
+
+
+      </div>
+    </div>
+    <app-progress-spinner class="example-margin" [color]="color"
+     [mode]="mode" [value]="value" 
+    [backdropEnabled]="true" [positionGloballyCenter]="true" 
+    [displayProgressSpinner]="displayProgressSpinner">
+   </app-progress-spinner>
+  </div>
+</div>

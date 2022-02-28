@@ -1,0 +1,102 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item">
+      <a routerLink="/dashboard" class="text-muted">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item"><a class="text-muted">orders</a></li>
+    <li class="breadcrumb-item active" aria-current="page">
+      View Purchase Order
+    </li>
+  </ol>
+</nav>
+
+<div class="d-sm-flex align-items-center justify-content-between mb-3">
+  <h4 class="brown font-weight-bold">View purchase order</h4>
+</div>
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2">
+
+    </div>
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <!-- <div class="d-inline h4" id="details">Order Details</div> -->
+          <!-- <div class="d-inline float-right"><small><a href="">Edit</a></small></div> -->
+          <div class="head h4">Order Details</div>
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dd class="col-sm-8">Company Name</dd>
+            <dt class="col-sm-4">{{order?.companyName}}</dt>
+            <dd class="col-sm-8">Product Name</dd>
+            <dt class="col-sm-4">{{order?.title}}</dt>
+          </dl>
+          <dl class="row">
+
+          </dl>
+          <dl class="row">
+            <dd class="col-sm-8">PurchaseOrder Number</dd>
+            <dt class="col-sm-4">{{order?.pO_Number}}</dt>
+            <dd class="col-sm-8">Product Code</dd>
+            <dt class="col-sm-4">{{order?.sku}}</dt>
+          </dl>
+          <dl class="row">
+            <dd class="col-sm-8">Tracking Number</dd>
+            <dt class="col-sm-4">{{order?.tracking_Number}}</dt>
+            <dd class="col-sm-8">Purchase On</dd>
+            <dt class="col-sm-4">{{order?.pO_Date | date:'dd/MM/yyyy'}}</dt>
+          </dl>
+          <dl class="row">
+            <dd class="col-sm-8">Supplier Name</dd>
+            <dt class="col-sm-4">{{order?.supplierName}}</dt>
+            <dd class="col-sm-8">Order Status</dd>
+            <dt class="col-sm-4">{{order?.fulfillment_Status}}</dt>
+          </dl>
+          <dl class="row">
+            <dd class="col-sm-8">Quantity</dd>
+            <dt class="col-sm-4">{{order?.quantity}}</dt>
+            <dd class="col-sm-8">Tax</dd>
+            <dt class="col-sm-4">{{order?.tax}}</dt>
+          </dl>
+          <dl class="row">
+            <dd class="col-sm-8">Total Price</dd>
+            <dt class="col-sm-4">{{order?.total_Price}}</dt>
+            <dd class="col-sm-8">Sub-Total Price</dd>
+            <dt class="col-sm-4">{{order?.subtotal_Price}}</dt>
+          </dl>
+          <dl class="row">
+            <dd class="col-sm-8">Discount</dd>
+            <dt class="col-sm-4">{{order?.discount}}</dt>
+            <dd class="col-sm-8">Grand Total</dd>
+            <dt class="col-sm-4">{{order?.grandTotal}}</dt>
+          </dl>
+          <br>
+          <div class="row">
+            <div class="col-md-5">
+
+            </div>
+            <div class="col-md-1">
+              <button type="reset" id="btn1" class="btn grey-btn font-weight-bold" (click)="back()">
+                Cancel
+              </button>
+            </div>
+            <div class="col-md-1">
+              <button type="submit" class="btn purple-btn font-weight-bold" (click)="print()">
+                Print
+              </button>
+            </div>
+            <div class="col-md-5">
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+
+      </div>
+    </div>
+  </div>
+<br><br>

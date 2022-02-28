@@ -1,0 +1,705 @@
+<div class="page_content add-produt">
+
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()" id="productForm" #inventoryForm="ngForm">
+    <div class="container-fluid">
+
+      <div class="head-title-buton">
+        <div class="row">
+          <div class="col-sm-6">
+            <h1>Add Product</h1>
+          </div>
+          <div class="col-sm-6 text-right">
+            <div class="example-button-row custumbtn">
+              <button mat-raised-button color="primary" [routerLink]="['/inventory/products']">Cancel</button>
+            </div>
+
+            <div class="example-button-row custumbtn">
+              <button mat-raised-button color="primary" form="productForm" [disabled]="submitted"
+                cdkFocusInitial>Save</button>
+            </div>
+
+            <div class="example-button-row custumbtn">
+              <button mat-raised-button color="primary">Save & List Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="common_content_section">
+            <div class="row">
+              <div class="col-sm-12">
+                <mat-tab-group class="tab_custum" [(selectedIndex)]="selectedIndex">
+                  <mat-tab label="PRODUCT DETAILS">
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="Title" formControlName="title"
+                            [ngClass]="{ 'is-invalid': submitted && formControls.title.errors }" required>
+                          <mat-error *ngIf="formControls.title.errors?.required">
+                            Please enter title
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-6">
+
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="Selling Price" formControlName="sellingPrice" type="number"
+                            min="0" [ngClass]="{ 'is-invalid': submitted && formControls.sellingPrice.errors }">
+                          <mat-error *ngIf="formControls.sellingPrice.errors?.required">
+                            Please enter selling price
+                          </mat-error>
+                        </mat-form-field>
+
+                      </div>
+
+                      <div class="col-sm-6">
+
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="Cost Price" formControlName="initialCostPrice" type="number"
+                            min="0" [ngClass]="{ 'is-invalid': submitted && formControls.initialCostPrice.errors }">
+                          <mat-error *ngIf="formControls.initialCostPrice.errors?.required">
+                            Please enter cost price
+                          </mat-error>
+                        </mat-form-field>
+
+
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-6">
+
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="SKU" formControlName="sku" (change)=checkSKU($event)
+                            [ngClass]="{ 'is-invalid': submitted && formControls.sku.errors }" required
+                            [maxLength]="50">
+                          <mat-error *ngIf="formControls.sku.errors?.required">
+                            Please enter SKU
+                          </mat-error>
+                        </mat-form-field>
+
+
+                      </div>
+                      <div class="col-sm-6">
+
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="ASIN" formControlName="asin" [maxLength]="50"
+                            [ngClass]="{ 'is-invalid': submitted && formControls.asin.errors }">
+                          <mat-error *ngIf="formControls.asin.errors?.required">
+                            Please enter ASIN
+                          </mat-error>
+
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-6">
+
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="Total Quantity" formControlName="quantity" type="number" min="0"
+                            [ngClass]="{ 'is-invalid': submitted && formControls.quantity.errors }">
+                          <mat-error *ngIf="formControls.quantity.errors?.required">
+                            Please enter quantity
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-sm-6">
+
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="Low Stock Quantity" formControlName="lowStock" type="number"
+                            min="0" [ngClass]="{ 'is-invalid': submitted && formControls.lowStock.errors }">
+                          <mat-error *ngIf="formControls.lowStock.errors?.required">
+                            Please enter low stock
+                          </mat-error>
+                        </mat-form-field>
+
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <!-- <mat-form-field class="example-full-width">
+                          <mat-label>Select Brand</mat-label>
+                          <mat-select matInput placeholder="Brands" formControlName="brandId"
+                            [ngClass]="{ 'is-invalid': submitted && formControls.brandId.errors }">
+                            <mat-option *ngFor="let brand of brands" [value]="brand.brandId">
+                              {{brand.brandName}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="formControls.brandId.errors">
+                            Please select brand
+                          </mat-error>
+                        </mat-form-field> -->
+                        <mat-form-field class="example-full-width">
+                          <mat-label>Select Brand</mat-label>
+                          <input type="text" matInput formControlName="brandName" [matAutocomplete]="brand"
+                            [maxLength]="50">
+                          <mat-autocomplete #brand="matAutocomplete" [displayWith]="displayBrand">
+                            <mat-option *ngFor="let brand of filteredBrands | async" [value]="brand.brandName">
+                              {{brand.brandName}}
+                            </mat-option>
+                          </mat-autocomplete>
+                          <button type="button" mat-button *ngIf="isResetBrand" matSuffix mat-icon-button
+                            aria-label="Clear" (click)="resetAuto('brand')">
+                            <mat-icon>close</mat-icon>
+                          </button>
+                          <mat-error *ngIf="formControls.brandId.errors">
+                            Please select brand
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+
+                      <div class="col-sm-6">
+                        <!-- <mat-form-field class="example-full-width">
+                          <mat-label>Select Supplier</mat-label>
+                          <mat-select matInput placeholder="Suppliers" formControlName="supplierId"
+                            [ngClass]="{ 'is-invalid': submitted && formControls.supplierId.errors }">
+                            <mat-option *ngFor="let supplier of suppliers" [value]="supplier.supplierId">
+                              {{supplier.firstName}} {{supplier.lastName}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="formControls.supplierId.errors">
+                            Please select supplier
+                          </mat-error>
+                        </mat-form-field> -->
+
+                        <mat-form-field class="example-full-width">
+                          <mat-label>Select Supplier</mat-label>
+                          <input type="text" matInput formControlName="supplierName" [matAutocomplete]="supplier"
+                            [maxLength]="50">
+                          <mat-autocomplete #supplier="matAutocomplete" [displayWith]="displaySupplier">
+                            <mat-option *ngFor="let supplier of filteredSuppliers | async" [value]="supplier.fullName">
+                              {{supplier.fullName}}
+                            </mat-option>
+                          </mat-autocomplete>
+                          <button type="button" mat-button *ngIf="isResetSupplier" matSuffix mat-icon-button
+                            aria-label="Clear" (click)="resetAuto('supplier')">
+                            <mat-icon>close</mat-icon>
+                          </button>
+                          <mat-error *ngIf="formControls.supplierName.errors">
+                            Please select supplier
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-6">
+
+                        <!-- <mat-form-field class="example-full-width">
+                          <mat-label>Select Condition</mat-label>
+                          <mat-select matInput placeholder="Condition" formControlName="conditionId"
+                            [ngClass]="{ 'is-invalid': submitted && formControls.conditionId.errors }">
+                            <mat-option *ngFor="let condition of conditions" [value]="condition.conditionId">
+                              {{condition.conditionName}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="formControls.conditionId.errors">
+                            Please select condition
+                          </mat-error>
+                        </mat-form-field> -->
+
+                        <mat-form-field class="example-full-width">
+                          <mat-label>Select Condition</mat-label>
+                          <input type="text" matInput formControlName="conditionName" [matAutocomplete]="condition">
+                          <mat-autocomplete #condition="matAutocomplete" [displayWith]="displayCondition">
+                            <mat-option *ngFor="let condition of filteredConditions | async"
+                              [value]="condition.eBayConditionName">
+                              {{condition.eBayConditionName}}
+                            </mat-option>
+                          </mat-autocomplete>
+                          <button type="button" mat-button *ngIf="isResetCondition" matSuffix mat-icon-button
+                            aria-label="Clear" (click)="resetAuto('condition')">
+                            <mat-icon>close</mat-icon>
+                          </button>
+                          <mat-error *ngIf="formControls.conditionName.errors">
+                            Please select condition
+                          </mat-error>
+                        </mat-form-field>
+
+                      </div>
+
+                      <div class="col-sm-6">
+
+                        <!-- <mat-form-field class="example-full-width">
+                          <mat-label>Select Category</mat-label>
+                          <mat-select matInput placeholder="Category" formControlName="categoryId"
+                            [ngClass]="{ 'is-invalid': submitted && formControls.categoryId.errors }">
+                            <mat-option *ngFor="let category of categories" [value]="category.categoryId">
+                              {{category.categoryName}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="formControls.categoryId.errors">
+                            Please select category
+                          </mat-error>
+                        </mat-form-field> -->
+
+                        <mat-form-field class="example-full-width">
+                          <mat-label>Select Category</mat-label>
+                          <input type="text" matInput formControlName="categoryName" [matAutocomplete]="category">
+                          <mat-autocomplete #category="matAutocomplete" [displayWith]="displayCategory">
+                            <mat-option *ngFor="let category of filteredCategories | async"
+                              [value]="category.categoryName">
+                              {{category.categoryName}}
+                            </mat-option>
+                          </mat-autocomplete>
+                          <button type="button" mat-button *ngIf="isResetCategory" matSuffix mat-icon-button
+                            aria-label="Clear" (click)="resetAuto('category')">
+                            <mat-icon>close</mat-icon>
+                          </button>
+                          <mat-error *ngIf="formControls.categoryName.errors">
+                            Please select category
+                          </mat-error>
+                        </mat-form-field>
+
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="UPC" formControlName="upc" [maxLength]="14"
+                            [ngClass]="{ 'is-invalid': submitted && formControls.upc.errors }">
+                          <mat-error *ngIf="formControls.upc.errors?.required">
+                            Please enter UPC
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+
+                      <div class="col-sm-6">
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="EAN" formControlName="ean" [maxLength]="15"
+                            [ngClass]="{ 'is-invalid': submitted && formControls.ean.errors }">
+                          <mat-error *ngIf="formControls.ean.errors?.required">
+                            Please enter EAN
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="MPN" formControlName="mpn" [maxLength]="14">
+                        </mat-form-field>
+
+
+                      </div>
+                      <div class="col-sm-6">
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="ISBN" formControlName="isbn" [maxLength]="15">
+                        </mat-form-field>
+
+
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-6">
+
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <mat-form-field class="example-full-width">
+                              <mat-select matInput placeholder="Dimension Unit" formControlName="dimentionUnits"
+                                [ngClass]="{ 'is-invalid': submitted && formControls.dimentionUnits.errors }">
+                                <mat-option>Select Unit</mat-option>
+                                <mat-option value="MM">MM</mat-option>
+                                <mat-option value="CM">CM</mat-option>
+                                <mat-option value="M">M</mat-option>
+                                <mat-option value="IN">IN</mat-option>
+                                <mat-option value="FT">FT</mat-option>
+                              </mat-select>
+                              <mat-error *ngIf="formControls.dimentionUnits.errors?.required">
+                                Please Select a dimension unit
+                              </mat-error>
+                            </mat-form-field>
+
+
+                          </div>
+                          <div class="col-sm-3">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Length" type="number" formControlName="length" min="0"
+                                [ngClass]="{ 'is-invalid': submitted && formControls.length.errors }">
+                              <mat-error *ngIf="formControls.length.errors?.required">
+                                Please enter length.
+                              </mat-error>
+                            </mat-form-field>
+
+                          </div>
+                          <div class="col-sm-3">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Width " type="number" formControlName="width" min="0"
+                                [ngClass]="{ 'is-invalid': submitted && formControls.width.errors }">
+                              <mat-error *ngIf="formControls.width.errors?.required">
+                                Please enter Width.
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-sm-3">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Height" type="number" formControlName="height" min="0"
+                                [ngClass]="{ 'is-invalid': submitted && formControls.height.errors }">
+                              <mat-error *ngIf="formControls.height.errors?.required">
+                                Please enter height.
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="row">
+                          <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                              <mat-select matInput placeholder="Weight Unit" formControlName="weightUnit"
+                                [ngClass]="{ 'is-invalid': submitted && formControls.weightUnit.errors }">
+                                <mat-option>Select Unit</mat-option>
+                                <mat-option value="KG">KG</mat-option>
+                                <mat-option value="GR">GR</mat-option>
+                                <mat-option value="LB">LB</mat-option>
+                                <mat-option value="OZ">OZ</mat-option>
+                              </mat-select>
+                              <mat-error *ngIf="formControls.weightUnit.errors?.required">
+                                Please select weight Unit.
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-sm-8">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Weight" type="number" formControlName="weight" min="0"
+                                [ngClass]="{ 'is-invalid': submitted && formControls.weight.errors }">
+                              <mat-error *ngIf="formControls.weight.errors?.required">
+                                Please enter weight.
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="Retail Price (MSRP)" formControlName="retailPrice" type="number"
+                            min="0" [ngClass]="{ 'is-invalid': submitted && formControls.retailPrice.errors }">
+                          <mat-error *ngIf="formControls.retailPrice.errors?.required">
+                            Please enter retail price
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-sm-6">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Buy It Now Price" formControlName="buyItNowPrice" type="number"
+                              min="0" [ngClass]="{ 'is-invalid': submitted && formControls.buyItNowPrice.errors }">
+                            <mat-error *ngIf="formControls.buyItNowPrice.errors?.required">
+                              Please enter buy it now price
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <label>Description</label>
+                        <angular-editor formControlName="description" [config]="editorConfig"></angular-editor>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <mat-form-field class="example-full-width">
+                          <textarea matInput placeholder="Product Notes" formControlName="notes">
+                          </textarea>
+                        </mat-form-field>
+
+                      </div>
+
+                    </div>
+
+                    <div class="common_content_section mt15">
+                      <div class="custum-field-head">
+                        <h3>Custom Fields</h3>
+                      </div>
+                      <div class="p20">
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <p>Custom fields can be used to manage specific product fields that are not standard fields
+                              on SellNet.
+                              Note : SKU and UPC/EAN/ISBN/ASIN cannot be changed for a product. These fields are the
+                              unique
+                              identifiers of a product.</p>
+                            <div class="title_common_section">
+                              <img src="../../../../../assets/img/add.svg" matTooltip="Add Attribute"
+                                (click)="openDialog()">
+                            </div>
+                          </div>
+
+                        </div>
+                        <div formArrayName="customAttributes">
+                          <div class="row">
+                            <div class="col-sm-2 text-center">
+                              Custom Field Name
+                            </div>
+                            <div class="col-sm-8 text-center">
+                              Custom Field Value
+                            </div>
+                            <!-- <div class="col-sm-2">
+                                Action
+                              </div> -->
+                          </div>
+                          <div *ngFor="let attribute of customAttributes.controls; let i=index">
+                            <div [formGroupName]="i">
+                              <div class="row">
+                                <div class="col-sm-2">
+                                  <input type="text" formControlName="customAttributeName" class="example-full-width"
+                                    [attr.disabled]="true">
+                                </div>
+                                <div class="col-sm-8">
+                                  <input type="text" formControlName="customAttributeValue" class="example-full-width">
+                                </div>
+                                <!-- <div class="col-sm-2">
+                                      <button mat-icon-button matTooltip="Click to Delete" class="iconbutton" type="button" color="warn">
+                                          <mat-icon aria-label="Delete" (click)="deleteAttributeConfirm(i,attribute)"><img
+                                              src="../../../../../assets/img/delete.svg"></mat-icon>
+                                        </button>
+                                  </div> -->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </mat-tab>
+                  <mat-tab label="PHOTOS">
+
+                    <div class="common_content_section mt15">
+                      <div class="custum-field-head">
+                        <h3>Images (Image Size Limit : 5 MB Per Image, Count Limit : 30 Images, Valid Format: jpg/jpeg,
+                          tif/tiff, gif, png, bmp)</h3>
+                      </div>
+                      <mat-tab-group>
+                        <mat-tab label="Upload from computer">
+                          <div class="p20">
+                            <div class="row">
+                              <div class="col-sm-3">
+                                <div class="upload_choose">
+                                  <div class="choosefile">
+                                    <img src="../../../../../assets/img/choosefile.svg">
+                                    <input type="file" #file title="" multiple (change)="handleFileChange($event)">
+                                  </div>
+
+                                </div>
+                              </div>
+                              <div class="col-sm-9">
+                                <div class="table-responsive">
+                                  <table class="table table-striped table-bordered">
+                                    <thead>
+                                      <tr>
+                                        <th>Primary</th>
+                                        <th>Image</th>
+                                        <th>Name</th>
+                                        <th>Size</th>
+                                        <th>Progress</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr *ngFor="let image of images; let i = index;">
+                                        <td>
+                                          <mat-radio-group name='primaryImage' (change)="primaryImageChange(image)">
+                                            <mat-radio-button [value]="image.inventoryImageId"
+                                              [checked]="image.isPrimaryImage"></mat-radio-button>
+                                          </mat-radio-group>
+                                        </td>
+                                        <td>
+                                          <img [src]="image.imageUrl" class="rounded" width="auto" height="50">
+
+                                        </td>
+                                        <td>
+                                          {{image.fileName}}
+                                        </td>
+                                        <td>
+                                          {{image.size}}
+                                        </td>
+                                        <td>
+                                          {{image.progress}}
+                                        </td>
+                                        <td>
+                                          {{image.status}}
+                                        </td>
+                                        <td>
+                                          <button mat-icon-button (click)="deleteProductImage(image);" type="button"
+                                            matTooltip="Click to Delete" class="iconbutton" color="warn">
+                                            <mat-icon aria-label="Delete"><img
+                                                src="../../../../../assets/img/delete.svg"></mat-icon>
+                                          </button>
+                                        </td>
+                                      </tr>
+
+                                    </tbody>
+                                  </table>
+                                </div>
+
+
+                                <div class="button_custom_upload">
+                                  <div class="example-button-row">
+                                    <button mat-raised-button="" [disabled]="inventoryId==undefined" type="button"
+                                      (click)="uploadAll()" color="primary"
+                                      class="mat-focus-indicator mat-raised-button mat-button-base mat-primary upload"
+                                      ng-reflect-color="primary"><span class="mat-button-wrapper">UPLOAD ALL</span>
+                                      <div matripple="" class="mat-ripple mat-button-ripple" ng-reflect-disabled="false"
+                                        ng-reflect-centered="false" ng-reflect-trigger="[object HTMLButtonElement]">
+                                      </div>
+                                      <div class="mat-button-focus-overlay"></div>
+                                    </button>
+                                    <button mat-raised-button="" type="button" (click)="cancelAll()" color="primary"
+                                      class="mat-focus-indicator mat-raised-button mat-button-base mat-primary cancel"
+                                      ng-reflect-color="primary"><span class="mat-button-wrapper">CANCEL ALL</span>
+                                      <div matripple="" class="mat-ripple mat-button-ripple" ng-reflect-disabled="false"
+                                        ng-reflect-centered="false" ng-reflect-trigger="[object HTMLButtonElement]">
+                                      </div>
+                                      <div class="mat-button-focus-overlay"></div>
+                                    </button>
+                                    <button mat-raised-button="" type="button" (click)="removeAll()" color="primary"
+                                      class="mat-focus-indicator mat-raised-button mat-button-base mat-primary remove"
+                                      ng-reflect-color="primary"><span class="mat-button-wrapper">REMOVE ALL</span>
+                                      <div matripple="" class="mat-ripple mat-button-ripple" ng-reflect-disabled="false"
+                                        ng-reflect-centered="false" ng-reflect-trigger="[object HTMLButtonElement]">
+                                      </div>
+                                      <div class="mat-button-focus-overlay"></div>
+                                    </button>
+
+                                  </div>
+                                </div>
+
+                                <div>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </mat-tab>
+
+                        <mat-tab label="Add WebUrls">
+
+                          <!-- <div class="row">
+                            <table class="table table-striped table-bordered col-sm-8">
+                              <tbody>
+                                <tr *ngFor="let field of fieldArray; let i = index">
+                                  <td>
+                                    <div class="input-group">
+                                      <input class="form-control" type="text" name="{{field.imageUrl}}"
+                                        placeholder="Enter image URL. eg: http://www.xyz.com/image/123.png">
+                                    </div>
+                                  </td>
+                                  <td *ngIf="fieldArray.length==i+1">
+                                    <button class="btn btn-secondary" type="button" (click)="addFieldValue()">+</button>
+                                  </td>
+
+                                  <td [hidden]="fieldArray.length==1">
+                                    <button class="btn btn-secondary" type="button"
+                                      (click)="deleteFieldValue(i)">-</button>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div> -->
+
+                        </mat-tab>
+                      </mat-tab-group>
+
+                    </div>
+
+                  </mat-tab>
+                  <!-- <mat-tab label="VARIATIONS"> -->
+                  <!-- <div class="common_content_section mt15">
+                      <div class="custum-field-head">
+                        <h3>Variations</h3>
+                      </div>
+                      <div class="float-left">
+                        <mat-checkbox (change)="showVariationsOptions($event)">Has Variations</mat-checkbox>
+                      </div>
+                      <div class="p20">
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div class="col-sm-6">
+                              <mat-form-field class="example-full-width">
+                                <mat-select matInput placeholder="Apply Variations Set" [disabled]="variationsDisabled">
+                                  <mat-option>Select Variations Set</mat-option>
+                                  <mat-option value="1">Variations Set 1</mat-option>
+                                  <mat-option value="2">Variations Set 2</mat-option>
+                                  <mat-option value="3">Variations Set 3</mat-option>
+                                  <mat-option value="5">Variations Set 4</mat-option>
+                                </mat-select>
+
+                              </mat-form-field>
+                            </div>
+
+                            <div class="col-sm-6">
+
+                              <mat-form-field class="example-full-width">
+                                <mat-select matInput placeholder="Apply Variations" [disabled]="variationsDisabled">
+                                  <mat-option>Select Variations Set</mat-option>
+                                  <mat-option value="1">Variations 1</mat-option>
+                                  <mat-option value="2">Variations 2</mat-option>
+                                  <mat-option value="3">Variations 3</mat-option>
+                                  <mat-option value="5">Variations 4</mat-option>
+                                </mat-select>
+
+                              </mat-form-field>
+
+                            </div>
+
+                          </div>
+
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-2">
+                            <mat-checkbox>
+                              Create SKU for variations
+                            </mat-checkbox>
+                          </div>
+                          <div class="col-sm-2">
+                            <label> Barcode Options : </label>
+                          </div>
+                          <div class="col-sm-2">
+                            <mat-checkbox>EAN</mat-checkbox>
+                          </div>
+                          <div class="col-sm-2">
+                            <mat-checkbox>UPC</mat-checkbox>
+                          </div>
+                          <div class="col-sm-2">
+                            <mat-checkbox>ISBN</mat-checkbox>
+                          </div>
+                          <div class="col-sm-2">
+                            <mat-checkbox>GCID</mat-checkbox>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div> -->
+                  <!-- </mat-tab> -->
+                  <!-- <mat-tab label="SALES CHANNELS"> </mat-tab> -->
+                </mat-tab-group>
+              </div>
+            </div>
+          </div>
+
+          <div class="example-button-row custumbtn next-right">
+            <button mat-raised-button type="button" class="float-left" color="primary" (click)="previousStep();"
+              *ngIf="selectedIndex!==0">Back</button>
+            <button mat-raised-button type="button" color="primary" (click)="nextStep();"
+              *ngIf="selectedIndex!==1">Next</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

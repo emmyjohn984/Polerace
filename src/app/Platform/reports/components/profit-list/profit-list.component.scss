@@ -1,0 +1,68 @@
+:host ::ng-deep .custom p-dropdown .ui-dropdown {
+    min-width: 8.5em !important;
+    // max-width: 11.5em !important;
+
+}
+
+::ng-deep .ui-table .ui-paginator-bottom {
+    text-align: end;
+  }
+
+.date{
+    border: 1px solid #a6a6a6 !important;
+    height: 2.2em;
+    width: 10.7em;
+  }
+
+  
+  .search{
+    float: none !important; 
+    width: 100%;
+  }
+
+  @media only screen and (max-width: 1025px) {
+ .search{
+    float: none !important;
+     width: 100%;
+  }
+    
+  
+    
+    
+  }
+
+
+  .loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #850273  ;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+    margin: 55px auto;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    // opacity: 0.5;
+    margin-top: 400px;
+    z-index: 1;
+  
+    }
+  
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .container-fluid{
+    opacity: 0.2;
+  }

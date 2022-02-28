@@ -1,0 +1,151 @@
+<p-panel>
+  <p-header>ADD/EDIT TIMECARD
+    <span class="pull-right"> <button pButton type="button" label="ADD TIME CARD"
+        class="ui-button-raised"></button></span>
+  </p-header>
+  <p-card>
+    <form [formGroup]="searchVisitForm">
+      <div class="ui-g ui-fluid margin-top">
+        <div class="ui-g-12 ui-md-3 ">
+          <p-autoComplete formControlName="Office" [suggestions]="filteredOfficesList"
+            (completeMethod)="onSelectOffice($event)" [minLength]="1" placeholder="Select Zone" field="label"
+            [multiple]="true" class="p-autocomplete"
+            [ngClass]="{ 'is-invalid': submitted && searchVisitForm.controls.Office.errors }">
+          </p-autoComplete>
+          <!-- <p-dropdown formControlName="Office" [options]="employeeList"
+            (onChange)="onOffieSingleSelection($event.value)" class="p-autocomplete" placeholder="Select Zone"
+            [ngClass]="{ 'is-invalid': submitted && searchVisitForm.controls.Office.errors }"></p-dropdown> -->
+
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <p-calendar formControlName="FromDate" dateFormat="dd-M-yy" [showIcon]="true"></p-calendar>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <p-calendar formControlName="ToDate" dateFormat="dd-M-yy" [showIcon]="true"></p-calendar>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <p-dropdown [options]="employeeList" placeholder="Select Employee"> Select Employee</p-dropdown>
+        </div>
+        <div class="ui-g-12 ui-md-1"></div>
+
+      </div>
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-2">
+          <p-radioButton name="group1" value="Option 1" label="View By Employee" formControlName="ViewByEmployee"
+            inputId="opt1">
+          </p-radioButton>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <p-radioButton name="group1" value="Option 2" label="View By Job" formControlName="ViewByEmployee"
+            inputId="opt2">
+          </p-radioButton>
+        </div>
+      </div>
+
+    </form>
+    <div class="ui-g ui-fluid margin-top">
+      <div class="ui-g-12 ui-md-1">
+        <button pButton type="button" label="Search" (click)="onSearch()" class="ui-button-raised"></button>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <button pButton type="button" label="Cancel" (click)="onClear()" class="ui-button-warning"></button>
+      </div>
+      <div class="ui-g-12 ui-md-8">
+      </div>
+      <div class="ui-g-12 ui-md-2 pull-right">
+        <button pButton type="button" label="Export Excel" class="ui-button-raised pull-right"></button>
+      </div>
+    </div>
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12 ui-md-12">
+        <div *ngIf="submitted && searchVisitForm.controls.Office.errors" class="invalid-feedback">
+          <div *ngIf="searchVisitForm.controls.Office.errors.required" class="background"> Please search to get Employee
+            actitvities list </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showEmployeeList" class="ui-g ui-fluid">
+      <div class="ui-g-12 ui-md-12">
+        <div class="ui-g ui-fluid">
+          <div class="ui-g-12 ui-md-6 "></div>
+          <div class="ui-g-12 ui-md-6 ">
+            <p-checkbox class="pull-right margin-top" [formControl]="searchVisitForm.controls['InActiveTimeCard']"
+              label="Hide Inactive Timecards"></p-checkbox>
+          </div>
+        </div>
+        <div class="ui-g ui-fluid">
+          <div class="ui-g-12 ui-md-5 padding-right">
+            <div class="ui-g ui-fluid">
+              <div class="ui-g-12 ui-md-6">
+                <h3 class="first">Employee List</h3>
+              </div>
+              <div class="ui-g-12 ui-md-6">
+                <h3 class="first pull-right">Total Hours: 45.0</h3>
+              </div>
+            </div>
+            <div class="ui-g ui-fluid">
+              <p-table [value]="employeeDataSource" [columns]="employeeListCols" [paginator]="true" [rows]="5"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns">
+                      {{col.headerEmpDetail}}
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr [pSelectableRow]="rowData">
+                    <td *ngFor="let col of columns">
+                      {{rowData[col.field]}}
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-md-7 padding-left">
+            <div class="ui-g ui-fluid">
+              <div class="ui-g-12 ui-md-6">
+                <h3 class="first">Timecard for employee1</h3>
+              </div>
+              <div class="ui-g-12 ui-md-6">
+                <h3 class="first pull-right">Total Hours: 45.0</h3>
+              </div>
+            </div>
+            <div class="ui-g ui-fluid">
+              <p-table [value]="employeesVisitsDataSource" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                (onRowSelect)="openDialog()">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Edit</th>
+                    <th>Date</th>
+                    <th>JobName</th>
+                    <th>In</th>
+                    <th>Out</th>
+                    <th>Duration</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-visit>
+                  <tr>
+                    <td>{{visit.edit}}</td>
+                    <td>{{visit.date}}</td>
+                    <td>{{visit.jobName}}</td>
+                    <td>{{visit.in}}</td>
+                    <td>{{visit.out}}</td>
+                    <td>{{visit.duration}}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-card>
+  <button (click)="openDialog()">click</button>
+  <a [routerLink]="['/dashboard']" class="btn btn-primary"><i
+    class="fas fa-arrow-alt-circle-left mr-1"></i> Back</a>
+</p-panel>

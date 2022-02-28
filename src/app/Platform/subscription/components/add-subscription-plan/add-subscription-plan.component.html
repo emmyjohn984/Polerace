@@ -1,0 +1,86 @@
+<div *ngIf="loading" class="loader" id="loader"></div>
+
+<div class="container-fluid" [ngClass]="{'container-fluid': loading}">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item">
+        <a routerLink="/dashboard" class="text-muted">Dashboard</a>
+      </li>
+      <li class="breadcrumb-item"><a class="text-muted">Subscription</a></li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Add Subscription
+      </li>
+    </ol>
+  </nav>
+
+  <div class="d-sm-flex align-items-center justify-content-between mb-3">
+    <h4 class="brown font-weight-bold">Add Subscription</h4>
+  </div>
+
+  <div class="card mb-4 ">
+    <h5 *ngIf="!Edit" class="card-header text-center purplebgcolor ">
+      Add New Subscription Plan
+    </h5>
+    <h5 *ngIf="Edit" class="card-header text-center purplebgcolor ">
+      Edit Subscription Plan
+    </h5>
+    <div class="card-body pt-0">
+      <form [formGroup]="subscriptionAddForm" (ngSubmit)="onSubmit($event)">
+        <div class="form-group">
+          <label class="required">Subscription Title</label>
+          <input type="title" formControlName="subscriptionTitle" maxlength="50" [ngClass]="{'is-invalid': submitted && f.subscriptionTitle.errors}"
+            class="form-control form-control-lg " id="title" />
+          <mat-error *ngIf="submitted && f.subscriptionTitle.invalid">
+            <mat-error *ngIf="f.subscriptionTitle.errors?.required">
+              Please Enter Subscription Title.
+            </mat-error>
+            <mat-error *ngIf="f.subscriptionTitle.errors?.pattern">
+              Please Enter Valid Subscription Title.
+            </mat-error>
+          </mat-error>
+        </div>
+        <div class="form-group">
+          <label>Subscription Type</label>
+          <input type="text" formControlName="subscriptionType" maxlength="50" class="form-control form-control-lg" />
+        </div>
+        <div class="form-group">
+          <label class="required">Validity</label>
+          <input type="number" onkeydown="return event.keyCode !== 190" formControlName="validity" maxlength="50" [ngClass]="{'is-invalid': submitted && f.validity.errors}"
+            class="form-control form-control-lg" />
+            <mat-error *ngIf="submitted && f.validity.invalid">
+              <mat-error *ngIf="f.validity.errors?.required">
+                Please Enter Validity.
+              </mat-error>
+            </mat-error>
+        </div>
+        <div class="form-group">
+          <label class="required">Amount</label>
+          <input type="number" formControlName="amount" class="form-control form-control-lg" [ngClass]="{'is-invalid': submitted && f.amount.errors}" />
+          <mat-error *ngIf="submitted && f.amount.invalid">
+            <mat-error *ngIf="f.amount.errors?.required">
+              Please Enter Ammount.
+            </mat-error>
+          </mat-error>
+        </div>
+        <div class="row mb-4">
+          <div class="col">
+            <div class="pull-right">
+              <!-- <p-inputSwitch formControlName="isActive"></p-inputSwitch> -->
+            </div>
+          </div>
+          <div class="col-md-2 text-right">
+            <button *ngIf="!Edit" type="reset" id="btn1" class="btn grey-btn font-weight-bold">
+              Cancel
+            </button>
+            <button *ngIf="Edit" routerLink="/subscription/subscription-listing" id="btn1" class="btn grey-btn font-weight-bold">
+              Cancel
+            </button>
+            <button type="submit" class="btn purple-btn font-weight-bold">
+              Save
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,188 @@
+<div *ngIf="loading" class="loader" id="loader"></div>
+
+<!-- Begin Page Content -->
+<div class="container-fluid" [ngClass]="{ 'container-fluid': loading }">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item">
+        <a href="#" class="text-muted" routerLink="/dashboard">Dashboard</a>
+      </li>
+      <li class="breadcrumb-item" routerLinkActive="Active" aria-current="page">
+        Suppliers
+      </li>
+    </ol>
+  </nav>
+
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-3">
+    <h4 class="brown font-weight-bold">
+      Manage suppliers purchase order history
+    </h4>
+  </div>
+
+  <!-- Content Row -->
+  <!-- <div class="bg-white card2 border shadow p-2">
+    <div class="d-sm-flex align-items-center justify-content-between">
+      <button
+        class="btn btn-light text-uppercase pcolor2 font-weight-bold"
+        id="addbtn"
+        routerLink="/inventory/addsupplier"
+      >
+        <i class="fa fa-plus"></i> Add New Supplier
+      </button>
+    </div>
+  </div> -->
+
+  <!-- Content Row -->
+  <div class="row">
+    <div class="col-lg-12">
+      <div
+        class="d-sm-flex align-items-center justify-content-between mt-4 mb-3"
+      >
+        <h5 class="text-uppercase font-weight-bold">
+          List of supplier purchase order history
+        </h5>
+      </div>
+      <div class="card card2 shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <!-- Card Body -->
+        <div class="card-body">
+          <p-table
+            #dt
+            [value]="dataSource"
+            [paginator]="true"
+            paginatorPosition="bottom"
+            [rows]="10"
+            [rowHover]="true"
+            [rowsPerPageOptions]="[5, 10, 15, 20]"
+            totalRecords="totalRecords"
+            pageLinks="3"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true"
+            [globalFilterFields]="['title', 'sku']"
+            styleClass="p-datatable-customers"
+            [filterDelay]="0"
+          >
+            <ng-template pTemplate="caption">
+              <div class="p-d-flex">
+                <div class="pull-right">
+                  <span class="p-input-icon-left p-ml-auto">
+                    <i
+                      class="pi pi-search"
+                      style="position: absolute;margin: 10px;"
+                    ></i>
+                    <input
+                      pInputText
+                      style="padding-left:30px;margin-bottom: 5px;"
+                      type="text"
+                      (input)="dt.filterGlobal($event.target.value, 'contains')"
+                      placeholder="Search keyword"
+                    />
+                  </span>
+                </div>
+
+                <div class="drop">
+                  <p-dropdown
+                    [options]="suppliers"
+                    (onChange)="onSupplierChange($event.value.supplierId)"
+                    placeholder="Filter By Supplier"
+                    optionLabel="firstName"
+                    optionValue="firstName"
+                    [(ngModel)]="firstName"
+                  >
+                  </p-dropdown>
+                  <p-button
+                    type="button"
+                    *ngIf="firstName!=''"
+                    class=" float-end "
+                    icon="pi pi-refresh"
+                    (click)="filterReset();dt.filterGlobal('', 'contains')"
+                    styleClass="p-button-text p-button-outlined"
+                  ></p-button>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th pSortableColumn="title">
+                  Product Name<p-sortIcon
+                    class="sorticon"
+                    field="title"
+                  ></p-sortIcon>
+                </th>
+                <th pSortableColumn="sku">
+                  Product Code<p-sortIcon field="sku"></p-sortIcon>
+                </th>
+                <th pSortableColumn="grandTotal">
+                  Price<p-sortIcon field="grandTotal"></p-sortIcon>
+                </th>
+                <th pSortableColumn="quantity">
+                  Quantity<p-sortIcon field="quantity"></p-sortIcon>
+                </th>
+                <th pSortableColumn="description">
+                  Product Description<p-sortIcon
+                    field="description"
+                  ></p-sortIcon>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-productlist>
+              <tr>
+                <td>{{ productlist.title }}</td>
+                <td>{{ productlist.sku }}</td>
+                <td>{{ productlist.grandTotal }}</td>
+                <td>{{ productlist.quantity }}</td>
+                <td>{{ productlist.description }}</td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+              <tr>
+                <td [attr.colspan]="columns ? 5 : 5">No records found</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+</div>
+
+<div
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ready to Delete?</h5>
+        <button
+          class="close"
+          type="button"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Select "Delete" below if you are ready to Delete Supplier.
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">
+          Cancel
+        </button>
+        <a
+          class="btn btn-primary"
+          style="color: white !important"
+          data-dismiss="modal"
+          >Delete</a
+        >
+      </div>
+    </div>
+  </div>
+</div>

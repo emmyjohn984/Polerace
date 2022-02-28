@@ -1,0 +1,103 @@
+<h2 mat-dialog-title>EDIT TIME CARD</h2>
+<mat-dialog-content>
+  <form [formGroup]="editVisitForm" (ngSubmit)="onUpdateVisit()" #ngForm="ngForm">
+  <div class="row">
+    <div class="col-sm-12">
+  <div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-5">
+      <b>Employee Name:</b> CARA BENEDICTT
+    </div>
+    <div class="col-sm-5">
+     <b>Job Name:</b> TESTING JOB-1101
+    </div>
+    <div class="col-sm-1"></div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-sm-2">
+      <span class="txtred">Clock In:</span>
+    </div>
+    <div class="col-sm-3">
+      <dnd-evv-masked-datetime-input formControlName='ClockIn'></dnd-evv-masked-datetime-input>
+      <span *ngIf="editVisitForm.controls['ClockIn'].hasError('required') && ngForm.submitted" class="errortxt">Required</span>
+      <span *ngIf="editVisitForm.controls['ClockIn'].hasError('dateTimeInvalid') && ngForm.submitted" class="errortxt">Invalid Date</span>
+    </div>
+    <div class="col-sm-2">
+      <span class="txtred">Clock Out:</span>
+    </div>
+    <div class="col-sm-3">
+      <dnd-evv-masked-datetime-input formControlName='ClockOut'></dnd-evv-masked-datetime-input>
+      <span *ngIf="editVisitForm.controls['ClockOut'].hasError('required') && ngForm.submitted" class="errortxt">Required</span>
+      <!-- <span *ngIf="editVisitForm.controls['ClockOut'].hasError('dateTimeInvalid') && ngForm.submitted" class="errortxt">Invalid Date</span> -->
+      <span *ngIf="editVisitForm.hasError('invalidClockOut') && ngForm.submitted" class="errortxt">ClockOut should be greater than ClockIn</span>
+    </div>
+    <div class="col-sm-1">
+      <input id="input" formControlName='ClockDifference' type="text" pInputText class="width110px">
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-sm-2">
+      <span class="txtred">Activity Code:</span>
+    </div>
+    <div class="col-sm-3">
+      <p-dropdown [options]="cars" formControlName='ActivityCode' editable="true" placeholder="Select Activity Code"></p-dropdown>
+      <span *ngIf="editVisitForm.controls['ActivityCode'].hasError('required') && ngForm.submitted" class="errortxt">Required</span>
+    </div>
+    <div class="col-sm-2">
+      <span class="txtred">Authorization:</span>
+    </div>
+    <div class="col-sm-3">
+      <p-dropdown [options]="cars" editable="true" formControlName='Authorization' placeholder="Enter Authorization"></p-dropdown>
+      <span *ngIf="editVisitForm.controls['Authorization'].hasError('required') && ngForm.submitted" class="errortxt">Required</span>
+    </div>
+    <div class="col-sm-2">
+      <button pButton type="submit" label="Update" class="ui-button-raised"></button>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-sm-2">
+      <span class="txtred">Billing Code:</span>
+    </div>
+    <div class="col-sm-3">
+      <p-dropdown [options]="cars" editable="true" formControlName='BillingCode' placeholder="Select Billing Code"></p-dropdown>
+      <span *ngIf="editVisitForm.controls['BillingCode'].hasError('required') && ngForm.submitted" class="errortxt">Required</span>
+    </div>
+    <div class="col-sm-2">
+      <span class="txtred">Reason Code:</span>
+    </div>
+    <div class="col-sm-3">
+      <p-dropdown [options]="cars" editable="true" formControlName='ReasonCode' placeholder="Select Reason Code"></p-dropdown>
+      <span *ngIf="editVisitForm.controls['ReasonCode'].hasError('required') && ngForm.submitted" class="errortxt">Required</span>
+    </div>
+    <div class="col-sm-2">
+      <button pButton type="button" label="Cancel" [mat-dialog-close]="true" class="ui-button-secondary"></button>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-sm-2">
+     <span class="txtred">Notes:</span>
+    </div>
+    <div class="col-sm-8">
+      <textarea rows="5" cols="72" formControlName='Notes' pInputTextarea></textarea>
+      <span *ngIf="editVisitForm.controls['Notes'].hasError('required') && ngForm.submitted" class="errortxt">Required</span>
+    </div>
+    <div class="col-sm-2">
+      <button pButton type="button" label="InActive" class="ui-button-warning"></button>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-sm-12">
+      <!-- checkbox if ohio agency -->
+    </div>
+  </div>
+</div>
+</div>
+</form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+</mat-dialog-actions>

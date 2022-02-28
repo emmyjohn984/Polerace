@@ -1,0 +1,154 @@
+<div *ngIf="loading" class="loader" id="loader"></div>
+
+<div class="container-fluid" [ngClass]="{'container-fluid': loading}">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item">
+        <a routerLink="/dashboard" class="text-muted">Dashboard</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a routerLink="/inventory" class="text-muted">Inventory</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Add Subcategory
+      </li>
+    </ol>
+  </nav>
+
+  <div class="d-sm-flex align-items-center justify-content-between mb-3">
+    <h4 class="brown font-weight-bold">Add Subcategory</h4>
+  </div>
+  <div class="card mb-4 ">
+    <h5 *ngIf="!Edit" class="card-header text-center purplebgcolor ">
+      Add New Subcategory
+    </h5>
+    <h5 *ngIf="Edit" class="card-header text-center purplebgcolor ">
+      Edit Subcategory
+    </h5>
+    <div class="card-body pt-0">
+      <form [formGroup]="categoryAddForm" (ngSubmit)="onSubmit($event)">
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label for="state" class="required">Select Category Name</label>
+            <select
+              formControlName="parentCategoryId"
+              name="parentCategoryId"
+              class="form-control form-control-lg"
+              [ngClass]="{'is-invalid':f.parentCategoryId.errors && submitted}"
+            >
+              <option value="">Select Category</option>
+              <option *ngFor="let category of filtersubc | orderBy:'categoryName' " [value]="category.categoryId ">{{category.categoryName}}</option>
+            </select>
+            <div class="validate"></div>
+            <mat-error *ngIf="submitted && f.parentCategoryId.invalid">
+              <mat-error *ngIf="f.parentCategoryId.errors?.required">
+                Please Select CategoryName.
+              </mat-error>
+            </mat-error>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="required">Subcategory Name</label>
+            <input
+              type="title"
+              formControlName="categoryName"
+              maxlength="50"
+              [ngClass]="{'is-invalid':f.categoryName.errors && submitted}"
+              class="form-control form-control-lg "
+              id="title"
+            />
+            <mat-error *ngIf="submitted && f.categoryName.invalid">
+              <mat-error *ngIf="f.categoryName.errors?.required">
+                Please Enter SubCategory Name.
+              </mat-error>
+              <mat-error *ngIf="f.categoryName.errors?.pattern">
+                Please Enter Valid SubCategory Name.
+              </mat-error>
+            </mat-error>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Subcategory Description</label>
+          <textarea
+            formControlName="categoryDescription"
+            class="form-control inputbg"
+            rows="5"
+            id="comment"
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Walmart Category Name</label>
+          <input
+            type="text"
+            formControlName="walmartCategoryName"
+            maxlength="50"
+            class="form-control form-control-lg"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Amazon Item Type Keyword</label>
+          <input
+            type="text"
+            formControlName="amazonItemTypeKeyword"
+            maxlength="50"
+            class="form-control form-control-lg"
+          />
+        </div>
+
+        <div class="form-group" style="display: none;">
+          <label>Amazon Category Node Id</label>
+          <input
+            type="number"
+            min="0"
+            onkeydown="return event.keyCode !== 190"
+            formControlName="amazonCategoryNodeId"
+            class="form-control form-control-lg"
+          />
+        </div>
+
+        <div class="form-group" style="display: none;">
+          <label>Ebay Category Id</label>
+          <input
+            type="number"
+            min="0"
+            onkeydown="return event.keyCode !== 190"
+            formControlName="eBayCategoryID"
+            class="form-control form-control-lg"
+          />
+        </div>
+
+        <div class="row">
+          <div class="col-md12">
+            <div class="pull-right">
+              <!-- <div class="df-switch "> -->
+              <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+              <!-- </div> -->
+            </div>
+            <!-- <div class="df-switch "> -->
+            <!-- <mat-checkbox formControlName="isActive" class="check">Is Active</mat-checkbox> -->
+            <!-- </div> -->
+          </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 text-right">
+            <button *ngIf="!Edit"
+              type="reset"
+              id="btn1"
+              class="btn grey-btn font-weight-bold"
+            >
+              Cancel
+            </button>
+            <button *ngIf="Edit" routerLink="/inventory/subcategories-listing" id="btn1" class="btn grey-btn font-weight-bold">
+              Cancel
+            </button>
+            <button type="submit" class="btn purple-btn font-weight-bold ">
+              Save
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

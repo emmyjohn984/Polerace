@@ -1,0 +1,196 @@
+<div class="mat-dialog-content dialogue-content-sec">
+        <div class="container" style="position: relative;">
+                <button type="button" class="close close-btn-top" (click)="onCancelClick()">×</button>
+                <div *ngIf="!isConnectedAmazon;else AmazonConnectSteps">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="brand-details">
+                                <div class="brand-name">
+                                    <img src="../../../../../assets/img/amazon.jpg" alt="">
+                                </div>
+                                <div class="brand-desc">
+                                    <p>Since 2000, Selling on Amazon has been helping individuals and businesses increase sales and
+                                        reach new customers.</p>
+                                    <a href="https://www.amazon.com" target="_blank">Visit amazon.com</a>
+                                </div>
+                                <div class="brand-acc mb-3">
+                                    <a href="https://services.amazon.com/" target="_blank">Create Amazon Account</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-8 brand-connect">
+                            <h3>Connecting Amazon to Polerace</h3>
+                            <p>Connecting your Amazon account is the quickest way to import and manage your inventory, listings and
+                                sales orders.</p>
+                                <br>
+
+                            <ul>
+                              <h4>What information is synced?</h4>
+                                <li>Products</li>
+                                <li>Listings</li>
+                                <li>Sales Orders</li>
+                                <!-- <li>Stock Levels</li> -->
+                            </ul>
+                            <!-- <h4>Setup Support</h4> -->
+
+                            <!-- <a href="" target="_blank">Amazon Setup Guide</a><br>
+                            <a target="_blank" href="">Start a Web Chat</a> -->
+                            <div class="con-acc"><a href="javascript:void(0)" class="btn"
+                                    (click)="connectToAmazonPopupStep(1)">Connect Amazon</a></div>
+                        </div>
+                    </div>
+                </div>
+                <ng-template #AmazonConnectSteps>
+                    <div>
+                        <mat-horizontal-stepper linear #stepper>
+                            <mat-step [stepControl]="setupAmazonFormGroup" [editable]="isEditable">
+                                <form [formGroup]="setupAmazonFormGroup">
+                                    <ng-template matStepLabel>Setup</ng-template>
+                                    <div class="row">
+                                        <div class=" col-sm-8">
+                                            <mat-form-field class="example-full-width">
+                                                <mat-label>Account Name</mat-label>
+                                                <input matInput formControlName="accountName" placeholder="Account Name" required>
+                                                <mat-error *ngIf="formControls.accountName.errors?.required">
+                                                    Please input account name
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <mat-form-field class="example-full-width" required>
+                                                <mat-label>Select Regions</mat-label>
+                                                <mat-select formControlName="globalMarketplaceSiteID"
+                                                    (selectionChange)="globalMarketplaceSiteChange($event)">
+                                                    <mat-option *ngFor="let marketplaceSite of AmazonMarketplaceSites"
+                                                        [value]="marketplaceSite.regionId">
+                                                        {{marketplaceSite.regionName}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error *ngIf="formControls.globalMarketplaceSiteID.errors?.required">
+                                                    Please select region
+                                                </mat-error>
+                                            </mat-form-field>
+                                            <p>
+                                                <!-- {{regions}} -->
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <mat-form-field class="example-full-width">
+                                                <mat-label>Select Sales Tax</mat-label>
+                                                <mat-select formControlName="salesTaxId" placeholder="Tax">
+                                                     <mat-option>None</mat-option>
+                                                    <mat-option *ngFor="let tax of salesTaxes" [value]="tax.salesTaxId">
+                                                        {{tax.salesTaxName}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error *ngIf="formControls.salesTaxId.errors?.required">
+                                                    Please select sales tax
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <mat-icon aria-label="add" (click)="openAddTaxDialog()">add_circle</mat-icon>
+                                            <p>
+                                                Amazon does not provide any tax rates within their orders.
+                                                Select a tax rate to apply to all orders from this Amazon account.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2 text-left checkbox-container-brand-add">
+                                            <mat-checkbox formControlName="isAmazonBusiness">Registered for Amazon Business </mat-checkbox>
+                                        </div>
+                                        <div class="col-sm-2 text-left checkbox-container-brand-add">
+                                                <mat-checkbox formControlName="isAmazonFBA">Registered for FBA </mat-checkbox>
+                                            </div>
+                                    <div class="row next-previous">
+                                        <div class="col-sm-6">
+                                            <button mat-raised-button color="primary" (click)="backToOverview()">Back</button>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <button mat-raised-button color="primary" class="float-right"
+                                                (click)="goForward(stepper)">
+                                                Next
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </mat-step>
+                            <mat-step [completed]="false">
+                                <ng-template matStepLabel>Connect</ng-template>
+                                <form [formGroup]="fillAmazonInfoFormGroup">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <label>Connect</label>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <button class="connect-btn" mat-raised-button color="primary" type="button"
+                                                (click)="connectAmazonAccount()">
+                                                Connect
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                        </div>
+                                        <div class="col-sm-10">
+                                            This will take you to Amazon where you will be asked to login and authorise the
+                                            connection.
+                                            Once completed, you will be brought straight back to Polerace.
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <mat-form-field class="example-full-width">
+                                                <mat-label>Seller ID</mat-label>
+                                                <input matInput formControlName="amazonSellerID" placeholder="Amazon Seller ID"
+                                                    required>
+                                                <mat-error *ngIf="formControls1.amazonSellerID.errors?.required">
+                                                    Please input Amazon Seller ID
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <mat-form-field class="example-full-width">
+                                                <mat-label>MWS Authorization Token</mat-label>
+                                                <input matInput formControlName="MWSAuthToken" placeholder="MWS Authorization Token"
+                                                    required>
+                                                <mat-error *ngIf="formControls1.MWSAuthToken.errors?.required">
+                                                    Please input MWS Authorization Token
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="row next-previous">
+                                        <div class="col-sm-6">
+                                            <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <button mat-raised-button class="float-right" color="primary"
+                                                (click)="verifyAmazonSellerDetails()"> Next </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </mat-step>
+                            <mat-step>
+                                <ng-template matStepLabel>Finish</ng-template>
+                                <p>Setup finished.</p>
+                            </mat-step>
+                        </mat-horizontal-stepper>
+                    </div>
+                </ng-template>
+
+            </div>
+        </div>
+

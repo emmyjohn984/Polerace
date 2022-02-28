@@ -1,0 +1,378 @@
+
+<div class="page_content">
+    <form [formGroup]="sellerEditForm">
+      <div class="container-fluid">
+        <div class="head-title-buton">
+  
+          <div class="row">
+            <div class="col-sm-6">
+                <!-- {{sellerId>0?'Edit':'Add'}} -->
+              <h1>  Amazon Order Details</h1>
+            </div>
+            <div class="col-sm-6 text-right">
+              <div class="example-button-row custumbtn">
+                <button mat-raised-button color="primary" (click)="cancel()">Cancel</button>
+              </div>
+              <!-- <div class="example-button-row custumbtn">
+                <button mat-raised-button color="primary" form="userForm" class="text-uppercase" cdkFocusInitial
+                  (click)="onSubmit($event)">
+                  Save
+                </button>
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+  
+            <div class="common_content_section">
+              <div class="row">
+  
+                <div class="col-sm-12">
+                  <div class="account_info_section">
+                    <div class="account_info_title ">
+                      <h2>Order Info</h2>
+                    </div>
+                    <div class="account_info_content">
+                      <div class="row">
+                        <div class="col-sm-4">                            
+                            
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Amazon Order Id" formControlName="amazonOrderId" [readOnly]="readonly"
+                                
+                                  [ngClass]="{ 'is-invalid': submitted && formControls.firstName.errors }" required>
+                               
+                              </mat-form-field>
+                          </div>
+                        <div class="col-sm-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Buyer Name" formControlName="buyerName" [readOnly]="readonly"
+                              [ngClass]="{ 'is-invalid': submitted && formControls.firstName.errors }" required>
+                            <mat-error *ngIf="formControls.buyerName.errors?.required">
+                              Please enter Buyer name.
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Order Status" formControlName="orderStatus" [readOnly]="readonly"
+                              [ngClass]="{ 'is-invalid': submitted && formControls.orderStatus.errors }" required>
+                            <mat-error *ngIf="formControls.orderStatus.errors?.required">
+                              Please enter Order status
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Buyer Email" formControlName="buyerEmail" [readOnly]="readonly"
+                              [ngClass]="{ 'is-invalid': submitted && formControls.buyerEmail.errors }" required
+                              autocomplete="new-email">
+                            <mat-error *ngIf="formControls.buyerEmail.errors?.required">
+                              Please enter primary email
+                            </mat-error>
+                            <mat-error *ngIf="formControls.buyerEmail.errors?.email">
+                              Please enter a valid email address
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                              <input  matInput placeholder="Order Type" formControlName="orderType">
+                            </mat-form-field> 
+                          </div>
+                          <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Is Premium Order" formControlName="isPremiumOrder"
+                                  [readOnly]="readonly"
+                                  >
+                                
+                              </mat-form-field>
+                          </div>
+                        
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                              <input  matInput placeholder="Is Business Order" formControlName="isBusinessOrder">
+                            </mat-form-field> 
+                          </div>
+                          <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Is Replacement Order" [readOnly]="readonly" formControlName="isReplacementOrder"
+                                  [ngClass]="{ 'is-invalid': submitted && formControls.isReplacementOrder.errors }" required>
+                                <mat-error *ngIf="formControls.isReplacementOrder.errors?.required">
+                                  Please enter primary company name.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Is Prime" [readOnly]="readonly" formControlName="isPrime"
+                                  [ngClass]="{ 'is-invalid': submitted && formControls.isPrime.errors }" required>
+                                <mat-error *ngIf="formControls.isPrime.errors?.required">
+                                  Please enter primary company name.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                              <input  matInput placeholder="Number Of Items Shipped" formControlName="numberOfItemsShipped">
+                            </mat-form-field> 
+                          </div>
+                          <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Number Of Items UnShipped" [readOnly]="readonly" formControlName="numberOfItemsUnshipped"
+                                  [ngClass]="{ 'is-invalid': submitted && formControls.numberOfItemsUnshipped.errors }" required>
+                                <mat-error *ngIf="formControls.numberOfItemsUnshipped.errors?.required">
+                                  Please enter primary company name.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Order Total Amount" [readOnly]="readonly" formControlName="orderTotal_Amount"
+                                  [ngClass]="{ 'is-invalid': submitted && formControls.orderTotal_Amount.errors }" required>
+                                <mat-error *ngIf="formControls.orderTotal_Amount.errors?.required">
+                                  Please enter primary company name.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Order Total Currency Code" [readOnly]="readonly" formControlName="orderTotal_CurrencyCode"
+                                  [ngClass]="{ 'is-invalid': submitted && formControls.orderTotal_CurrencyCode.errors }" required>
+                                <mat-error *ngIf="formControls.orderTotal_CurrencyCode.errors?.required">
+                                  Please enter primary company name.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                              <input  matInput placeholder="Payment Amount" formControlName="payment_Amount">
+                            </mat-form-field> 
+                          </div>
+                          <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Payment Currency Code" [readOnly]="readonly" formControlName="payment_CurrencyCode"
+                                  [ngClass]="{ 'is-invalid': submitted && formControls.payment_CurrencyCode.errors }" required>
+                                <mat-error *ngIf="formControls.payment_CurrencyCode.errors?.required">
+                                  Please enter primary company name.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Payment Method" [readOnly]="readonly" formControlName="payment_PaymentMethod"
+                                  [ngClass]="{ 'is-invalid': submitted && formControls.payment_PaymentMethod.errors }" required>
+                                <mat-error *ngIf="formControls.payment_PaymentMethod.errors?.required">
+                                  Please enter primary company name.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                              <input  matInput placeholder="fulfillmentChannel" formControlName="fulfillmentChannel">
+                            </mat-form-field> 
+                          </div>
+                          <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Latest Ship Date" [readOnly]="readonly" formControlName="latestShipDate"
+                                  [ngClass]="{ 'is-invalid': submitted && formControls.latestShipDate.errors }" required>
+                                <mat-error *ngIf="formControls.latestShipDate.errors?.required">
+                                  Please enter primary company name.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Purchase Date" [readOnly]="readonly" formControlName="purchaseDate"
+                                  [ngClass]="{ 'is-invalid': submitted && formControls.purchaseDate.errors }" required>
+                                <mat-error *ngIf="formControls.purchaseDate.errors?.required">
+                                  Please enter primary company name.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                              <input  matInput placeholder="Earliest Ship Date" formControlName="earliestShipDate">
+                            </mat-form-field> 
+                          </div>
+                          <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Earliest Delivery Date" [readOnly]="readonly" formControlName="earliestDeliveryDate"
+                                  [ngClass]="{ 'is-invalid': submitted && formControls.earliestDeliveryDate.errors }" required>
+                                <mat-error *ngIf="formControls.earliestDeliveryDate.errors?.required">
+                                  Please enter primary company name.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Latest Delivery Date" [readOnly]="readonly" formControlName="latestDeliveryDate"
+                                  [ngClass]="{ 'is-invalid': submitted && formControls.latestDeliveryDate.errors }" required>
+                                <mat-error *ngIf="formControls.latestDeliveryDate.errors?.required">
+                                  Please enter primary company name.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Ship Service Level" formControlName="shipServiceLevel" (keyup)="validateNumberInput($event)"
+                                  id="fax" maxlength="10" [readOnly]="readonly"
+                                  [ngClass]="{ 'is-invalid': submitted && formControls.shipServiceLevel.errors }">
+                                <mat-error *ngIf="formControls.shipServiceLevel.errors?.required">
+                                  Please enter Ship Service Level.
+                                </mat-error>
+                                <mat-error *ngIf="formControls.shipServiceLevel.errors?.maxlength">
+                                  Fax can be max 10 characters long.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Shipment ServiceLevel Category" formControlName="shipmentServiceLevelCategory" [readOnly]="readonly"
+                                  [ngClass]="{ 'is-invalid': submitted && formControls.shipmentServiceLevelCategory.errors }">
+                                <mat-error *ngIf="formControls.shipmentServiceLevelCategory.errors?.required">
+                                  Please enter Shipment Service Level Category.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+                        <div class="col-sm-4">
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Last Updated Date" [readOnly]="readonly" formControlName="lastUpdateDate"
+                                  [ngClass]="{ 'is-invalid': submitted && formControls.lastUpdateDate.errors }" required>
+                                <mat-error *ngIf="formControls.lastUpdateDate.errors?.required">
+                                  Please enter primary company name.
+                                </mat-error>
+                              </mat-form-field>
+                        </div>
+   
+                      </div>
+                      <div formGroupName="amazonOrdersShippingAddress">
+                        <div class="row" >
+                            
+                            <div class="col-sm-4">
+                              <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Address Line 1" formControlName="addressLine1"
+                                  [readOnly]="readonly"
+                                required>
+                                <mat-error *ngIf="subFormControl.addressLine1.errors?.required">
+                                  Please enter address.
+                                </mat-error>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-sm-4">
+                              <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Address Line 2" formControlName="addressLine2"
+                                  [readOnly]="readonly" [ngClass]="{ 'is-invalid': submitted }">                              
+                              </mat-form-field>
+                            </div>
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                  <input matInput placeholder="Address Line 3" formControlName="addressLine3"
+                                    [readOnly]="readonly" [ngClass]="{ 'is-invalid': submitted }">                              
+                                </mat-form-field>
+                              </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                  <input matInput placeholder="Address type" formControlName="addressType"
+                                    [readOnly]="readonly" [ngClass]="{ 'is-invalid': submitted }">                              
+                                </mat-form-field>
+                              </div>
+                              <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                  <input  matInput placeholder="Municipality" formControlName="municipality">
+                                </mat-form-field> 
+                              </div>
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="City" formControlName="city" [readOnly]="readonly"
+                                      [ngClass]="{ 'is-invalid': submitted && formControls.city.errors }" required>
+                                    <!-- <mat-error *ngIf="formControls.city.errors?.required">
+                                      Please enter City.
+                                    </mat-error> -->
+                                  </mat-form-field>
+                             
+                            </div>
+                          
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Select Country</mat-label>
+                                    <input matInput placeholder="Country" formControlName="country" [readOnly]="readonly"
+                                    [ngClass]="{ 'is-invalid': submitted && subFormControl.country.errors }" required>
+                                  </mat-form-field>
+                             
+                            </div>
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Select State</mat-label>
+                                    <input matInput placeholder="state" formControlName="state" [readOnly]="readonly"
+                                    [ngClass]="{ 'is-invalid': submitted && subFormControl.state.errors }" required>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Postal Code" formControlName="postalCode"
+                                      (keyup)="validateNumberInput($event)" id="postalCode" maxlength="6" [readOnly]="readonly"
+                                      [ngClass]="{ 'is-invalid': submitted && subFormControl.postalCode.errors }" required>
+                                    <mat-error *ngIf="subFormControl.postalCode.errors?.required">
+                                      Please enter Postal Code.
+                                    </mat-error>
+                                    <mat-error *ngIf="subFormControl.postalCode.errors?.maxlength">
+                                      Postal code can be max 6 characters long.
+                                    </mat-error>
+                                  </mat-form-field>
+                            </div>
+                            <div class="col-sm-4">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Phone Number" (keyup)="validateNumberInput($event)" id="phone"
+                                      formControlName="phone" maxlength="11" [readOnly]="readonly"
+                                      [ngClass]="{ 'is-invalid': submitted && formControls.phone.errors }" required>
+                                    <mat-error *ngIf="subFormControl.phone.errors?.required">
+                                      Please enter Phone.
+                                    </mat-error>
+                                    <mat-error *ngIf="subFormControl.phone.errors?.maxlength">
+                                      Phone can be max 11 characters long.
+                                    </mat-error>
+                                  </mat-form-field>
+                            </div>
+                          </div>
+      
+                      </div>
+                     
+                      
+                      <div class="row">
+  
+                       
+  
+  
+                      </div>
+  
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>

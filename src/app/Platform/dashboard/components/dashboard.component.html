@@ -1,0 +1,283 @@
+<div *ngIf="loading" class="loader" id="loader"></div>
+
+  <!-- Begin Page Content -->
+        <div class="container-fluid" [ngClass]="{'container-fluid': loading}">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h4 class="hcolor">
+              <p class="  small text-muted mb-2">Dashboard</p>
+              Dashboard </h4>
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+            <div class="col-sm-8">
+              <div class="row">
+
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                  <div class="card  shadow">
+                    <div class="card-body  p-2">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto box1 p-2"> <img src="../../../../assets/admin/img/ticon1.png" class="img-fluid"  alt=""/> </div>
+                        <div class="col ml-2">
+                          <div class="h5 mb-0 font-weight-bold box1c">2523</div>
+                          <div class="box1c mb-1 small"> Total Orders</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                  <div class="card shadow ">
+                    <div class="card-body p-2">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto box2 p-2"> <img src="../../../../assets/admin/img/ticon2.png" class="img-fluid"   alt=""/> </div>
+                        <div class="col ml-2">
+                          <div class="h5 mb-0 font-weight-bold box2c">2523</div>
+                          <div class="box2c mb-1 small"> Total Revenue</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                  <div class="card shadow ">
+                    <div class="card-body p-2">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto box3 p-2"> <img src="../../../../assets/admin/img/ticon3.png" class="img-fluid"   alt=""/> </div>
+                        <div class="col ml-2">
+                          <div class="h5 mb-0 font-weight-bold box3c">2523</div>
+                          <div class="box3c mb-1 small"> Total Orders</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Pending Requests Card Example -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                  <div class="card shadow">
+                    <div class="card-body p-2">
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto box4 p-2"><img src="../../../../assets/admin/img/ticon4.png" class="img-fluid"   alt=""/> </div>
+                        <div class="col ml-2">
+                          <div class="h5 mb-0 font-weight-bold box4c">2523</div>
+                          <div class="box4c mb-1 small"> Total Orders</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-12 col-lg-7">
+                  <h4>Statistics</h4>
+                  <div class="card shadow mb-4">
+                    <div class="card-body2">
+                      <div class="chart-area">
+                        <canvas baseChart
+                        [datasets]="lineChartData"
+                        [labels]="lineChartLabels"
+                        [colors]="lineChartColors"
+                        [legend]="lineChartLegend"
+                        [chartType]="lineChartType"
+                        [plugins]="lineChartPlugins"
+                        >
+                        </canvas>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+
+                <h4 class=" pt-3 text-center">Notification</h4>
+                <hr>
+
+                <!-- Card Body -->
+                <div class="card-body">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item border-left-warning bg-light mb-2"> <strong>First item</strong><br>
+                      First item </li>
+                    <li class="list-group-item border-left-warning bg-light mb-2"> <strong>First item</strong><br>
+                      First item </li>
+                    <li class="list-group-item border-left-warning bg-light mb-2"> <strong>First item</strong><br>
+                      First item </li>
+                    <li class="list-group-item border-left-warning bg-light mb-2"> <strong>First item</strong><br>
+                      First item </li>
+                    <li class="list-group-item border-left-warning bg-light mb-2"> <strong>First item</strong><br>
+                      First item </li>
+                    <li class="list-group-item border-left-warning bg-light mb-2"> <strong>First item</strong><br>
+                      First item </li>
+                    <li class="list-group-item border-left-warning bg-light mb-2"> <strong>First item</strong><br>
+                      First item </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Content Row -->
+
+          <div class="row">
+            <div class="col-xl-4 col-lg-4">
+              <div class="d-sm-flex align-items-center justify-content-between">
+                <h4>Recent Orders</h4>
+                <div class=" m-2 ml-auto"> <a  class="text-danger" > View All</a></div>
+              </div>
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <!-- Card Body -->
+                <div class="card-body">
+                  <table class="table table-hover table-responsive-xl">
+                    <thead>
+                      <tr>
+                        <th>Order ID</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- <tr *ngFor="let order of orders.slice(0, 5);">
+                        <td>{{order.orderId}}</td>
+                        <td>{{order.productName}}</td>
+                        <td>{{order.totalQuantity}}</td>
+                        <td>{{order.orderStatus}}</td>
+                      </tr> -->
+                      <tr>
+                        <td>1</td>
+                        <td>203</td>
+                        <td>2</td>
+                        <td>Shipped</td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>13</td>
+                        <td>20</td>
+                        <td>Pending</td>
+                      </tr>
+                      <tr>
+                        <td>5</td>
+                        <td>23</td>
+                        <td>12</td>
+                        <td>Shipped</td>
+                      </tr>
+                      <tr>
+                        <td>1</td>
+                        <td>103</td>
+                        <td>1</td>
+                        <td>Shipped</td>
+                      </tr>
+                      <tr>
+                        <td>1</td>
+                        <td>101</td>
+                        <td>5</td>
+                        <td>Pending</td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <!-- Area Chart -->
+            <div class="col-xl-4 col-lg-4">
+              <div class="d-sm-flex align-items-center justify-content-between">
+                <h4>Top Sold Products</h4>
+                <div class=" m-2 ml-auto"> <a  class="text-danger"> View All</a></div>
+              </div>
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <!-- Card Body -->
+                <div class="card-body">
+                  <table class="table table-hover table-responsive-xl">
+                    <thead>
+                      <tr>
+                        <th>Product ID</th>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- <tr *ngFor="let data of dataSource.slice(0, 5);">
+                        <td>{{data.sku}}</td>
+                        <td>{{data.productName}}</td>
+                        <td>{{data.totalQuantity}}</td>
+                        <td>{{data.price}}</td>
+                      </tr> -->
+                      <tr>
+                        <td>12</td>
+                        <td>Pen</td>
+                        <td>2</td>
+                        <td>10</td>
+                      </tr>
+                      <tr>
+                        <td>13</td>
+                        <td>Laptop</td>
+                        <td>1</td>
+                        <td>10000</td>
+                      </tr>
+                      <tr>
+                        <td>13</td>
+                        <td>Car</td>
+                        <td>2</td>
+                        <td>100200</td>
+                      </tr>
+                      <tr>
+                        <td>14</td>
+                        <td>Shirt</td>
+                        <td>5</td>
+                        <td>2000</td>
+                      </tr>
+                      <tr>
+                        <td>15</td>
+                        <td>Pent</td>
+                        <td>1</td>
+                        <td>200</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="col-xl-4 col-lg-4">
+              <canvas baseChart
+                      [chartType]="chartType"
+                      [data]="chartData"
+                      [labels]="chartLabels"
+                      [colors]="chartColors"
+                      [options]="chartOptions">
+              </canvas>
+            </div> -->
+            <div class="col-xl-4 col-lg-4">
+              <div class="d-sm-flex align-items-center justify-content-between">
+                <h4>Products Insights</h4>
+                <div class=" m-2 ml-auto"> <a class="text-danger"> View All</a></div>
+              </div>
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <!-- Card Body -->
+                <div class="card-body1">
+                  <canvas baseChart
+                  [chartType]="chartType"
+                  [data]="chartData"
+                  [labels]="chartLabels"
+                  [colors]="chartColors"
+                  [options]="chartOptions">
+                </canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.container-fluid -->
+

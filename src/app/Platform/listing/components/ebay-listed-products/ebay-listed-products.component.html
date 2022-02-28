@@ -1,0 +1,220 @@
+<div class="page_content amazon-order">
+  <div class="container-fluid">
+    <h1>eBay Listed Products</h1>
+    <div class="row">
+      <div class="col-sm-12">
+
+        <div class="head_common_section">
+          <div class="row">
+            <div class="col-sm-3">
+              <mat-form-field class="example-full-width">
+                <mat-label>Select Account</mat-label>
+                <mat-select matInput placeholder="Account" (selectionChange)="handleAccountChange($event)">
+                  <mat-option *ngFor="let account of accounts" [value]="account.userMarketplaceSiteMapId">
+                    {{account.accountName}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-9 text-right">
+              <!-- <div class="example-button-row custumbtn">
+                  <button mat-raised-button color="primary" (click)="eBayProductListing()">List Now</button>
+                </div> -->
+            </div>
+          </div>
+
+        </div>
+
+        <div class="mat-elevation-z8">
+          <div class="table-responsive">
+            <table class="custum-table-input" mat-table [dataSource]="dataSource" matSort>
+
+              <!-- Checkbox Column -->
+              <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                  <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+                  </mat-checkbox> -->
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-checkbox (change)="handleCheckChanged($event,row)">
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+
+              <!--SKU Column -->
+              <ng-container matColumnDef="ebayListingId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Ebay Listing Id
+
+                  <!-- <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:0:1; let i=index">
+                      <mat-label>contains</mat-label>
+                      <select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.queryType"
+                        (change)="filterChange(filter,$event)">
+                        <option [value]="item" *ngFor="let item of filter.options">{{item}}</option>
+                      </select>
+                    </mat-form-field>
+                  </div>
+                  <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:0:1; let i=index">
+                      <input matInput placeholder="Search" (keyup)="filterChange(filter,$event)"
+                        [(ngModel)]="filter.modelValue">
+                    </mat-form-field>
+                  </div> -->
+
+                </th>
+                <td mat-cell *matCellDef="let element" class="colorblue"> {{element.ebayItemId}} </td>
+              </ng-container>
+
+
+              <!--Title Column -->
+              <ng-container matColumnDef="title">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Title
+
+                  <!-- <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:1:2; let i=index">
+                      <mat-label>contains</mat-label>
+                      <select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.queryType"
+                        (change)="filterChange(filter,$event)">
+                        <option [value]="item" *ngFor="let item of filter.options">{{item}}</option>
+                      </select>
+                    </mat-form-field>
+                  </div>
+                  <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:1:2; let i=index">
+                      <input matInput placeholder="Search" (keyup)="filterChange(filter,$event)"
+                        [(ngModel)]="filter.modelValue">
+                    </mat-form-field>
+                  </div> -->
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+              </ng-container>
+
+              <!--ASIN Column -->
+              <ng-container matColumnDef="listingType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Listing Type
+                  <!-- <mat-checkbox [(ngModel)]="hasAsin" (change)="getProductList()" > </mat-checkbox>
+                  <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:2:3; let i=index">
+                      <mat-label>contains</mat-label>
+                      <select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.queryType"
+                        (change)="filterChange(filter,$event)">
+                        <option [value]="item" *ngFor="let item of filter.options">{{item}}</option>
+                      </select>
+                    </mat-form-field>
+                  </div>
+                  <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:2:3; let i=index">
+                      <input matInput placeholder="Search" (keyup)="filterChange(filter,$event)"
+                        [(ngModel)]="filter.modelValue">
+                    </mat-form-field>
+                  </div> -->
+                </th>
+                <td mat-cell *matCellDef="let element" class="coloryellow"> {{element.listingType}} </td>
+              </ng-container>
+
+              <!-- Cost Price Column-->
+              <ng-container matColumnDef="startTime">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Start date and time
+                  <!-- <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:3:4; let i=index">
+                      <mat-label>contains</mat-label>
+                      <select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.queryType"
+                        (change)="filterChange(filter,$event)">
+                        <option [value]="item" *ngFor="let item of filter.options">{{item}}</option>
+                      </select>
+                    </mat-form-field>
+                  </div>
+                  <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:3:4; let i=index">
+                      <input matInput placeholder="Search" (keyup)="filterChange(filter,$event)"
+                        [(ngModel)]="filter.modelValue">
+                    </mat-form-field>
+                  </div> -->
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.startTime}} </td>
+              </ng-container>
+
+              <!-- sellingPrice Column -->
+              <ng-container matColumnDef="endTime">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>End date and time
+                  <!-- <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:4:5; let i=index">
+                      <mat-label>contains</mat-label>
+                      <select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.queryType"
+                        (change)="filterChange(filter,$event)">
+                        <option [value]="item" *ngFor="let item of filter.options">{{item}}</option>
+                      </select>
+                    </mat-form-field>
+                  </div>
+                  <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:4:5; let i=index">
+                      <input matInput placeholder="Search" (keyup)="filterChange(filter,$event)"
+                        [(ngModel)]="filter.modelValue">
+                    </mat-form-field> 
+                  </div>-->
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.endTime}} </td>
+              </ng-container>
+
+              <!-- Quantity Column -->
+              <ng-container matColumnDef="ebayInventoryId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Ebay Inventory Id
+                  <!-- <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:5:6; let i=index">
+                      <mat-label>contains</mat-label>
+                      <select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.queryType"
+                        (change)="filterChange(filter,$event)">
+                        <option [value]="item" *ngFor="let item of filter.options">{{item}}</option>
+                      </select>
+                    </mat-form-field>
+                  </div>
+                  <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:5:6; let i=index">
+                      <input matInput placeholder="Search" (keyup)="filterChange(filter,$event)"
+                        [(ngModel)]="filter.modelValue">
+                    </mat-form-field>
+                  </div> -->
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.ebayInventoryId}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>
+                  <div>
+                    <p class="products-actions ml-4">Actions</p>
+                  </div>
+                  <!-- <div class="row searchall-containter">
+                      <mat-form-field>
+                      <input matInput placeholder="Search all" (keyup)="filterChange('All',$event)" [(ngModel)]="SearchAllTextVal" >
+                      </mat-form-field>
+                     </div>
+                     <div class="row col-sm-1"></div>
+                    <div class="col-sm-1 text-left">
+                      <a (click)="getProductList()" class="pointer-reset-filter action-padding-top" >Apply</a>  
+                      <a (click)="resetFilters()" class="pointer-reset-filter action-padding-top" >Reset</a>         
+                     </div> -->
+                </th>
+
+                <mat-cell *matCellDef="let row">
+                  <button mat-icon-button matTooltip="Category & Specifics" *ngIf="permissionsHelper.isEditable('Listing to eBay')"
+                    (click)="openeBayCategorySpecificationsSettingsDialog(row.inventoryId)" class="iconbutton"
+                    color="primary">
+                    <mat-icon aria-label="Edit"><img src="../../../../../assets/img/edit.svg"></mat-icon>
+                  </button>
+                </mat-cell>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
+          <div *ngIf="products.length === 0" class="text-center">No records found</div>
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

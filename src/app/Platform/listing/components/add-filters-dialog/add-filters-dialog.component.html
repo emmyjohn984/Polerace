@@ -1,0 +1,29 @@
+<div class="mat-dialog-content" >
+        <div class="containers" style="position: relative;">
+                <div>
+                    <h6>Add Filter</h6>
+                    <button type="button" class="close close-btn-top" (click)="onCancelClick()">×</button>
+                </div>
+                <form [formGroup]="addFilterForm">
+                <div class="row">
+                    <div class="col-sm-12">
+                            <mat-form-field  class="example-full-width">
+                                <mat-placeholder>Filter Name</mat-placeholder>
+                                <input matInput formControlName="filterName"  autocomplete="false" required>
+                                <mat-error *ngIf="addFilterForm.controls.filterName.errors?.required">
+                                        Please Enter Filter Name
+                                      </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+              
+                <div class="example-button-row custumbtn">
+                    <button mat-raised-button class="float-left" color="primary" (click)="onSubmitClick();">Submit</button>
+                </div>
+                <div class="example-button-row custumbtn">
+                        <button mat-raised-button class="float-right" color="primary" (click)="onCancelClick();">Cancel</button>
+                </div>
+            </form>
+            
+            </div>
+        </div>

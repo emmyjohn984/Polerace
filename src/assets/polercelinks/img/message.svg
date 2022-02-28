@@ -1,0 +1,10 @@
+<svg id="Element_Icon_Mail" data-name="Element/Icon/Mail" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 32 32">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Mail" d="M24.242,21.334H2.424A2.4,2.4,0,0,1,0,18.962V2.37A2.4,2.4,0,0,1,2.424,0H24.242a2.4,2.4,0,0,1,2.424,2.37V18.962A2.4,2.4,0,0,1,24.242,21.334ZM2.032,2.843V19.369h22.6V2.843l-11.3,9.126ZM3.81,1.987,13.4,9.437l9.461-7.45Z" transform="translate(0 0)" fill="#bfc5d2"/>
+    </clipPath>
+  </defs>
+  <g id="Group_3" data-name="Group 3" transform="translate(2.667 5.333)">
+    <path id="Mail-2" data-name="Mail" d="M24.242,21.334H2.424A2.4,2.4,0,0,1,0,18.962V2.37A2.4,2.4,0,0,1,2.424,0H24.242a2.4,2.4,0,0,1,2.424,2.37V18.962A2.4,2.4,0,0,1,24.242,21.334ZM2.032,2.843V19.369h22.6V2.843l-11.3,9.126ZM3.81,1.987,13.4,9.437l9.461-7.45Z" transform="translate(0 0)" fill="#bfc5d2"/>
+  </g>
+</svg>

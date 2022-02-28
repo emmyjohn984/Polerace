@@ -1,0 +1,60 @@
+<div class="page_content">
+  <form [formGroup]="brandForm">
+    <div class="container-fluid">
+      <div class="head-title-buton">
+        <div class="row">
+          <div class="col-sm-6">
+            <h1> {{brandId>0?'Edit':'Add'}} Brand</h1>
+          </div>
+          <div class="col-sm-6 text-right">
+            <div class="example-button-row custumbtn">
+              <button mat-raised-button color="primary" [routerLink]="['/inventory/brands']">Cancel</button>
+            </div>
+            <div class="example-button-row custumbtn">
+              <button mat-raised-button color="primary" form="userForm" class="text-uppercase" cdkFocusInitial
+                (click)="onSubmit($event)">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="common_content_section">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="account_info_section">
+                  <div class="account_info_title ">
+                    <h2>Brand Info</h2>
+                  </div>
+                  <div class="account_info_content">
+                    <div class="row">
+                      <div class="col-sm-4">
+
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="Brand Name" formControlName="brandName"
+                            [ngClass]="{ 'is-invalid': submitted && formControls.brandName.errors }" required>
+                          <mat-error *ngIf="formControls.brandName.errors?.required">
+                            Please enter brand name.
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    <div class="col-sm-4">
+                      <mat-checkbox formControlName="isActive">Is Active </mat-checkbox>
+                    </div>
+                    <div class="col-sm-4">
+                      <mat-checkbox formControlName="isDefault">Is Default </mat-checkbox>
+                    </div>
+
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

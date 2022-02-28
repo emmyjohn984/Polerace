@@ -1,0 +1,611 @@
+<div class="page_content ebay-preset">
+  <div class="container-fluid">
+    <div class="header-acc">
+      <h6>Preset</h6>
+      <!-- <button type="button" class="close close-btn-top" (click)="onCancelClick()">×</button> -->
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <form [formGroup]="setupeBayFormGroup">
+            <div class="col-sm-12">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Select Account</mat-label>
+                      <mat-select matInput placeholder="Account" (selectionChange)="handleAccountChange($event)">
+                        <mat-option *ngFor="let account of accounts" [value]="account.userMarketplaceSiteMapId">
+                          {{account.accountName}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row" *ngIf="accountSelected">
+                    <div class="col-sm-4">
+                        <mat-form-field class="example-full-width">
+                          <mat-label>Preset Title</mat-label>                          
+                            <input matInput placeholder="Preset title" formControlName="presetTitle" required>                        
+                        </mat-form-field>
+                      </div>
+                      <div class="col-sm-4">
+                        <mat-form-field class="example-full-width">
+                          <mat-label>Listing Style</mat-label>
+                          <mat-select matInput placeholder="Listing Style" formControlName="listingStyle" (selectionChange)="handleListingStyleChange($event)"required>
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let style of eBayListingStyle" [value]="style.text">
+                              {{style.text}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="formControls.listingStyle.errors?.required">
+                            Please select listing style
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-sm-4">
+                        <mat-form-field class="example-full-width">
+                          <mat-label>Listing Duration</mat-label>
+                          <mat-select matInput placeholder="Listing Duration" formControlName="listingDuration" required>
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let duration of eBayListingDurationFiltered" [value]="duration.text">
+                              {{duration.text}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="formControls.listingDuration.errors?.required">
+                            Please select listing duration
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                </div>
+            </div>
+         
+          <mat-tab-group [(selectedIndex)]="selectedIndex" *ngIf="accountSelected">
+            <mat-tab label="Shipping Details & Payment Methods">
+              <div class="col-sm-30">
+               
+          <div class="common_content_section">
+            <div class="row">
+
+              <!-- <div class="col-sm-30"> -->
+                <div class="account_info_section presets_section">
+                  <div class="account_info_title">
+                    <h2>Domestic Shipping</h2>
+                  </div>
+                <div class="account_info_content">
+                    <div class="row">
+
+                      <div class="col-sm-3">                      
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Dispatch Duration</mat-label>
+                            <mat-select matInput placeholder="Dispatch Duration" formControlName="dispatchDuration"
+                             
+                              [ngClass]="{ 'is-invalid': submitted && formControls.dispatchDuration.errors }" required>
+                              <mat-option *ngFor="let shippingDurationItem of ebayShippingDurations" [value]="shippingDurationItem.eBayMasterGlobalDataId.toString()">
+                                {{shippingDurationItem.eBayMasterGlobalDataText}}
+                              </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="formControls.dispatchDuration.errors">
+                              Please select dispatch duration.
+                            </mat-error>
+                          </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <!-- (selectionChange)="onRolesChange($event)" -->
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Shipping Type</mat-label>
+                                <mat-select matInput placeholder="Shipping Type" formControlName="shippingType"
+                                (selectionChange)="handleShippingTypeChange($event)"
+                                  [ngClass]="{ 'is-invalid': submitted && formControls.shippingType.errors }" required>
+                                  <mat-option *ngFor="let shippingTypeItem of ebayShippingTypes" [value]="shippingTypeItem.eBayMasterGlobalDataId.toString()" >
+                                    {{shippingTypeItem.eBayMasterGlobalDataText}}
+                                  </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="formControls.shippingType.errors">
+                                  Please select shipping type.
+                                </mat-error>
+                              </mat-form-field>
+                          </div>
+                     
+                    </div>
+
+                    <div class="row"  [hidden]="showShippingServiceControls" >
+                      <div class="table-responsive">
+                        <table mat-table [dataSource]="dataSource" formArrayName="shippingServicesArray">
+                            <!-- Row definitions -->
+                            <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+                            <tr mat-row *matRowDef="let row; let i = index; columns: displayColumns;"></tr>
+                        
+                            <!-- Column definitions -->
+                            <ng-container matColumnDef="service">
+                              <th mat-header-cell *matHeaderCellDef> Service </th>
+                              <td mat-cell *matCellDef="let row; let index = index"  [formGroupName]="index"> 
+                                <div class="col-sm-1 shipping-service">
+                                <mat-form-field >
+                                <mat-select matInput placeholder="Shipping Service" formControlName="service" >
+                                <mat-option *ngFor="let ssItem of shippingServicesData" [value]="ssItem.eBayShippingServiceId.toString()">
+                                  {{ssItem.description}}
+                                </mat-option>
+                              </mat-select>
+                              <!-- <mat-error *ngIf="formControls.service.errors">
+                                Please select shipping Service.
+                              </mat-error> -->
+                                </mat-form-field>
+                                </div>
+                              </td>
+                            </ng-container>
+                        
+                            <ng-container matColumnDef="location">
+                                <th mat-header-cell *matHeaderCellDef> Location </th>
+                                <td mat-cell *matCellDef="let row; let index = index"  [formGroupName]="index"> 
+                                    <div class="col-sm-1">
+                                    <mat-form-field >
+                                  <input matInput formControlName="location" placeholder="Location" [disabled]="isLocationEnabled">
+                                  </mat-form-field>
+                                    </div>
+                                </td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="cost">
+                                  
+                                <th mat-header-cell *matHeaderCellDef> Cost </th>
+                                <td mat-cell *matCellDef="let row; let index = index"  [formGroupName]="index"> 
+                                    <div class="col-sm-1">
+                                        <mat-form-field>
+                                            <input matInput formControlName="cost" placeholder="cost">
+                                        </mat-form-field>
+                                    </div>
+                                </td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="mode">
+                                <th mat-header-cell *matHeaderCellDef> Mode </th>
+                                <td mat-cell *matCellDef="let row; let index = index"  [formGroupName]="index"> 
+                                    <div class="col-sm-1 shipping-service">
+                                    <mat-form-field>
+                                        <mat-select matInput placeholder="Mode" formControlName="mode" >
+                                            <mat-option value='1'>Custom Value</mat-option>
+                                           <mat-option  value='2'>Free</mat-option> 
+                                        </mat-select>
+                                    </mat-form-field>
+                                    </div>
+                                </td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="eachAdditional">
+                                <th mat-header-cell *matHeaderCellDef> Each Additional </th>
+                                <td mat-cell *matCellDef="let row; let index = index"  [formGroupName]="index"> 
+                                    <div class="col-sm-1">
+                                    <mat-form-field>
+                                  <input matInput formControlName="eachAdditional" placeholder="Each Additonal">
+                                  </mat-form-field>
+                                  </div>
+                                 
+                                </td>
+                              
+                              </ng-container>
+                              <ng-container matColumnDef="actions" >
+                                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                                <td mat-cell *matCellDef="let row; let index = index"> 
+                                  <div class="col-sm-1">
+                                    <button mat-icon-button matTooltip="Click to Delete" class="iconbutton" color="warn" *ngIf="permissionsHelper.isDelete('Listing to eBay')">
+                                      <mat-icon aria-label="Delete" (click)="deleteRow(index,false)"><img
+                                          src="../../../../../assets/img/delete.svg"></mat-icon>
+                                    </button>  
+                                    </div>
+                                </td>
+                              </ng-container>
+                                
+                              
+                          </table>
+                      </div>
+                          <div class="row add-shipping-container" *ngIf="permissionsHelper.isEditable('Listing to eBay')">
+                              <div class="col-sm-12">
+                                <button mat-raised-button type="button"  class="float-right"
+                                 color="primary" (click)="addShippingServiceRow(false);" >Add Shipping Service</button>                                
+                              </div> 
+
+                          </div>
+                     
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-label>Item Location</mat-label> 
+                            <br/>  
+                            <div class="col-sm-3">                   
+                                <mat-form-field class="example-full-width">                          
+                                <mat-select matInput placeholder="Country" formControlName="itemLocation"                          
+                                    [ngClass]="{ 'is-invalid': submitted && formControls.itemLocation.errors }" required>
+                                    <mat-option *ngFor="let country of countries" [value]="country.countryId">
+                                    {{country.countryName}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="formControls.itemLocation.errors">
+                                    Please select Country
+                                </mat-error>
+                                </mat-form-field>
+                              </div>  
+                              <div class="col-sm-3">                   
+                                <mat-form-field class="example-full-width">  
+                                <input matInput placeholder="City/Town/State" formControlName="itemCity"   >
+                                </mat-form-field>
+                              </div>  
+                              <div class="col-sm-3">                   
+                                <mat-form-field class="example-full-width">                          
+                                    <input matInput placeholder="Postal Code" formControlName="itemPostalCode"   >
+                                </mat-form-field>
+                              </div>  
+                          </div>
+                     
+                    </div>
+                    <div class="row ">
+                        <div class="account_info_section presets_section">
+                              <div class="account_info_title">
+                                     <h2>International Postage</h2>
+                             </div>
+                        </div>
+                    </div>
+                        <div class="account_info_content">
+                         <div class="row">                       
+                            <div class="col-sm-3">
+                                <!-- (selectionChange)="onRolesChange($event)" -->
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Shipping Type</mat-label>
+                                    <mat-select matInput placeholder="Shipping Type" formControlName="internationalshippingType"
+                                    (selectionChange)="handleInternationalShippingTypeChange($event)"
+                                      [ngClass]="{ 'is-invalid': submitted && formControls.shippingType.errors }" required>
+                                      <mat-option *ngFor="let shippingTypeItem of InterntlShippingTypeData" [value]="shippingTypeItem.value.toString()" >
+                                        {{shippingTypeItem.desc}}
+                                      </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="formControls.shippingType.errors">
+                                      Please select shipping type.
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>                        
+                        </div>
+                            <div class="row" [hidden]="showIntShippingServiceControls" >
+                                <table mat-table [dataSource]="intdataSource" formArrayName="intshippingServicesArray">
+                                    <!-- Row definitions -->
+                                    <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; let i = index; columns: displayColumns;"></tr>
+                                
+                                    <!-- Column definitions -->
+                                    <ng-container matColumnDef="service">
+                                      <th mat-header-cell *matHeaderCellDef> Service </th>
+                                      <td mat-cell *matCellDef="let row; let index = index"  [formGroupName]="index"> 
+                                        <div class="col-sm-1">
+                                        <mat-form-field >
+                                        <mat-select matInput placeholder="Shipping Service" formControlName="service" >
+                                        <mat-option *ngFor="let ssItem of internationalShippingServicesData" [value]="ssItem.eBayShippingServiceId.toString()">
+                                          {{ssItem.description}}
+                                        </mat-option>
+                                      </mat-select>
+                                      <!-- <mat-error *ngIf="formControls.service.errors">
+                                        Please select shipping Service.
+                                      </mat-error> -->
+                                        </mat-form-field>
+                                        </div>
+                                      </td>
+                                    </ng-container>
+                                
+                                    <ng-container matColumnDef="location">
+                                        <th mat-header-cell *matHeaderCellDef> Location </th>
+                                        <td mat-cell *matCellDef="let row; let index = index"  [formGroupName]="index"> 
+                                            <div class="col-sm-1">
+                                            <mat-form-field>
+                                          <mat-select matInput placeholder="Location" formControlName="location" >
+                                            <mat-option *ngFor="let ssItem of shippingLocations" [value]="ssItem.shippingLocationId.toString()">
+                                              {{ssItem.locationDescription}}
+                                            </mat-option>
+                                          </mat-select>
+                                          </mat-form-field>
+                                            </div>
+                                        </td>
+                                      </ng-container>
+        
+                                      <ng-container matColumnDef="cost">
+                                          
+                                        <th mat-header-cell *matHeaderCellDef> Cost </th>
+                                        <td mat-cell *matCellDef="let row; let index = index"  [formGroupName]="index"> 
+                                            <div class="col-sm-1">
+                                                <mat-form-field>
+                                                    <input matInput formControlName="cost" placeholder="cost">
+                                                </mat-form-field>
+                                            </div>
+                                        </td>
+                                      </ng-container>
+        
+                                      <ng-container matColumnDef="mode">
+                                        <th mat-header-cell *matHeaderCellDef> Mode </th>
+                                        <td mat-cell *matCellDef="let row; let index = index"  [formGroupName]="index"> 
+                                            <div class="col-sm-1">
+                                            <mat-form-field>
+                                                <mat-select matInput placeholder="Mode" formControlName="mode" >
+                                                    <mat-option value='1'>Custom Value</mat-option>
+                                                   <mat-option  value='2'>Free</mat-option> 
+                                                </mat-select>
+                                            </mat-form-field>
+                                            </div>
+                                        </td>
+                                      </ng-container>
+        
+                                      <ng-container matColumnDef="eachAdditional">
+                                        <th mat-header-cell *matHeaderCellDef> Each Additional </th>
+                                        <td mat-cell *matCellDef="let row; let index = index"  [formGroupName]="index"> 
+                                            <div class="col-sm-1">
+                                            <mat-form-field>
+                                          <input matInput formControlName="eachAdditional" placeholder="Each Additonal">
+                                          </mat-form-field>
+                                          </div>
+                                        </td>
+                                       
+                                      </ng-container>
+                                      <ng-container matColumnDef="actions" >
+                                        <th mat-header-cell *matHeaderCellDef> Actions </th>
+                                        <td mat-cell *matCellDef="let row; let index = index"  > 
+                                          <div class="col-sm-1">
+                                            <button mat-icon-button matTooltip="Click to Delete" class="iconbutton" color="warn" *ngIf="permissionsHelper.isDelete('Listing to eBay')">
+                                              <mat-icon aria-label="Delete" (click)="deleteRow(index,true)"><img
+                                                  src="../../../../../assets/img/delete.svg"></mat-icon>
+                                            </button>
+                                        </div>
+                                      </td>
+                                      </ng-container>
+                                  </table>
+                                  <div class="row add-shipping-container" *ngIf="permissionsHelper.isEditable('Listing to eBay')">
+                                      <div class="col-sm-12">
+                                        <button mat-raised-button type="button"  class="float-right"
+                                         color="primary" (click)="addShippingServiceRow(true);" >Add Shipping Service</button>                                
+                                      </div> 
+        
+                                  </div>
+                             
+                            </div>
+
+                          </div>
+                        
+                        <div class="row">
+                            <div class="account_info_section presets_section">
+                                <div class="account_info_title">
+                                       <h2>Payment Methods</h2>
+                               </div>
+                            </div>
+                         </div>
+                            <div class="account_info_content">
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <mat-label>Paypal Accepted</mat-label>
+                                    </div>
+                                    <div class="col-sm-3">                                            
+                                            <mat-checkbox formControlName="isPaypalAccepted" (change)="changeValue($event)"></mat-checkbox>                                        
+                                    </div>
+                                </div>
+                                        <div class="row">                                           
+                                            <div class="col-sm-3" *ngIf="showPaypalEmail">
+                                                <mat-form-field class="example-full-width">
+                                                  <mat-label>Paypal Email</mat-label>                          
+                                                    <input matInput placeholder="Paypal Email" formControlName="paypalEmail" required>   
+                                                    <mat-error *ngIf="formControls.paypalEmail.errors">
+                                                        Please enter valid paypal Email.
+                                                      </mat-error>                     
+                                                </mat-form-field>
+                                              </div>
+                                        </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label>Payment Method</mat-label>
+                                            <mat-select matInput placeholder="Payment Method"  formControlName="paymentMethods" multiple
+                                            (selectionChange)="handlePaymentMethodChange($event)"
+                                              [ngClass]="{ 'is-invalid': submitted && formControls.paymentMethods.errors }" required>
+                                              <mat-option *ngFor="let pm of ebayPaymentMethods" [value]="pm.eBayPaymentMethodId.toString()" >
+                                                {{pm.eBayPaymentMethodName}}
+                                              </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                       
+                    
+                  </div>
+                </div>
+              <!-- </div> -->
+                </div>
+                </div>
+                
+              </div>
+            </mat-tab>
+            <mat-tab label="Return Policy & Listing Upgrades">
+
+                <div class="common_content_section">
+                    <div class="row">
+        
+                      <!-- <div class="col-sm-30"> -->
+                        <div class="account_info_section presets_section">
+                          <div class="account_info_title">
+                            <h2>Domestic Returns Policy</h2>
+                          </div>
+                            <div class="account_info_content">
+                                <div class="row">
+
+                                    <div class="col-sm-3">                      
+                                      <mat-form-field class="example-full-width">
+                                          <mat-label>Return Policy</mat-label>
+                                          <mat-select matInput placeholder="Return Policy" formControlName="domesticReturnPolicy"
+                                          (selectionChange)="handleDomesticReturnUpdate($event)"
+                                            [ngClass]="{ 'is-invalid': submitted && formControls.domesticReturnPolicy.errors }" required>
+                                            <mat-option *ngFor="let returnPolicy of ebayReturnPolicies" [value]="returnPolicy.eBayMasterGlobalDataId.toString()">
+                                              {{returnPolicy.eBayMasterGlobalDataText}}
+                                            </mat-option>
+                                          </mat-select>
+                                          <mat-error *ngIf="formControls.domesticReturnPolicy.errors">
+                                            Please select Return policy.
+                                          </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+
+                                    <div class="col-sm-3">                      
+                                      <mat-form-field class="example-full-width">
+                                          <mat-label>Postage will be Given by</mat-label>
+                                          <mat-select matInput placeholder="Postage will be Given by"
+                                           formControlName="domesticPostage" [disabled]="domesticReturnPolicyEnabled"
+                                           
+                                            [ngClass]="{ 'is-invalid': submitted && formControls.domesticPostage.errors }" required>
+                                            <mat-option *ngFor="let costPaidBy of ebayReturnCostPaidBy" [value]="costPaidBy.eBayMasterGlobalDataId.toString()">
+                                              {{costPaidBy.eBayMasterGlobalDataText}}
+                                            </mat-option>
+                                          </mat-select>
+                                          <mat-error *ngIf="formControls.domesticPostage.errors">
+                                            Please select Return policy.
+                                          </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+
+                                    <div class="col-sm-3">                      
+                                      <mat-form-field class="example-full-width">
+                                          <mat-label>Item Must Be Returned Within</mat-label>
+                                          <mat-select matInput placeholder="Item Must Be Returned Within" formControlName="domesticReturnDuration"
+                                          [disabled]="domesticReturnPolicyEnabled"
+                                            [ngClass]="{ 'is-invalid': submitted && formControls.domesticReturnDuration.errors }" required>
+                                            <mat-option *ngFor="let returnOption of ebayReturnsWhitinOptions" [value]="returnOption.eBayMasterGlobalDataId.toString()">
+                                              {{returnOption.eBayMasterGlobalDataText}}
+                                            </mat-option>
+                                          </mat-select>
+                                          <mat-error *ngIf="formControls.domesticReturnDuration.errors">
+                                            Please select Item Must Be Returned Within.
+                                          </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                  </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+        
+                        <!-- <div class="col-sm-30"> -->
+                          <div class="account_info_section presets_section">
+                            <div class="account_info_title">
+                              <h2>International Returns Policy</h2>
+                            </div>
+                              <div class="account_info_content">
+                                <div class="row">
+
+                                    <div class="col-sm-3">                      
+                                      <mat-form-field class="example-full-width">
+                                          <mat-label>Return Policy</mat-label>
+                                          <mat-select matInput placeholder="Return Policy" formControlName="internationalReturnPolicy"
+                                           (selectionChange)="handleInternationalReturnUpdate($event)"
+                                            [ngClass]="{ 'is-invalid': submitted && formControls.internationalReturnPolicy.errors }" required>
+                                            <mat-option *ngFor="let returnPolicy of ebayReturnPolicies" [value]="returnPolicy.eBayMasterGlobalDataId.toString()">
+                                              {{returnPolicy.eBayMasterGlobalDataText}}
+                                            </mat-option>
+                                          </mat-select>
+                                          <mat-error *ngIf="formControls.internationalReturnPolicy.errors">
+                                            Please select Return policy.
+                                          </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+
+                                    <div class="col-sm-3">                      
+                                      <mat-form-field class="example-full-width">
+                                          <mat-label>Postage will be Given by</mat-label>
+                                          <mat-select matInput placeholder="Postage will be Given by" formControlName="internationalPostage"
+                                          [disabled]="internationalReturnPolicyEnabled"
+                                            [ngClass]="{ 'is-invalid': submitted && formControls.internationalPostage.errors }" required>
+                                            <mat-option *ngFor="let costPaidBy of ebayReturnCostPaidBy" [value]="costPaidBy.eBayMasterGlobalDataId.toString()">
+                                              {{costPaidBy.eBayMasterGlobalDataText}}
+                                            </mat-option>
+                                          </mat-select>
+                                          <mat-error *ngIf="formControls.internationalPostage.errors">
+                                            Please select Return policy.
+                                          </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+
+                                    <div class="col-sm-3">                      
+                                      <mat-form-field class="example-full-width">
+                                          <mat-label>Item Must Be Returned Within</mat-label>
+                                          <mat-select matInput placeholder="Item Must Be Returned Within" formControlName="internationalReturnDuration"
+                                          [disabled]="internationalReturnPolicyEnabled"
+                                            [ngClass]="{ 'is-invalid': submitted && formControls.internationalReturnDuration.errors }" required>
+                                            <mat-option *ngFor="let returnOption of ebayReturnsWhitinOptions" [value]="returnOption.eBayMasterGlobalDataId.toString()">
+                                              {{returnOption.eBayMasterGlobalDataText}}
+                                            </mat-option>
+                                          </mat-select>
+                                          <mat-error *ngIf="formControls.internationalReturnDuration.errors">
+                                            Please select Item Must Be Returned Within.
+                                          </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                    
+                      <div class="row">
+        
+                        <!-- <div class="col-sm-30"> -->
+                          <div class="account_info_section presets_section">
+                            <div class="account_info_title">
+                              <h2>Listing Updates</h2>
+                            </div>
+                              <div class="account_info_content">
+                                <div class="row">
+
+                                  <div class="col-sm-3">                      
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Refund Option</mat-label>
+                                        <mat-select matInput placeholder="Item Must Be Returned Within" formControlName="refundOption"
+                                        [disabled]="internationalReturnPolicyEnabled || domesticReturnPolicyEnabled"
+                                          [ngClass]="{ 'is-invalid': submitted && formControls.refundOption.errors }" required>
+                                          <mat-option *ngFor="let returnOption of ebayRefundOptions" [value]="returnOption.eBayMasterGlobalDataValue.toString()">
+                                            {{returnOption.eBayMasterGlobalDataText}}
+                                          </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="formControls.internationalReturnDuration.errors">
+                                          Please select a valid refund option.
+                                        </mat-error>
+                                      </mat-form-field>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <mat-label>Best Offer In Product</mat-label>
+                                    </div>
+                                    <div class="col-sm-4">                                            
+                                            <mat-checkbox formControlName="itemBestOffer"></mat-checkbox>                                        
+                                    </div>
+                                </div>
+                              </div>
+                          </div>
+                      </div>
+                </div>
+            </mat-tab>
+          </mat-tab-group>
+        </form>
+  
+      </div>
+    </div>
+  
+    <div class="example-button-row custumbtn next-right">
+      <button mat-raised-button type="button" class="float-left" color="primary" (click)="previousStep();"
+        *ngIf="selectedIndex!==0">Back</button>
+      <button mat-raised-button type="submit" class="float-right" color="primary" (click)="nextStep();"
+        *ngIf="selectedIndex!==1">Next</button>
+      <button mat-raised-button class="float-right" color="primary" *ngIf="selectedIndex==1 && permissionsHelper.isEditable('Listing to eBay')"
+        (click)="onSubmit()">Save</button>
+    </div>
+  </div>
+  </div>

@@ -1,0 +1,119 @@
+<div class="page_content add-product-excel">
+  <form>
+      <div class="container-fluid">
+          <div class="head-title-buton">
+
+              <div class="row">
+                  <div class="col-sm-6">
+                      <h1> Upload Products via Excel </h1>
+                  </div>
+                  <div class="col-sm-6 text-right">
+                      <div class="example-button-row custumbtn">
+                          <button mat-raised-button color="primary"
+                              [routerLink]="['/inventory/products']">Cancel</button>
+                      </div>
+                      <div class="example-button-row custumbtn">
+                          <button mat-raised-button color="primary" (click)="downloadSampleFile()">
+                              Download sample file
+                          </button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-12">
+
+                  <div class="common_content_section">
+                      <div class="row">
+
+                          <div class="col-sm-12">
+                              <div class="account_info_section">
+                                  <div class="account_info_title ">
+                                      <h4>
+                                          <mat-icon>info</mat-icon>
+                                      </h4>
+                                      <h2>
+                                          To upload your products via Excel you need to download the SELLNET Sample
+                                          file and ensure you populate the mandatory fields. These mandatory fields
+                                          are the Title, Description, Total Quantity, SKU, Cost Price and Start Price.
+                                          To download the sample file click on the blue "Download Sample File" button in the
+                                          top right hand side of the page.
+                                      </h2>
+                                  </div>
+                                  <div class="account_info_content">
+                                      <div class="row">
+                                          <div class="col-md-3">
+                                              <div class="upload_choose">
+                                                  <div class="choosefile">
+                                                      <img src="../../../../../assets/img/choosefile.svg">
+                                                      <input type="file" #file (change)="handleFileChange($event)">
+                                                  </div>
+
+                                              </div>
+                                          </div>
+                                          <div class="col-md-9">
+                                              <div class="add-product-table">
+                                                  <table class="table table-striped table-bordered">
+                                                      <thead>
+                                                          <tr>
+                                                              <th>Name</th>
+                                                              <th>Size</th>
+                                                              <th>Progress</th>
+                                                              <th>Status</th>
+                                                              <th>Action</th>
+                                                          </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                          <tr *ngFor="let file of files; let i = index;">
+                                                              <td>
+                                                                  {{file.fileName}}
+                                                              </td>
+                                                              <td>
+                                                                  {{file.size}}
+                                                              </td>
+                                                              <td>
+                                                                  {{file.progress}}
+                                                              </td>
+                                                              <td>
+                                                                  {{file.status}}
+                                                              </td>
+                                                              <td>
+                                                                      <button mat-icon-button
+                                                                      (click)="upload(file);" color="primary"
+                                                                      type="button" matTooltip="Upload"
+                                                                      class="iconbutton">
+                                                                      <!-- <mat-icon aria-label="Upload">
+                                                                              check_circle
+                                                                      </mat-icon> -->
+                                                                      <span class="material-icons">
+                                                                          cloud_upload
+                                                                          </span>
+                                                                  </button>
+                                                                  <button mat-icon-button
+                                                                      (click)="delete(file);" color="primary"
+                                                                      type="button" matTooltip="Delete"
+                                                                      class="iconbutton">
+                                                                      <mat-icon aria-label="Delete">
+                                                                          delete_outline
+                                                                      </mat-icon>
+                                                                  </button>
+                                                              </td>
+                                                          </tr>
+
+                                                      </tbody>
+                                                  </table>
+                                              </div>
+                                              <div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </form>
+</div>

@@ -1,0 +1,212 @@
+<div *ngIf="loading" class="loader" id="loader"></div>
+<!-- Begin Page Content -->
+<div class="container-fluid" [ngClass]="{ 'container-fluid': loading }">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+          <a href="#" class="text-muted" routerLink="/dashboard">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item" routerLinkActive="Active" aria-current="page">
+          Reports
+        </li>
+      </ol>
+    </nav>
+
+      <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-3">
+    <h4 class="brown font-weight-bold">
+      Manage Reports
+    </h4>
+  </div>
+
+    <!-- Content Row -->
+    <div class="row">
+        <div class="col-lg-12">
+          <div
+            class="d-sm-flex align-items-center justify-content-between mt-4 mb-3"
+          >
+            <h5 class="text-uppercase font-weight-bold">
+             Market Places Profit List
+            </h5>
+            <mat-list-item class="primary-imenu-item" role="listitem">
+              <mat-form-field class="select-form">
+                <mat-select
+                  placeholder="Add Columns"
+                  name="coloumns"
+                  class="filter-select"
+                  [(ngModel)]="selectedColoumns"
+                  [compareWith]="equals"
+                  multiple
+                  (selectionChange)="addColoumns($event)"
+                  #yearSelect="ngModel"
+                >
+                  <mat-option *ngFor="let data of rowData" [value]="data.value">
+                    {{ data.label }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </mat-list-item>
+          </div>
+          <div class="col bg-white card2 border shadow p-2 mt-2">
+            <p-table
+              #dt1
+              [value]="reportsData"
+            [columns]="cols"
+            [paginator]="true"
+            paginatorPosition="bottom"
+            [rows]="10"
+            [rowHover]="true"
+            [rowsPerPageOptions]="[5, 10, 15, 20]"
+            totalRecords="totalRecords"
+            pageLinks="3"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true"
+            [globalFilterFields]="baseColoumns"
+            styleClass="p-datatable-customers"
+            [filterDelay]="0"
+            scrollDirection="both" [scrollable]="true" scrollHeight="400px" 
+            >
+              <ng-template pTemplate="caption">
+                <div class="row form-inline">
+                  <div class="col-lg-2 pb-2 d-flex custom">
+                    <p-dropdown
+                      [options]="data"
+                      placeholder="Filter By Products"
+                      [(ngModel)]="title"
+                      optionLabel="products.title"
+                      optionValue="products.productId"
+                      (onChange)="secondDrop($event)"
+                      [ngModelOptions]="{standalone: true}"
+                    >
+                    </p-dropdown> 
+                    <p-button
+                    type="button"
+                    *ngIf="title!=''"
+                    class=" float-end "
+                    icon="pi pi-refresh"
+                    (click)="productFilterReset();dt1.filterGlobal('', 'contains')"
+                    styleClass="p-button-text p-button-outlined"
+                  ></p-button>
+                  </div>
+                  <div class="col-lg-2 pb-2 d-flex custom"> 
+                    <p-dropdown
+                      [options]="lastDays"
+                      placeholder="Filter By Last Days"
+                      optionLabel="label"
+                      optionValue="value"
+                      [(ngModel)]="day"
+                      (onChange)="getLastDays($event)"
+                      [ngModelOptions]="{standalone: true}"
+                    >
+                    </p-dropdown>
+                    <p-button
+                    type="button"
+                    *ngIf="day!=''"
+                    class=" float-end "
+                    icon="pi pi-refresh"
+                    (click)="dayFilterReset();dt1.filterGlobal('', 'contains')"
+                    styleClass="p-button-text p-button-outlined"
+                  ></p-button>
+                  </div>
+                  
+                  <div class="col-lg-2 pb-2 d-flex p-0 custom market">
+                    <p-dropdown
+                      [options]="marketplaces"
+                      (onChange)="onMarketplaceChange($event.value.globalMarketplaceId)"
+                      placeholder="Filter By MarketPlaces"
+                      optionLabel="globalMarketplaceName"
+                      optionValue="globalMarketplaceId"
+                      [(ngModel)]="globalMarketplace"
+                    >
+                    </p-dropdown>
+                    <p-button
+                    type="button"
+                    *ngIf="globalMarketplace!=''"
+                    class=" float-end "
+                    icon="pi pi-refresh"
+                    (click)="marketFilterReset();dt1.filterGlobal('', 'contains')"
+                    styleClass="p-button-text p-button-outlined"
+                  ></p-button>
+                  </div>
+
+                  <div class="col-lg-2 pb-2 d-flex">
+                    <input
+                      class="form-control date border-right-0 border"
+                      type="date"
+                      (change)="val($event)"
+                      format="YYYY-MM-DD"
+                      triggers="mouseenter:mouseleave"
+                      popoverTitle="Please, select start date"
+                      [(ngModel)]="calander1"
+                      [ngModelOptions]="{standalone: true}"
+                      style="min-width: 8.5em;"
+                    />
+                    <!-- <p-button style="display: none;"
+                    type="button"
+                    *ngIf="calander1!=''"
+                    class=" float-end "
+                    icon="pi pi-refresh"
+                    (click)="dateFilterReset();dt1.filterGlobal('', 'contains')"
+                    styleClass="p-button-text p-button-outlined"
+                  ></p-button> -->
+                  </div>
+                 
+                  <div class="col-lg-2 pb-2 d-flex">
+                    <input
+                      class="form-control date border-right-0 border"
+                      type="date"
+                      (change)="val1($event)"
+                      triggers="mouseenter:mouseleave"
+                      [(ngModel)]="calander2"
+                      [ngModelOptions]="{standalone: true}"
+                      style="min-width: 8.5em;"
+                    />
+                    <p-button
+                    type="button"
+                    *ngIf="calander2!=''"
+                    class=" float-end "
+                    icon="pi pi-refresh"
+                    (click)="dateFilterReset();dt1.filterGlobal('', 'contains')"
+                    styleClass="p-button-text p-button-outlined"
+                  ></p-button>
+                  </div>
+
+                  <div class="col-lg-2 pb-2 ">
+                    <input 
+                    type="text" 
+                    class="search"
+                    pInputText
+                    (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Search keyword">                     
+                  </div>
+
+                </div>
+              </ng-template>
+          
+              <ng-template pTemplate="header">
+                  <tr>
+                    <th *ngFor="let col of cols" [pSortableColumn]="col.field" style="width:230px">
+                        {{ col.header }}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                      </th>
+                  </tr>
+                
+              </ng-template>
+              <ng-template pTemplate="body" let-reportsData>
+                <tr>
+                    <td *ngFor="let data of getData(reportsData) " style="width:230px">{{ data }}</td>
+                </tr></ng-template
+              >
+          
+              <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                    <td [attr.colspan]="columns ? columns.length : 0">
+                      No records found
+                    </td>
+                  </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+</div>

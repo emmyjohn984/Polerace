@@ -1,0 +1,185 @@
+<div class="mat-dialog-content">
+    <div class="container" style="position: relative;">
+        <div class="header-acc">
+            <h6>Walmart Category & Specifications</h6>
+            <button type="button" class="close close-btn-top" (click)="onCancelClick()">×</button>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <form [formGroup]="walmartCategoryFormGroup">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-select matInput placeholder="Select Walmart Master Category"
+                                    formControlName="walmartMasterCategoryId"
+                                    (selectionChange)="handleCategoryChange($event)">
+                                    <mat-option *ngFor="let category of walmartMasterCategories"
+                                        [value]="category.walmartMasterCategoryId">
+                                        {{category.categoryDisplayName}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="formControls.walmartMasterCategoryId.errors?.required">
+                                    Please Select Walmart Master Category
+                                  </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <mat-form-field class="example-full-width">
+                                <mat-select matInput placeholder="Select Walmart Master Sub-Category"
+                                    formControlName="walmartMasterSubCategoryId"
+                                    (selectionChange)="handleSubCategoryChange($event)">
+                                    <mat-option *ngFor="let category of walmartMasterSubCategories"
+                                        [value]="category.walmartMasterSubCategoryId">
+                                        {{category.subCategoryDisplayName}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="formControls.walmartMasterCategoryId.errors?.required">
+                                    Please Select Walmart Master Sub-Category
+                                  </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+                    <div formArrayName="walmartSubCatPropertiesArray" *ngIf="walmartMasterSubCategories.length>0 && subCategorySelectedIndex==1">
+                        <div *ngFor="let categoryControl of getSubCategoryAttributesControls.controls; let i=index"
+                            [formGroupName]="i">
+                            <div class="row" >
+                                <div class="col-sm-5">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-select matInput placeholder="Select Property Name"
+                                            formControlName="propertyName"
+                                            (selectionChange)="handlePropertyNameChange($event,i)">
+                                            <mat-option *ngFor="let property of walmartPropertyNameList"
+                                                [value]="property">
+                                                {{property}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-4" *ngIf="propertyChildAttributes[i]?.length<=0">
+                                    <mat-form-field class="example-full-width" *ngIf="walmartSuggestedValues[i] && walmartSuggestedValues[i].length==0 || walmartSuggestedValues[i]==undefined">
+                                        <mat-label>Property Value</mat-label>
+                                        <input matInput type="text" placeholder="Enter Property Value"
+                                            formControlName="propertyValue">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="example-full-width" *ngIf="walmartSuggestedValues[i] && walmartSuggestedValues[i].length>0">
+                                        <mat-select matInput placeholder="Select Property Value"
+                                            formControlName="propertyValue">
+                                            <mat-option *ngFor="let property of walmartSuggestedValues[i]"
+                                                [value]="property">
+                                                {{property}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <!-- <button  mat-icon-button matToolTip="ToolTip"> <mat-icon matToolTip="ToolTip">info</mat-icon></button> -->
+                                </div>
+                                <div class="col-sm-2 d-flex mt-4">
+                                    <button mat-icon-button type="button" class="iconbutton" color="primary"
+                                        (click)="addAttribute()">
+                                        <mat-icon aria-label="add">add_circle_outline</mat-icon>
+                                    </button>
+                                    <button mat-icon-button type="button" class="iconbutton" color="primary"
+                                        (click)="deleteAttribute(i)" *ngIf="i>0">
+                                        <mat-icon aria-label="remove">remove_circle_outline</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <div formArrayName="propertyChildProperties" *ngIf="propertyChildAttributes[i]?.length>0">
+                                <div *ngFor="let controlx of getPropertyChildControls(categoryControl); let idx=index"
+                                    [formGroupName]="idx">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <mat-form-field class="example-full-width">
+                                                <mat-label>Sub-Property Name</mat-label>
+                                                <input matInput placeholder="Property Name"
+                                                    formControlName="propertyName" readonly>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-sm-4">
+
+                                            <mat-form-field class="example-full-width" *ngIf="commonContentSuggestedValues[idx] && commonContentSuggestedValues[idx].length==0 || commonContentSuggestedValues[idx]==undefined">
+                                                <input matInput placeholder="Property Value"
+                                                formControlName="propertyValue">
+                                            </mat-form-field>
+
+                                            <mat-form-field class="example-full-width" *ngIf="commonContentSuggestedValues[idx] && commonContentSuggestedValues[idx].length>0">
+                                                <mat-select matInput placeholder="Select Property Value"
+                                                    formControlName="propertyValue">
+                                                    <mat-option *ngFor="let sv of commonContentSuggestedValues[idx]"
+                                                        [value]="sv">
+                                                        {{sv}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+
+                                        </div>
+                                        <div class="col-sm-2 d-flex mt-4">
+                                                <button mat-icon-button type="button" class="iconbutton" color="primary"
+                                                    (click)="addSubAttribute(controlx,i,idx)">
+                                                    <mat-icon aria-label="add">add_circle_outline</mat-icon>
+                                                </button>
+                                                <button mat-icon-button type="button" class="iconbutton" color="primary"
+                                                    (click)="deleteSubAttribute(i,idx)" *ngIf="idx>0">
+                                                    <mat-icon aria-label="remove">remove_circle_outline</mat-icon>
+                                                </button>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div formArrayName="categoryProductAttributes">
+                        <div *ngFor="let categoryControl of getcategoryProductAttributesControls.controls; let idx=index"
+                            [formGroupName]="idx">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-select matInput placeholder="Select Product Attribute"
+                                            formControlName="productAttributeName"
+                                            (selectionChange)="handlecategoryProductTypeElementChange($event)">
+                                            <mat-option
+                                                *ngFor="let categoryProductTypeElement of categoryProductTypeElements"
+                                                [value]="categoryProductTypeElement.elementName">
+                                                {{categoryProductTypeElement.elementName}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-4">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Attribute Value</mat-label>
+                                        <input matInput type="text" placeholder="Enter Attribute Value"
+                                            formControlName="productAttributeValue" required>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-2 d-flex mt-4">
+                                    <button mat-icon-button type="button" class="iconbutton" color="primary"
+                                        (click)="addProductAttribute()">
+                                        <mat-icon aria-label="add_circle_outline">add_circle_outline
+                                        </mat-icon>
+                                    </button>
+                                    <button mat-icon-button type="button" class="iconbutton" color="primary"
+                                        (click)="deleteProductAttribute(idx)">
+                                        <mat-icon aria-label="remove_circle">remove_circle_outline
+                                        </mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </form>
+            </div>
+        </div>
+
+        <div class="example-button-row custumbtn next-right">
+            <button mat-raised-button type="button" class="float-right" color="primary" (click)="onCancelClick()">Cancel</button>
+            <button mat-raised-button class="float-left" color="primary" (click)="onSubmit()">Save</button>
+        </div>
+
+    </div>
+</div>

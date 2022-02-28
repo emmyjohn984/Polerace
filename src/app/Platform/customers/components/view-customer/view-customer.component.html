@@ -1,0 +1,96 @@
+<div *ngIf="loading" class="loader" id="loader"></div>
+
+<div id="content">
+  <!-- End of Topbar -->
+
+  <!-- Begin Page Content -->
+  <div class="container-fluid" [ngClass]="{ 'container-fluid': loading }">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+          <a href="#" class="text-muted">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a href="#" class="text-muted">Manage Customer</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          View Customer Details
+        </li>
+      </ol>
+    </nav>
+
+
+    <br><br><br><br>
+
+    <div class="container">
+      <div class="card text-center">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card-header" id="bg">
+              <h5>Customer Details </h5>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <br>
+            <div class='row'>
+              <div class="col-md-2">
+
+              </div>
+              <div class="col-md-8">
+                <article class="content-body">
+                  <dl class="row">
+                    <dt class="col-sm-8">First Name</dt>
+                    <dd class="col-sm-4">{{customerData.firstName}}</dd>
+
+                    <dt class="col-sm-8">Last Name</dt>
+                    <dd class="col-sm-4">{{customerData.lastName}}</dd>
+
+                    <dt class="col-sm-8">Phone Number</dt>
+                    <dd class="col-sm-4">{{customerData.phone}}</dd>
+
+                    <dt class="col-sm-8">Company Name</dt>
+                    <dd class="col-sm-4">{{customerData.companyName}}</dd>
+
+                    <dt class="col-sm-8">description</dt>
+                    <dd class="col-sm-4">{{customerData.description}}</dd>
+
+                    <dt class="col-sm-8">Company Code</dt>
+                    <dd class="col-sm-4">{{customerData.companyCode}}</dd>
+
+                    <dt class="col-sm-8">City</dt>
+                    <dd class="col-sm-4">{{customerData.city}}</dd>
+
+                    <dt class="col-sm-8">Address</dt>
+                    <dd class="col-sm-4">{{customerData.addressLine1}}</dd>
+
+                    <dt class="col-sm-8">Postal Code</dt>
+                    <dd class="col-sm-4">{{customerData.postalCode}}</dd>
+
+                    <dt class="col-sm-8">Tax Number</dt>
+                    <dd class="col-sm-4">{{customerData.taxNumber}}</dd>
+
+                    <dt class="col-sm-8">website Url</dt>
+                    <dd class="col-sm-4">{{customerData.websiteUrl}}</dd>
+
+                  </dl>
+                </article>
+              </div>
+              <div class="col-md-2">
+
+              </div>
+            </div>
+            <div class=col-md-12>
+              <button class="btn grey-btn font-weight-bold" routerLink="/customers/mangecustomers" >
+                Back
+              </button>
+              <button class="btn purple-btn font-weight-bold" style="margin-left: 10px" (click)="edit()">
+                Edit
+              </button>
+            </div>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>

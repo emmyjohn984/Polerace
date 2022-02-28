@@ -1,0 +1,227 @@
+<div class="page_content amazon-order">
+  <div class="container-fluid">
+    <h1>Manage eBay Order</h1>
+    <div class="row">
+      <div class="col-sm-12">
+
+        <div class="head_common_section">
+          <div class="row">
+            <div class="col-sm-3">
+              <mat-form-field class="example-full-width">
+                <mat-label>Select Account</mat-label>
+                <mat-select matInput placeholder="Account" (selectionChange)="handleAccountChange($event)">
+                  <mat-option *ngFor="let account of accounts" [value]="account.userMarketplaceSiteMapId">
+                    {{account.accountName}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="mat-elevation-z8">
+          <div class="table-responsive">
+            <table class="custum-table-input" mat-table [dataSource]="dataSource" matSort>
+
+
+              <!--First Name Column -->
+              <ng-container matColumnDef="orderId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>eBay Order ID
+                  <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:0:1; let i=index">
+                      <mat-label>contains</mat-label>
+                      <select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.queryType"
+                        (change)="filterChange(filter,$event)">
+                        <option [value]="item" *ngFor="let item of filter.options">{{item}}</option>
+                      </select>
+                    </mat-form-field>
+                  </div>
+                  <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:0:1; let i=index">
+                      <input matInput placeholder="Search" (keyup)="filterChange(filter,$event)"
+                        [(ngModel)]="filter.modelValue">
+                    </mat-form-field>
+                  </div>
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.orderId}} </td>
+              </ng-container>
+
+              <!--Last Sku Column -->
+              <ng-container matColumnDef="Sku">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>SKU
+                  <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:1:2; let i=index">
+                      <mat-label>contains</mat-label>
+                      <select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.queryType"
+                        (change)="filterChange(filter,$event)">
+                        <option [value]="item" *ngFor="let item of filter.options">{{item}}</option>
+                      </select>
+                    </mat-form-field>
+                  </div>
+                  <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:1:2; let i=index">
+                      <input matInput placeholder="Search" (keyup)="filterChange(filter,$event)"
+                        [(ngModel)]="filter.modelValue">
+                    </mat-form-field>
+                  </div>
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.sku}} </td>
+              </ng-container>
+
+              <!--Last title Column -->
+              <ng-container matColumnDef="title">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Title
+                  <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:2:3; let i=index">
+                      <mat-label>contains</mat-label>
+                      <select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.queryType"
+                        (change)="filterChange(filter,$event)">
+                        <option [value]="item" *ngFor="let item of filter.options">{{item}}</option>
+                      </select>
+                    </mat-form-field>
+                  </div>
+                  <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:2:3; let i=index">
+                      <input matInput placeholder="Search" (keyup)="filterChange(filter,$event)"
+                        [(ngModel)]="filter.modelValue">
+                    </mat-form-field>
+                  </div>
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+              </ng-container>
+
+              <!-- Email Column-->
+              <ng-container matColumnDef="buyerUserName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Buyer Name
+                  <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:3:4; let i=index">
+                      <mat-label>contains</mat-label>
+                      <select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.queryType"
+                        (change)="filterChange(filter,$event)">
+                        <option [value]="item" *ngFor="let item of filter.options">{{item}}</option>
+                      </select>
+                    </mat-form-field>
+                  </div>
+                  <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:3:4; let i=index">
+                      <input matInput placeholder="Search" (keyup)="filterChange(filter,$event)"
+                        [(ngModel)]="filter.modelValue">
+                    </mat-form-field>
+                  </div>
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.buyerUserName}} </td>
+              </ng-container>
+
+              <!-- Select Role Column -->
+              <ng-container matColumnDef="totalAmount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Order Total Amount
+                  <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:4:5; let i=index">
+                      <mat-label>contains</mat-label>
+                      <select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.queryType"
+                        (change)="filterChange(filter,$event)">
+                        <option [value]="item" *ngFor="let item of filter.options">{{item}}</option>
+                      </select>
+                    </mat-form-field>
+                  </div>
+                  <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:4:5; let i=index">
+                      <input matInput placeholder="Search" (keyup)="filterChange(filter,$event)"
+                        [(ngModel)]="filter.modelValue">
+                    </mat-form-field>
+                  </div>
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.totalAmount}} &nbsp;
+                  {{element.currencyCode}} </td>
+              </ng-container>
+
+              <!-- Join Date Column -->
+              <ng-container matColumnDef="OrderCreationDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Order Creation Date
+                  <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:5:6; let i=index">
+                      <mat-label>contains</mat-label>
+                      <select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.queryType"
+                        (change)="filterChange(filter,$event)">
+                        <option [value]="item" *ngFor="let item of filter.options">{{item}}</option>
+                      </select>
+                    </mat-form-field>
+                  </div>
+                  <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:5:6; let i=index">
+                      <input matInput type="date" placeholder="Search" (change)="filterChange(filter,$event)"
+                        [(ngModel)]="filter.modelValue">
+                    </mat-form-field>
+                  </div>
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.orderCreationDate | date:'dd/MM/yyyy'}} </td>
+              </ng-container>
+
+              <!-- Active Column -->
+              <ng-container matColumnDef="orderStatus">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Order Status
+                  <div class="mt10">
+                  </div>
+                  <div class="mt10">
+                    <mat-form-field *ngFor="let filter of filterSelectObj| slice:6:7; let i=index">
+                      <mat-label>Equals to</mat-label>
+                      <select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.queryType"
+                        (change)="filterChange(filter,$event)" [(ngModel)]="filter.modelValue">
+                        <option [value]="'Shipped'">Shipped</option>
+                        <option [value]="'Unshipped'">Unshipped</option>
+                        <option [value]="'Canceled'">Canceled</option>
+                        <!-- <option [value]="delivered" >delivered</option> -->
+                      </select>
+                    </mat-form-field>
+                  </div>
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.orderFulfillmentStatus}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>
+                  <div class="">
+                    <p class="products-actions">Actions</p>
+                  </div>
+                  <div class="row searchall-containter">
+                    <mat-form-field>
+                      <input matInput placeholder="Search all" (keyup)="filterChange('All',$event)"
+                        [(ngModel)]="SearchAllTextVal">
+                    </mat-form-field>
+                  </div>
+                  <div class="row col-sm-1"></div>
+                  <div class="col-sm-1 text-left">
+                    <a (click)="geteBayOrders()" class="pointer-reset-filter action-padding-top">Apply</a>
+                    <a (click)="resetFilters()" class="pointer-reset-filter action-padding-top">Reset</a>
+                  </div>
+                </th>
+                <mat-cell *matCellDef="let row">
+                  <!-- <button mat-icon-button matTooltip="Click to Edit" class="iconbutton" color="primary"  *ngIf="permissionsHelper.isEditable('Orders')">
+                      <mat-icon aria-label="Edit" (click)="editUser(row.id)"><img
+                          src="../../../../../assets/img/edit.svg"></mat-icon>
+                    </button> -->
+                  <button mat-icon-button matTooltip="Click To Delete" class="iconbutton" color="warn"
+                    *ngIf="permissionsHelper.isDelete('Orders')">
+                    <mat-icon aria-label="Block/Unblock" (click)="openDialog(row.id)"><img
+                        src="../../../../../assets/img/delete.svg"></mat-icon>
+                  </button>
+                </mat-cell>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
+          <div *ngIf="orders.length === 0" class="text-center"> No records found</div>
+          <mat-paginator [pageSizeOptions]="[5, 10, 20,50,100]" [length]="metaData['totalRecords']"
+            [pageIndex]="metaData['currentPage'] - 1" 
+            [pageSize]="metaData['pageSize']!=undefined?metaData['pageSize']:pageSize"
+            (page)="onPageChangeEvent($event)" showFirstLastButtons></mat-paginator>
+        </div>
+
+
+      </div>
+    </div>
+
+  </div>
+</div>
