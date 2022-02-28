@@ -2,13 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { NotificationService } from 'libs/core-services/src/lib/notification-service/notification.service';
 import { MarketplacesService } from '../../services/marketplaces.service';
-import {
-  FormBuilder,
-  FormGroup,
-  FormArray,
-  FormControl,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup} from '@angular/forms';
 import * as XLSX from 'xlsx';
 import { Subject, Observable } from 'rxjs';
 import * as FileSaver from 'file-saver';
@@ -80,7 +74,6 @@ export class OrdersFromDiffMarketplacesComponent implements OnInit {
   cols: any;
   key: any;
   rowData: any = [];
-  selectedColoumns: any[];
   baseColoumns = [
     'productName',
     'sku',
@@ -90,6 +83,7 @@ export class OrdersFromDiffMarketplacesComponent implements OnInit {
     'globalMarketplaceName',
     'createdDate'
   ];
+  form: FormGroup = new FormGroup({});
 
   constructor(
     private marketplaceService: MarketplacesService,
@@ -99,6 +93,9 @@ export class OrdersFromDiffMarketplacesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      columns: [this.baseColoumns]
+    });
     this.userData = localStorage.getItem('currentUser')
       ? JSON.parse(localStorage.getItem('currentUser'))
       : JSON.parse(sessionStorage.getItem('currentUser'));
@@ -198,13 +195,6 @@ export class OrdersFromDiffMarketplacesComponent implements OnInit {
             this.loading = false;
             if (!this.key) {
               this.key = Object.keys(this.dataSource[0]);
-              this.baseColoumns.map((res) => {
-                if (this.key.includes(res)) {
-                  if (this.key.indexOf(res) > -1) {
-                    this.key.splice(this.key.indexOf(res), 1);
-                  }
-                }
-              });
               this.key.map((res) => {
                 this.rowData.push({ label: _.capitalize(res), value: res });
               });
@@ -250,7 +240,7 @@ export class OrdersFromDiffMarketplacesComponent implements OnInit {
 
   addColoumns(e?) {
     let Array = [];
-    this.selectedColoumns.map((res) => {
+    this.form.value.columns.map((res) => {
       Array.push(res);
     });
     let  columns = [];

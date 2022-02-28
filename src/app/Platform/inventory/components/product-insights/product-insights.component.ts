@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Color, Colors, Label } from 'ng2-charts';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import { FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-product-insights',
@@ -160,6 +161,7 @@ export class ProductInsightsComponent implements OnInit {
     'totalQuantity',
     'price'
   ];
+  form: FormGroup = new FormGroup({});
 
   constructor(
     private marketplaceService: MarketplacesService,
@@ -168,6 +170,7 @@ export class ProductInsightsComponent implements OnInit {
     ngbAlertConfig: NgbAlertConfig,
     private marketplacesService: MarketplacesService,
     private router: Router,
+    private fb: FormBuilder,
     private inventoryService: InventoryService
   ) {
     ngbConfig.animation = false;
@@ -175,6 +178,9 @@ export class ProductInsightsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      columns: [this.baseColoumns]
+    });
     this.userData = JSON.parse(
       localStorage.getItem('currentUser')
         ? localStorage.getItem('currentUser')
@@ -208,13 +214,6 @@ export class ProductInsightsComponent implements OnInit {
           if (!this.keys) {
             this.keys = Object.keys(this.data2[0]);
             this.keys.sort();
-            this.baseColoumns.map((res) => {
-              if (this.keys.includes(res)) {
-                if (this.keys.indexOf(res) > -1) {
-                  this.keys.splice(this.keys.indexOf(res), 1);
-                }
-              }
-            });
             this.keys.map((res) => {
               this.rowData.push({ label: _.capitalize(res), value: res });
             });

@@ -16,24 +16,16 @@
 <div class="bg-white card2 border shadow p-2">
   <div class="d-sm-flex align-items-center justify-content-between">
     <h4  class="brown font-weight-bold">Manage Product Insights</h4>
-      <mat-list-item class="primary-imenu-item" role="listitem">
-        <mat-form-field class="select-form">
-          <mat-select
-            placeholder="Add Columns"
-            name="coloumns"
-            class="filter-select"
-            [(ngModel)]="selectedColoumns"
-            [compareWith]="equals"
-            multiple
-            (selectionChange)="addColoumns($event)"
-            #yearSelect="ngModel"
-          >
-            <mat-option *ngFor="let data of rowData" [value]="data.value">
-              {{ data.label }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </mat-list-item>
+    <form [formGroup]="form" style="padding: 0;margin:0">
+      <mat-form-field>
+        <mat-select placeholder="Add Columns" name="coloumns" (selectionChange)="addColoumns($event)"
+          class="filter-select" formControlName="columns" multiple>
+          <mat-option *ngFor="let data of rowData" [value]="data.value">
+            {{ data.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
   </div>
 </div>
 <div class="row ml-sm-1 mr-1">

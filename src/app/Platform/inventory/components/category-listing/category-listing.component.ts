@@ -8,7 +8,6 @@ import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/
 import { MatSort } from '@angular/material/sort';
 import { InventoryService } from '../../services/inventory.service';
 import { PermissionsHelper } from 'src/app/shared/helpers/permissions-helper';
-import {TableModule} from 'primeng/table';
 
 @Component({
   selector: 'app-category-listing',

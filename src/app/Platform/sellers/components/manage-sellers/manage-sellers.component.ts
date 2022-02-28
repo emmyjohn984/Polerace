@@ -2,13 +2,12 @@ import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { Router } from '@angular/router';
-import { UsersService } from '../../../settings/services/users.service';
 import {  SellersService } from '../../services/sellers.service';
 import { NotificationService } from 'libs/core-services/src/lib/notification-service/notification.service';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import * as moment from 'moment';
 import * as _ from 'lodash';
+import { FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-manage-sellers',
@@ -29,7 +28,6 @@ export class ManageSellersComponent implements AfterViewInit {
   cols: any;
   keys: any;
   rowData: any = [];
-  selectedColoumns: any[];
   baseColoumns = [
     'firstName',
     'lastName',
@@ -37,12 +35,16 @@ export class ManageSellersComponent implements AfterViewInit {
     'createdDate',
     'isActive',
   ];
-  constructor(private router: Router, private userService: UsersService,
-    private sellerService:SellersService,
-     private notificationService: NotificationService, private dialog: MatDialog) {
+  form: FormGroup = new FormGroup({});
+
+  constructor(private router: Router,private sellerService:SellersService,
+     private notificationService: NotificationService,private fb:FormBuilder ) {
   }
 
   ngOnInit() {
+    this.form = this.fb.group({
+      columns: [this.baseColoumns],
+    });
     this.cols = [
       { field: 'firstName', header: 'First Name' },
       { field: 'lastName', header: 'Last Name' },
@@ -65,13 +67,6 @@ export class ManageSellersComponent implements AfterViewInit {
         if (!this.keys) {
           this.keys = Object.keys(this.dataSource[0]);
           this.keys.sort();
-          this.baseColoumns.map((res) => {
-            if (this.keys.includes(res)) {
-              if (this.keys.indexOf(res) > -1) {
-                this.keys.splice(this.keys.indexOf(res), 1);
-              }
-            }
-          });
           this.keys.map((res) => {
             this.rowData.push({ label: _.capitalize(res), value: res });
           });
@@ -113,7 +108,7 @@ export class ManageSellersComponent implements AfterViewInit {
 
   addColoumns(e?) {
     let Array = [];
-    this.selectedColoumns.map((res) => {
+    this.form.value.columns.map((res) => {
       Array.push(res);
     });
 

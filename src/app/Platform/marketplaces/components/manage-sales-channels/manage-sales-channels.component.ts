@@ -8,6 +8,7 @@ import { MatSort } from '@angular/material/sort';
 import { MarketplacesService } from '../../services/marketplaces.service';
 import { PermissionsHelper } from 'src/app/shared/helpers/permissions-helper';
 import * as moment from 'moment';
+import { FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-manage-sales-channels',
@@ -17,7 +18,6 @@ import * as moment from 'moment';
 
 export class ManageSalesChannelsComponent implements AfterViewInit {
 
-  // @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   displayedColumns: string[] = ['name', 'channel', 'status', 'expiredOn', "actions"];
   dataSource : any;
@@ -29,19 +29,22 @@ export class ManageSalesChannelsComponent implements AfterViewInit {
   cols: any;
   keys: any;
   rowData: any = [];
-  selectedColoumns: any[];
   baseColoumns = [
     'userMarketplaceName',
     'globalMarketplaceName',
     'expiredOn',
     'isActive',
   ];
+  form: FormGroup = new FormGroup({});
 
   constructor(private router: Router, private notificationService: NotificationService,
-    private dialog: MatDialog, private marketplacesService: MarketplacesService, public permissionsHelper: PermissionsHelper) {
+    private dialog: MatDialog,private fb: FormBuilder, private marketplacesService: MarketplacesService, public permissionsHelper: PermissionsHelper) {
   }
 
   ngOnInit() {
+    this.form = this.fb.group({
+      columns: [this.baseColoumns]
+    });
     this.userData = JSON.parse(localStorage.getItem('currentUser')?localStorage.getItem('currentUser'):sessionStorage.getItem('currentUser'));
     this.userRole = this.userData.roleName.toLowerCase();
     this.cols = [
@@ -62,7 +65,7 @@ export class ManageSalesChannelsComponent implements AfterViewInit {
 
   addColoumns(e?) {
     let Array = [];
-    this.selectedColoumns.map((res) => {
+    this.form.value.columns.map((res) => {
       Array.push(res);
     });
     let  columns = [];
@@ -100,8 +103,8 @@ export class ManageSalesChannelsComponent implements AfterViewInit {
 
   //To get users
   getSalesChannels() {
+    this.loading = true;
     this.marketplacesService.getUserMarketplaces(this.userData.companyId).subscribe(response => {
-      this.loading = true;
       if (response.body.data) {
         this.loading = false;
         this.salesChannels = response.body.data;
@@ -109,13 +112,6 @@ export class ManageSalesChannelsComponent implements AfterViewInit {
         if (!this.keys) {
           this.keys = Object.keys(this.dataSource[0]);
           this.keys.sort();
-          this.baseColoumns.map((res) => {
-            if (this.keys.includes(res)) {
-              if (this.keys.indexOf(res) > -1) {
-                this.keys.splice(this.keys.indexOf(res), 1);
-              }
-            }
-          });
           this.keys.map((res) => {
             this.rowData.push({ label: _.capitalize(res), value: res });
           });

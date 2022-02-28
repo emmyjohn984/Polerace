@@ -8,6 +8,7 @@ import { InventoryService } from '../../services/inventory.service';
 import { PermissionsHelper } from 'src/app/shared/helpers/permissions-helper';
 import * as moment from 'moment';
 import * as _ from 'lodash';
+import { FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-suppliers-listing',
@@ -15,7 +16,6 @@ import * as _ from 'lodash';
   styleUrls: ['./suppliers-listing.component.scss'],
 })
 export class SuppliersListingComponent implements AfterViewInit {
-  // @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   displayedColumns: string[] = [
     'firstName',
@@ -32,13 +32,13 @@ export class SuppliersListingComponent implements AfterViewInit {
   cols: any;
   keys: any;
   rowData: any = [];
-  selectedColoumns: any[];
   baseColoumns = [
     'firstName',
     'lastName',
     'createdDate',
     'isActive'
   ];
+  form: FormGroup = new FormGroup({});
 
   constructor(
     private router: Router,
@@ -46,18 +46,21 @@ export class SuppliersListingComponent implements AfterViewInit {
     private notificationService: NotificationService,
     private dialog: MatDialog,
     private inventoryService: InventoryService,
-    public permissionsHelper: PermissionsHelper
+    public permissionsHelper: PermissionsHelper,
+    private fb: FormBuilder
   ) {
     this.getDisplayColumns();
   }
 
   ngOnInit() {
+    this.form = this.fb.group({
+      columns: [this.baseColoumns]
+    });
     this.userData = JSON.parse(
       localStorage.getItem('currentUser')
         ? localStorage.getItem('currentUser')
         : sessionStorage.getItem('currentUser')
     );
-
     this.cols = [
       { field: 'firstName', header: 'First Name' },
       { field: 'lastName', header: 'Last Name' },
@@ -91,13 +94,6 @@ export class SuppliersListingComponent implements AfterViewInit {
           if (!this.keys) {
             this.keys = Object.keys(this.dataSource[0]);
             this.keys.sort();
-            this.baseColoumns.map((res) => {
-              if (this.keys.includes(res)) {
-                if (this.keys.indexOf(res) > -1) {
-                  this.keys.splice(this.keys.indexOf(res), 1);
-                }
-              }
-            });
             this.keys.map((res) => {
               this.rowData.push({ label: _.capitalize(res), value: res });
             });
@@ -150,7 +146,7 @@ export class SuppliersListingComponent implements AfterViewInit {
 
   addColoumns(e?) {
     let Array = [];
-    this.selectedColoumns.map((res) => {
+    this.form.value.columns.map((res) => {
       Array.push(res);
     });
 

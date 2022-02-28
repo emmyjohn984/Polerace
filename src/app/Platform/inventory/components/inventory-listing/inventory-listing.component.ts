@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NotificationService } from 'libs/core-services/src/lib/notification-service/notification.service';
 import * as moment from 'moment';
 import * as _ from 'lodash';
+import { FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-inventory-listing',
@@ -22,7 +23,6 @@ export class InventoryListingComponent implements OnInit {
   keys: any;
   totalRecords:any;
   rowdata: any = [];
-  selectedColoumns: any[];
   baseColoumns = [
     'title',
     'sku',
@@ -33,14 +33,19 @@ export class InventoryListingComponent implements OnInit {
     'supplierName'
   ];
   dataSource: any = [];
+  form: FormGroup = new FormGroup({});
 
   constructor(
     private is: InventoryService,
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      columns: [this.baseColoumns]
+    });
     this.userData = JSON.parse(
       localStorage.getItem('currentUser')
         ? localStorage.getItem('currentUser')
@@ -69,13 +74,6 @@ export class InventoryListingComponent implements OnInit {
         if (!this.keys) {
           this.keys = Object.keys(this.dataSource[0]);
           this.keys.sort();
-          this.baseColoumns.map((res) => {
-            if (this.keys.includes(res)) {
-              if (this.keys.indexOf(res) > -1) {
-                this.keys.splice(this.keys.indexOf(res), 1);
-              }
-            }
-          });
           this.keys.map((res) => {
             this.rowdata.push({ label: _.capitalize(res), value: res });
           });
@@ -130,7 +128,7 @@ export class InventoryListingComponent implements OnInit {
 
   addColoumns(e?) {
     let Array = [];
-    this.selectedColoumns.map((res) => {
+    this.form.value.columns.map((res) => {
       Array.push(res);
     });
     let  columns = [];
