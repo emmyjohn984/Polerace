@@ -41,19 +41,18 @@
       <div class="col-lg-12">
         <div class="d-sm-flex align-items-center justify-content-between mt-4 mb-3">
           <h5 class="text-uppercase font-weight-bold">Listing of Produtcs</h5>
-          <mat-list-item class="primary-imenu-item" role="listitem">
-            <mat-form-field class="select-form">
-              <mat-select placeholder="Add Columns" name="coloumns" class="filter-select" [(ngModel)]="selectedColoumns"
-                [compareWith]="equals" multiple (selectionChange)="addColoumns($event)" #yearSelect="ngModel">
+          <form [formGroup]="form" style="padding: 0;margin:0">
+            <mat-form-field>
+              <mat-select placeholder="Add Columns" name="coloumns" (selectionChange)="addColoumns($event)"
+                class="filter-select" formControlName="columns" multiple>
                 <mat-option *ngFor="let data of rowdata" [value]="data.value">
                   {{ data.label }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
-          </mat-list-item>
+          </form>
         </div>
         <div class="card card2 shadow mb-4">
-          <!-- Card Header - Dropdown -->
           <!-- Card Body -->
           <div class="card-body row">
             <p-table #dt1 [value]="dataSource" [columns]="cols" [paginator]="true" paginatorPosition="bottom"
@@ -90,7 +89,7 @@
                     {{ col.header }}
                     <p-sortIcon [field]="col.field"></p-sortIcon>
                   </th>
-                  <th>Action</th>
+                  <th *ngIf="form.value.columns.length">Action</th>
                 </tr>
                 <tr>
                   <th *ngFor="let col of cols">
@@ -108,11 +107,10 @@
               <ng-template pTemplate="body" let-data>
                 <tr>
                   <td *ngFor="let data of getData(data)">{{ data }}</td>
-                  <td>
+                  <td *ngIf="form.value.columns.length">
                     <a type="button" (click)="view(data.productId)">
                       <i pTooltip="View" tooltipPosition="top" class="pi pi-eye"
                         style="font-size: 1rem; margin-right: 10px"></i>
-
                       <!-- View -->
                     </a>
                     <img pTooltip="Edit" tooltipPosition="top" type="button" src="../../../../../assets/img/pencil.png"

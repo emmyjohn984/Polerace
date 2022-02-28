@@ -32,27 +32,18 @@
         <h5 class="text-uppercase font-weight-bold">
           List of product by suppliers
         </h5>
-        <mat-list-item class="primary-imenu-item" role="listitem">
-          <mat-form-field class="select-form">
-            <mat-select
-              placeholder="Add Columns"
-              name="coloumns"
-              class="filter-select"
-              [(ngModel)]="selectedColoumns"
-              [compareWith]="equals"
-              multiple
-              (selectionChange)="addColoumns($event)"
-              #yearSelect="ngModel"
-            >
+        <form [formGroup]="form" style="padding: 0;margin:0">
+          <mat-form-field>
+            <mat-select placeholder="Add Columns" name="coloumns" (selectionChange)="addColoumns($event)"
+              class="filter-select" formControlName="columns" multiple>
               <mat-option *ngFor="let data of rowData" [value]="data.value">
                 {{ data.label }}
               </mat-option>
             </mat-select>
           </mat-form-field>
-        </mat-list-item>
+        </form>
       </div>
       <div class="card card2 shadow mb-4">
-        <!-- Card Header - Dropdown -->
         <!-- Card Body -->
         <div class="card-body">
           <p-table

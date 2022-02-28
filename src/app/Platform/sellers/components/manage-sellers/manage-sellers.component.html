@@ -24,16 +24,16 @@
       <button class="btn btn-light text-uppercase pcolor2 font-weight-bold" id="addbtn" routerLink="/sellers/addseller">
         <i class="fa fa-plus"></i> Add New Seller
       </button>
-      <mat-list-item class="primary-imenu-item" role="listitem">
-        <mat-form-field class="select-form">
-          <mat-select placeholder="Add Columns" name="coloumns" class="filter-select" [(ngModel)]="selectedColoumns"
-            [compareWith]="equals" multiple (selectionChange)="addColoumns($event)" #yearSelect="ngModel">
+      <form [formGroup]="form" style="padding: 0;margin:0">
+        <mat-form-field>
+          <mat-select placeholder="Add Columns" name="coloumns" (selectionChange)="addColoumns($event)"
+            class="filter-select" formControlName="columns" multiple>
             <mat-option *ngFor="let data of rowData" [value]="data.value">
               {{ data.label }}
             </mat-option>
           </mat-select>
         </mat-form-field>
-      </mat-list-item>
+      </form>
     </div>
   </div>
 
@@ -68,14 +68,14 @@
                   {{ col.header }}
                   <p-sortIcon [field]="col.field"></p-sortIcon>
                 </th>
-                <th>Actions</th>
+                <th *ngIf="form.value.columns.length">Actions</th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-seller>
               <tr>
                 <td *ngFor="let data of getData(seller)">{{ data }}</td>
                 <!-- <td>{{ seller.isActive == true ? "Active" : "In-Active" }}</td> -->
-                <td>
+                <td *ngIf="form.value.columns.length">
                   <img pTooltip="Edit" tooltipPosition="top" type="button" src="../../../../../assets/img/pencil.png"
                     (click)="editSeller(seller.sellerId)" id="edit" height="20" width="20" />
                   <img pTooltip="Delete" tooltipPosition="top" type="button" src="../../../../../assets/img/bin.png"

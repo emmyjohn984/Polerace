@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import { FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-subcategory-listing',
@@ -27,7 +28,6 @@ export class SubcategoryListingComponent implements OnInit {
   cols: any;
   keys: any;
   rowData: any = [];
-  selectedColoumns: any[];
   baseColoumns = [
     'categoryName',
     'parentCategoryName',
@@ -37,12 +37,15 @@ export class SubcategoryListingComponent implements OnInit {
     'isActive',
     'createdDate',
   ];
+  form: FormGroup = new FormGroup({});
 
-  constructor(private inventoryService: InventoryService, private notificationService: NotificationService, private dialog: MatDialog, private router: Router) { }
+  constructor(private inventoryService: InventoryService,private fb:FormBuilder, private notificationService: NotificationService, private dialog: MatDialog, private router: Router) { }
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      columns: [this.baseColoumns]
+    });
     this.currentUser = JSON.parse(localStorage.getItem('currentUser') ? localStorage.getItem('currentUser') : sessionStorage.getItem('currentUser'));
-    // this.getCategoryList();
     this.cols = [
       { field: 'categoryName', header: 'Subcategory Name' },
       { field: 'parentCategoryName', header: 'Category Name' },
@@ -61,21 +64,14 @@ export class SubcategoryListingComponent implements OnInit {
 
   //To get categories
   getSubCategoriesByCompanyId() {
+    this.loading = true;
     this.inventoryService.getSubCategoriesById(this.currentUser.companyId).subscribe(response => {
-      this.loading = true;
       if (response.body.data) {
         this.categories = response.body.data;
         this.dataSource = this.categories;
         this.totalRecords = this.categories.length;
         if (!this.keys) {
           this.keys = Object.keys(this.dataSource[0]);
-          this.baseColoumns.map((res) => {
-            if (this.keys.includes(res)) {
-              if (this.keys.indexOf(res) > -1) {
-                this.keys.splice(this.keys.indexOf(res), 1);
-              }
-            }
-          });
           this.keys.map((res) => {
             this.rowData.push({ label: _.capitalize(res), value: res });
           });
@@ -117,7 +113,7 @@ export class SubcategoryListingComponent implements OnInit {
 
   addColoumns(e?) {
     let Array = [];
-    this.selectedColoumns.map((res) => {
+    this.form.value.columns.map((res) => {
       Array.push(res);
     });
 

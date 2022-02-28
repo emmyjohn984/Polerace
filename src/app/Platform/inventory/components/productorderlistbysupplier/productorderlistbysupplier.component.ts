@@ -3,6 +3,7 @@ import { NotificationService } from 'libs/core-services/src/lib/notification-ser
 import * as moment from 'moment';
 import * as _ from 'lodash';
 import { InventoryService } from '../../services/inventory.service';
+import { FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-productorderlistbysupplier',
@@ -22,7 +23,6 @@ export class ProductorderlistbysupplierComponent implements OnInit {
   cols: any;
   keys: any;
   rowData: any = [];
-  selectedColoumns: any[];
   baseColoumns = [
     'title',
     'sku',
@@ -30,10 +30,14 @@ export class ProductorderlistbysupplierComponent implements OnInit {
     'quantity',
     'description',
   ];
+  form: FormGroup = new FormGroup({});
 
-  constructor(private inventoryService: InventoryService, private notificationService: NotificationService) { }
+  constructor(private inventoryService: InventoryService,private fb: FormBuilder, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      columns: [this.baseColoumns]
+    });
     this.userData = JSON.parse(localStorage.getItem('currentUser') ? localStorage.getItem('currentUser') : sessionStorage.getItem('currentUser'));
     this.cols = [
       { field: 'title', header: 'Product Name' },
@@ -89,7 +93,7 @@ export class ProductorderlistbysupplierComponent implements OnInit {
 
   addColoumns(e?) {
     let Array = [];
-    this.selectedColoumns.map((res) => {
+    this.form.value.columns.map((res) => {
       Array.push(res);
     });
 
@@ -134,8 +138,8 @@ export class ProductorderlistbysupplierComponent implements OnInit {
   }
 
   onSupplierChange(event) {
+    this.loading = true;
     this.inventoryService.getProductListBySuplier(this.userData.companyId, event).subscribe(res => {
-      this.loading = true;
       if (res.body.data) {
         this.dataSource = res.body.data;
         this.products = res.body.data;
@@ -143,13 +147,6 @@ export class ProductorderlistbysupplierComponent implements OnInit {
         if (!this.keys) {
           this.keys = Object.keys(this.dataSource[0]);
           this.keys.sort();
-          this.baseColoumns.map((res) => {
-            if (this.keys.includes(res)) {
-              if (this.keys.indexOf(res) > -1) {
-                this.keys.splice(this.keys.indexOf(res), 1);
-              }
-            }
-          });
           this.keys.map((res) => {
             this.rowData.push({ label: _.capitalize(res), value: res });
           });

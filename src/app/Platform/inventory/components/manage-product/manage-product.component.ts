@@ -3,9 +3,9 @@ import { Router } from '@angular/router'
 import { ToastrService } from 'ngx-toastr'
 import { InventoryService } from '../../services/inventory.service'
 import * as FileSaver from 'file-saver';
-import { NgxCsvParser } from 'ngx-csv-parser';
 import * as moment from 'moment';
 import * as _ from 'lodash';
+import { FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-manage-product',
@@ -46,7 +46,6 @@ export class ManageProductComponent implements OnInit {
   ]
   keys: any;
   rowdata: any = [];
-  selectedColoumns: any[];
   baseColoumns = [
     'title',
     'sku',
@@ -58,14 +57,19 @@ export class ManageProductComponent implements OnInit {
     'actions'
   ];
   dataSource: any = [];
+  form: FormGroup = new FormGroup({});
+
   constructor(
     public router: Router,
     public inventoryService: InventoryService,
     public toastrService: ToastrService,
-    private ngxCsvParser: NgxCsvParser
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      columns: [this.baseColoumns]
+    });
     this.userData = JSON.parse(
       localStorage.getItem('currentUser')
         ? localStorage.getItem('currentUser')
@@ -98,7 +102,7 @@ export class ManageProductComponent implements OnInit {
 
   addColoumns(e?) {
     let Array = [];
-    this.selectedColoumns.map((res) => {
+    this.form.value.columns.map((res) => {
       Array.push(res);
     });
     let columns = [];
@@ -170,10 +174,10 @@ export class ManageProductComponent implements OnInit {
   }
 
   getProductList() {
+    this.loading = true;
     this.inventoryService
       .getProductList(this.userData.companyId)
       .subscribe(res => {
-        this.loading = true;
         if (res.body.data) {
           this.tableData = res.body.data;
           this.totalRecords = this.tableData.length;
@@ -185,13 +189,6 @@ export class ManageProductComponent implements OnInit {
           if (!this.keys) {
             this.keys = Object.keys(this.dataSource[0]);
             this.keys.sort();
-            this.baseColoumns.map((res) => {
-              if (this.keys.includes(res)) {
-                if (this.keys.indexOf(res) > -1) {
-                  this.keys.splice(this.keys.indexOf(res), 1);
-                }
-              }
-            });
             this.keys.map((res) => {
               this.rowdata.push({ label: _.capitalize(res), value: res });
             });
