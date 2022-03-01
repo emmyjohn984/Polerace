@@ -208,6 +208,7 @@ let today=new Date()
     }
 
     val1(e) {
+      this.borderRadius = true;
       this.date2 = e.target.value;
       var date1 = new Date(this.date);
       var date2 = new Date(this.date2);

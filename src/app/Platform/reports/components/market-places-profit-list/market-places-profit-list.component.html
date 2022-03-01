@@ -70,7 +70,7 @@
                 <form class="form-caption form-inline">
                   <div class="input-group  col-lg-2 col-sm-6  pb-2">
                     <select  class="form-control select border" [(ngModel)]="title"
-                    [ngModelOptions]="{standalone: true}" (change)="secondDrop($event)" [ngClass]="{'input-groups': borderRadius == true}">
+                    [ngModelOptions]="{standalone: true}" (change)="secondDrop($event)" [ngClass]="title !=''? 'input-groups':'border'">
                     <option value="" disabled>Filter By Products</option>
                       <option *ngFor="let data of productTitle"[value]="data.value">{{data.label}}</option>
                     </select>
@@ -99,7 +99,7 @@
                   <div class="input-group  col-lg-2 col-sm-6  pb-2 "> 
              
                       <select class="form-control select border" [(ngModel)]="day"
-                      [ngModelOptions]="{standalone: true}" (change)="getLastDays($event)"  [ngClass]="{'input-groups': borderRadius == true}" >
+                      [ngModelOptions]="{standalone: true}" (change)="getLastDays($event)"  [ngClass]="day !=''? 'input-groups':'border'" >
                       <option value="" disabled>Filter By Last Days</option>
                         <option *ngFor="let data of lastDays"[value]="data.value">{{data.label}}</option>
                       </select>
@@ -130,7 +130,7 @@
                   
                   <div class="input-group  col-lg-2 col-sm-6  pb-2 ">
                     <select  class="form-control select border"[(ngModel)]="globalMarketplace"
-                      [ngModelOptions]="{standalone: true}" (change)="onMarketplaceChange($event)" placeholder="Filter By Days"  [ngClass]="{'input-groups': borderRadius == true}">
+                      [ngModelOptions]="{standalone: true}" (change)="onMarketplaceChange($event)" placeholder="Filter By Days"  [ngClass]="globalMarketplace !=''? 'input-groups':'border'">
                       <option value="" disabled>Filter By MarketPlaces</option>
                         <option *ngFor="let data of marketplaces"[value]="data.globalMarketplaceId">{{data.globalMarketplaceName}}</option>
                       </select>
@@ -167,6 +167,7 @@
                       popoverTitle="Please, select start date"
                       [(ngModel)]="calander1"
                       [ngModelOptions]="{standalone: true}"
+                      
                     />
                     <!-- <span class="input-group-append"> -->
                     <!-- <p-button style="display: none;"
@@ -188,7 +189,7 @@
                       triggers="mouseenter:mouseleave"
                       [(ngModel)]="calander2"
                       [ngModelOptions]="{standalone: true}"
-                      [ngClass]="{'input-groups': borderRadius == true}"
+                      [ngClass]="calander2 !=''? 'input-groups':'border'"
                     />
                     <span class="input-group-append">
                     <p-button
