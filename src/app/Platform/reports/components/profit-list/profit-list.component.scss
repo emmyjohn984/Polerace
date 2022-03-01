@@ -1,17 +1,12 @@
 ::ng-deep .ui-dropdown {
   min-width: 0 !important;
-  // width:100% !important;
-  
- // max-width: 11.5em !important;
-  
 }
-
 
 ::ng-deep.ui-table .ui-paginator-bottom {
   text-align: end;
 }
 
-.date{
+.date {
   border: 1px solid #a6a6a6 !important;
   // height: 2.2em;
   // min-width: 7em !important;
@@ -29,7 +24,7 @@
 
 }
 
-.form-caption{
+.form-caption {
   margin-top: 0px !important;
 }
 
@@ -81,6 +76,25 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #850273;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+  margin: 55px auto;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  // opacity: 0.5;
+  margin-top: 400px;
+  z-index: 1;
+}
 
   .container-fluid{
     opacity: 0.2;
