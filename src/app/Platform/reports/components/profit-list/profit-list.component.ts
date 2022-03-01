@@ -14,6 +14,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class ProfitListComponent implements OnInit {
   userData: any;
   loading: boolean = false;
+  borderRadius: boolean = false;
   data;
   productTitle: any = [];
   productID: any = [];
@@ -142,28 +143,30 @@ export class ProfitListComponent implements OnInit {
   }
 
   secondDrop(event) {
-    this.productId = event.value.products.productId;
+    this.borderRadius = true;
+    this.productId = event.target.value;
     this.getProfitList(this.productId, this.days, this.startDate, this.endDate)
   }
 
   getLastDays(event) {
-    if (event.value.value == 7) {
+    this.borderRadius = true;
+    if (event.target.value == 7) {
       this.startDate = moment(moment().startOf('isoWeek')).format('yyyy-MM-DD')
       this.endDate = moment(moment().endOf('isoWeek')).format('yyyy-MM-DD')
       this.calander1 = this.startDate;
       this.calander2 = this.endDate;
-      this.days = event.value.value;
-      this.di = event.value.value;
+      this.days = event.target.value;
+      this.di = event.target.value;
       this.getProfitList(this.productId, this.days, this.startDate, this.endDate)
     }
     else {
       let today = new Date()
-      this.startDate = moment(moment().subtract(event.value.value, 'days').calendar()).format('yyyy-MM-DD');
+      this.startDate = moment(moment().subtract(event.target.value, 'days').calendar()).format('yyyy-MM-DD');
       this.endDate = moment(today).format('yyyy-MM-DD')
       this.calander1 = this.startDate;
       this.calander2 = this.endDate;
-      this.days = event.value.value;
-      this.di = event.value.value;
+      this.days = event.target.value;
+      this.di = event.target.value;
       this.getProfitList(this.productId, this.days, this.startDate, this.endDate)
 
     }
@@ -174,6 +177,7 @@ export class ProfitListComponent implements OnInit {
   }
 
   val1(e) {
+    this.borderRadius = true;
     this.date2 = e.target.value;
     var date1 = new Date(this.date);
     var date2 = new Date(this.date2);
@@ -219,7 +223,8 @@ export class ProfitListComponent implements OnInit {
   }
 
   productFilterReset() {
-    this.title = '';
+    this.title = ''
+    this.borderRadius=false;
     this.productId = 0
     this.getProfitList(
       this.productId,

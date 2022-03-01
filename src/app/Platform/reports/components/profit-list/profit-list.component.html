@@ -38,85 +38,176 @@
         </form>
       </div>
       <div class="col bg-white card2 border shadow p-2 mt-2">
-        <p-table #dt1 [value]="reportsData" [columns]="cols" [paginator]="true" paginatorPosition="bottom" [rows]="10"
-          [rowHover]="true" [rowsPerPageOptions]="[5, 10, 15, 20]" totalRecords="totalRecords" pageLinks="3"
-          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
-          [globalFilterFields]="baseColoumns" styleClass="p-datatable-customers" [filterDelay]="0"
-          scrollDirection="both" [scrollable]="true" scrollHeight="400px">
-          <ng-template pTemplate="caption">
-            <form class="form-inline form-caption ">
-              <div class="input-group  col-lg-3 col-sm-6 pb-2 ">
-                <p-dropdown [options]="data" placeholder="Filter By Products" [(ngModel)]="title"
-                  optionLabel="products.title" optionValue="products.productId" (onChange)="secondDrop($event)"
-                  [ngModelOptions]="{standalone: true}">
-                </p-dropdown>
-                <span class="input-group-append">
-                  <p-button type="button" *ngIf="title!=''" class=" float-end " icon="pi pi-refresh"
+        <p-table
+              #dt1
+              [value]="reportsData"
+            [columns]="cols"
+            [paginator]="true"
+            paginatorPosition="bottom"
+            [rows]="10"
+            [rowHover]="true"
+            [rowsPerPageOptions]="[5, 10, 15, 20]"
+            totalRecords="totalRecords"
+            pageLinks="3"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true"
+            [globalFilterFields]="baseColoumns"
+            styleClass="p-datatable-customers"
+            [filterDelay]="0"
+            scrollDirection="both" [scrollable]="true" scrollHeight="400px" 
+            >
+              <ng-template pTemplate="caption">
+                <form class="form-inline form-caption ">
+                  <div class="input-group  col-lg-3 col-sm-6 pb-2 ">
+                    <select  class="form-control select " [(ngModel)]="title"
+                    [ngModelOptions]="{standalone: true}" (change)="secondDrop($event)" [ngClass]="title !=''? 'input-groups':'border'">
+                    <option value="" disabled>Filter By Products</option>
+                      <option *ngFor="let data of productTitle"[value]="data.value">{{data.label}}</option>
+                    </select>
+<!-- 
+                    <p-dropdown
+                      [options]="data"
+                      placeholder="Filter By Products"
+                      [(ngModel)]="title"
+                      optionLabel="products.title"
+                      optionValue="products.productId"
+                      (onChange)="secondDrop($event)"
+                      [ngModelOptions]="{standalone: true}"
+                    >
+                    </p-dropdown>  -->
+                    <span class="input-group-append">
+                    <p-button
+                    type="button"
+                    *ngIf="title!=''"
+                    class=" float-end "
+                    icon="pi pi-refresh"
                     (click)="productFilterReset();dt1.filterGlobal('', 'contains')"
-                    styleClass="p-button-text p-button-outlined"></p-button>
-                </span>
-              </div>
+                    styleClass="p-button-text p-button-outlined"
+                  ></p-button>
+                  </span>
+                  </div>
 
-              <div class="input-group  col-lg-3 col-sm-6  pb-2  ">
-                <p-dropdown [options]="lastDays" placeholder="Filter By Last Days" optionLabel="label"
-                  optionValue="value" [(ngModel)]="day" (onChange)="getLastDays($event)"
-                  [ngModelOptions]="{standalone: true}">
-                </p-dropdown>
+                 
+                  <div class="input-group  col-lg-3 col-sm-6  pb-2  ">
+                    <!-- <span class="custom"> -->
+                      <select class="form-control select border" [(ngModel)]="day"
+                      [ngModelOptions]="{standalone: true}" (change)="getLastDays($event)"  [ngClass]="day !=''? 'input-groups':'border'">
+                      <option value="" disabled>Filter By Last Days</option>
+                        <option *ngFor="let data of lastDays"[value]="data.value">{{data.label}}</option>
+                      </select>
+                    <!-- <p-dropdown
 
-                <span class="input-group-append">
-                  <p-button type="button" *ngIf="day!=''" class=" float-end " icon="pi pi-refresh"
+                      [options]="lastDays"
+                      placeholder="Filter By Last Days"
+                      optionLabel="label"
+                      optionValue="value"
+                      [(ngModel)]="day"
+                      (onChange)="getLastDays($event)"
+                      [ngModelOptions]="{standalone: true}"
+                    >
+                    </p-dropdown> -->
+
+
+                    <span class="input-group-append">
+                    <p-button
+                    type="button"
+                    *ngIf="day!=''"
+                    class=" float-end "
+                    icon="pi pi-refresh"
                     (click)="dayFilterReset();dt1.filterGlobal('', 'contains')"
-                    styleClass="p-button-text p-button-outlined"></p-button>
-                </span>
-              </div>
-
-              <div class=" input-group  col-lg-2 col-sm-4  pb-2">
-                <input class="form-control  border-right-0 border date" type="date" (change)="val($event)"
-                  format="YYYY-MM-DD" triggers="mouseenter:mouseleave" popoverTitle="Please, select start date"
-                  [(ngModel)]="calander1" [ngModelOptions]="{standalone: true}" />
-                <span class="input-group-append">
-                </span>
-              </div>
-              <div class="input-group  col-lg-2 col-sm-4  pb-2">
-                <input class="form-control  border-right-0 border date" type="date" (change)="val1($event)"
-                  triggers="mouseenter:mouseleave" [(ngModel)]="calander2" [ngModelOptions]="{standalone: true}"
-                  placeholder="end date" />
-                <span class="input-group-append">
-                  <p-button type="button" *ngIf="calander2!=''" class=" float-end " icon="pi pi-refresh"
+                    styleClass="p-button-text p-button-outlined"
+                  ></p-button>
+                  
+                    </span>
+                <!-- </span> -->
+                  </div>
+                  
+                  
+                  <!-- <div class="  col-lg-2    pb-2"></div> -->
+                  <div class=" input-group  col-lg-2 col-sm-4  pb-2">
+                    <input
+                      class="form-control date border"
+                      type="date"
+                      (change)="val($event)"
+                      format="YYYY-MM-DD"
+                      triggers="mouseenter:mouseleave"
+                      popoverTitle="Please, select start date"
+                      [(ngModel)]="calander1"
+                      [ngModelOptions]="{standalone: true}"
+                    />
+                    <!-- <span class="input-group-append"> -->
+                    <!-- <p-button style="display: none;"
+                    type="button"
+                    *ngIf="calander1!=''"
+                    class=" float-end "
+                    icon="pi pi-refresh"
                     (click)="dateFilterReset();dt1.filterGlobal('', 'contains')"
-                    styleClass="p-button-text p-button-outlined"></p-button>
+                    styleClass="p-button-text p-button-outlined"
+                  ></p-button> -->
+                <!-- </span> -->
+                  </div>
+                  
+                  <!-- <div class="col-sm-1"></div> -->
+                  <div class="input-group  col-lg-2 col-sm-4  pb-2">
+                    <input
+                      class="form-control  date border"
+                      type="date"
+                      (change)="val1($event)"
+                      triggers="mouseenter:mouseleave"
+                      [(ngModel)]="calander2"
+                      [ngModelOptions]="{standalone: true}"
+                      placeholder="end date"
+                      [ngClass]="calander2 !=''? 'input-groups':'border'"
+                    />
+                    <span class="input-group-append">
+                    <p-button
+                    type="button"
+                    *ngIf="calander2!=''"
+                    class=" float-end "
+                    icon="pi pi-refresh"
+                    (click)="dateFilterReset();dt1.filterGlobal('', 'contains')"
+                    styleClass="p-button-text p-button-outlined"
+                  ></p-button>
                 </span>
-              </div>
-              <div class="col-lg-2 col-sm-4  pb-2">
-                <input type="text" class="search" pInputText (input)="dt1.filterGlobal($event.target.value, 'contains')"
-                  placeholder="Search keyword">
-              </div>
-            </form>
-          </ng-template>
+                  </div>
 
-          <ng-template pTemplate="header">
-            <tr>
-              <th *ngFor="let col of cols" [pSortableColumn]="col.field" style="width:230px">
-                {{ col.header }}
-                <p-sortIcon [field]="col.field"></p-sortIcon>
-              </th>
-            </tr>
+                  <!-- <div class="col-sm-1"></div> -->
 
-          </ng-template>
-          <ng-template pTemplate="body" let-reportsData>
-            <tr>
-              <td *ngFor="let data of getData(reportsData) " style="width:230px">{{ data }}</td>
-            </tr>
-          </ng-template>
+                  <div class="col-lg-2 col-sm-4  pb-2">
+                    <input 
+                    type="text" 
+                    class="search form-control"
+                    
+                    (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Search keyword">                     
+                  </div>
 
-          <ng-template pTemplate="emptymessage" let-columns>
-            <tr>
-              <td [attr.colspan]="columns ? columns.length : 0">
-                No records found
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
+                </form>
+              </ng-template>
+          
+              <ng-template pTemplate="header">
+                  <tr>
+                    <th *ngFor="let col of cols" [pSortableColumn]="col.field" style="width:230px">
+                        {{ col.header }}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                      </th>
+                  </tr>
+                
+              </ng-template>
+              <ng-template pTemplate="body" let-reportsData>
+                <tr>
+                    <td *ngFor="let data of getData(reportsData) " style="width:230px">{{ data }}</td>
+                </tr></ng-template
+              >
+          
+              <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                    <td [attr.colspan]="columns ? columns.length : 0">
+                      No records found
+                    </td>
+                  </tr>
+              </ng-template>
+            </p-table>
       </div>
     </div>
   </div>
