@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { InventoryService } from 'src/app/Platform/inventory/services/inventory.service';
 import { ReportsService } from '../../services/reports.service';
 import * as _ from 'lodash';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-profit-list',
@@ -38,7 +39,6 @@ export class ProfitListComponent implements OnInit {
   cols: any;
   keys: any;
   rowData: any = [];
-  selectedColoumns: any[];
   baseColoumns = [
     'productName',
     'sku',
@@ -46,13 +46,19 @@ export class ProfitListComponent implements OnInit {
     'globalMarketplaceName',
     'bestOfferAutoAcceptPrice',
   ];
+  form: FormGroup = new FormGroup({});
+
   constructor(
     private reportService: ReportsService,
     public inventoryService: InventoryService,
     private toastrService: ToastrService,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      columns: [this.baseColoumns]
+    });
     this.userData = JSON.parse(
       localStorage.getItem('currentUser')
         ? localStorage.getItem('currentUser')
@@ -61,10 +67,10 @@ export class ProfitListComponent implements OnInit {
     this.cols = [
       { field: 'productName', header: 'Product Name' },
       { field: 'sku', header: 'Product Code' },
-      { field: 'buyPrice', header: 'Buy Price'},
-      { field: 'sellingPrice', header: 'Selling Price'},
-      { field: 'discount', header:'Discount'},
-      { field: 'tax', header: 'Tax'},
+      { field: 'buyPrice', header: 'Buy Price' },
+      { field: 'sellingPrice', header: 'Selling Price' },
+      { field: 'discount', header: 'Discount' },
+      { field: 'tax', header: 'Tax' },
       { field: 'profit', header: 'Profit' },
       { field: 'globalMarketplaceName', header: 'Channel' },
       { field: 'bestOfferAutoAcceptPrice', header: 'Best Offer' },
@@ -103,7 +109,7 @@ export class ProfitListComponent implements OnInit {
         this.loading = false
       })
   }
-  
+
   getProfitList(productID, lastDays, startDate, endDate) {
     let data = {
       productId: productID,
@@ -116,16 +122,9 @@ export class ProfitListComponent implements OnInit {
       if (res.body.data) {
         this.reportsData = res.body.data;
         this.loading = false;
-        if (!this.keys) {
+        if (!this.keys) { 
           this.keys = Object.keys(this.reportsData[0]);
-          this.keys.sort()
-          this.baseColoumns.map((res) => {
-            if (this.keys.includes(res)) {
-              if (this.keys.indexOf(res) > -1) {
-                this.keys.splice(this.keys.indexOf(res), 1);
-              }
-            }
-          });
+          this.keys.sort();
           this.keys.map((res) => {
             this.rowData.push({ label: _.capitalize(res), value: res });
           });
@@ -157,16 +156,7 @@ export class ProfitListComponent implements OnInit {
       this.di = event.value.value;
       this.getProfitList(this.productId, this.days, this.startDate, this.endDate)
     }
-    //  else if(event.value.value==30){
-    //     this.startDate=moment().subtract(event.value.value, 'days').calendar();
-    //   }
-    //   else if(event.value.value==30){
-    //     this.startDate=moment().subtract(event.value.value, 'days').calendar();
-
-    //   }
     else {
-      // this.startDate=moment().subtract(event.value.value, 'days').calendar();
-      // this.endDate=moment().;         
       let today = new Date()
       this.startDate = moment(moment().subtract(event.value.value, 'days').calendar()).format('yyyy-MM-DD');
       this.endDate = moment(today).format('yyyy-MM-DD')
@@ -230,8 +220,6 @@ export class ProfitListComponent implements OnInit {
 
   productFilterReset() {
     this.title = '';
-    // this.days = 0;
-    // this.di = 0;
     this.productId = 0
     this.getProfitList(
       this.productId,
@@ -275,7 +263,7 @@ export class ProfitListComponent implements OnInit {
 
   addColoumns(e?) {
     let Array = [];
-    this.selectedColoumns.map((res) => {
+    this.form.value.columns.map((res) => {
       Array.push(res);
     });
 
