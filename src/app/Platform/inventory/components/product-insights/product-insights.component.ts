@@ -300,7 +300,7 @@ export class ProductInsightsComponent implements OnInit {
   }
 
   onMarketplaceChange(e) {
-    this.marketId = e;
+    this.marketId = e.target.value;
     this.channelData(
       this.userData.companyId,
       this.days,
@@ -311,13 +311,15 @@ export class ProductInsightsComponent implements OnInit {
   }
 
   secondDrop(e) {
-    if (e == 7) {
+    console.log(e);
+    console.log(e.target.value)
+    if (e.target.value == 7) {
       this.startDate = moment(moment().startOf('isoWeek')).format('yyyy-MM-DD')
       this.endDate = moment(moment().endOf('isoWeek')).format('yyyy-MM-DD')
       this.calander1 = this.startDate;
       this.calander2 = this.endDate;
-      this.days = e;
-      this.di = e;
+      this.days = e.target.value;
+      this.di = e.target.value;
       this.channelData(this.userData.companyId, this.days, this.marketId, this.startDate, this.endDate);
     }
     else {
@@ -326,8 +328,8 @@ export class ProductInsightsComponent implements OnInit {
       this.endDate = moment(today.setDate(today.getDate() + e)).format('yyy-MM-DD');
       this.calander1 = this.startDate;
       this.calander2 = this.endDate;
-      this.days = e;
-      this.di = e;
+      this.days = e.target.value;
+      this.di = e.target.value;
       this.channelData(this.userData.companyId, this.days, this.marketId, this.startDate, this.endDate);
     }
   }

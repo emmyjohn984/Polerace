@@ -100,9 +100,14 @@
       <form class="form-caption   form-inline"> 
      
      
-        <div class="input-group col-lg-2 col-sm-6    " id="drop">    
+        <div class="input-group col-lg-3 col-sm-6  pb-2  " id="drop">    
        
-            <p-dropdown
+          <select class="form-control select border" [(ngModel)]="day"
+                      [ngModelOptions]="{standalone: true}" (change)="secondDrop($event)"  [ngClass]="day !=''? 'input-groups':'border'">
+                      <option value="" disabled>Filter By Last Days</option>
+                        <option *ngFor="let data of Days"[value]="data.day">{{data.label}}</option>
+                      </select>
+            <!-- <p-dropdown
               
               [options]="Days"
               (onChange)="secondDrop($event.value.day)"
@@ -113,7 +118,7 @@
               [ngModelOptions]="{standalone: true}"
             >
             
-            </p-dropdown>
+            </p-dropdown> -->
             <div class="input-group-append ">  
             <p-button
             type="button"
@@ -126,9 +131,13 @@
             </div>   
         </div>
 
-        <div class="input-group  col-lg-2 col-sm-6    ">
-         
-            <p-dropdown
+        <div class="input-group  col-lg-3 col-sm-6  pb-2  ">
+          <select  class="form-control select border"[(ngModel)]="globalMarketplace"
+          [ngModelOptions]="{standalone: true}" (change)="onMarketplaceChange($event)" placeholder="Filter By Days"  [ngClass]="globalMarketplace !=''? 'input-groups':'border'">
+          <option value="" disabled>Filter By MarketPlaces</option>
+            <option *ngFor="let data of marketplaces"[value]="data.globalMarketplaceId">{{data.globalMarketplaceName}}</option>
+          </select>
+            <!-- <p-dropdown
             [options]="marketplaces"
             (onChange)="onMarketplaceChange($event.value.globalMarketplaceId)"
             placeholder="Filter By MarketPlaces"
@@ -137,7 +146,7 @@
             [(ngModel)]="globalMarketplace"
             [ngModelOptions]="{standalone: true}"
           >
-          </p-dropdown>
+          </p-dropdown> -->
             <div class="input-group-append ">
               <p-button
               type="button"
@@ -153,7 +162,7 @@
           
         </div>
         <!-- <div class="col-md-1"></div> -->
-        <div class="  col-lg-2    pb-2"></div>
+        <!-- <div class="  col-lg-2    pb-2"></div> -->
         <div class="input-group  col-lg-2 col-sm-4  pb-2">
         
             <input
@@ -167,8 +176,9 @@
             popoverTitle="Please, select start date"
             [(ngModel)]="calander1"
             [ngModelOptions]="{standalone: true}"
+            
           />
-            <div class="input-group-append">
+            <!-- <div class="input-group-append"> -->
               <!-- <p-button style="display: none;"
               type="button"
               *ngIf="calander1!=''"
@@ -177,7 +187,7 @@
               (click)="dateFilterReset();dt1.filterGlobal('', 'contains')"
               styleClass="p-button-text p-button-outlined"
             ></p-button> -->
-            </div>              
+            <!-- </div>               -->
        
         </div>
 
@@ -194,6 +204,7 @@
             
             [(ngModel)]="calander2"
             [ngModelOptions]="{standalone: true}"
+            [ngClass]="calander2 !=''? 'input-groups':'border'"
           />
             <div class="input-group-append">
               <p-button
@@ -217,8 +228,8 @@
         <div class=" col-lg-2 col-sm-4  pb-2 pr-2">
 
             <input
-            class="search"
-              pInputText
+            class="search form-control"
+            
               type="text"
               (input)="dt1.filterGlobal($event.target.value, 'contains')"
               placeholder="Search keyword"
