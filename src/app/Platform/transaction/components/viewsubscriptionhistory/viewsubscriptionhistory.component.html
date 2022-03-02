@@ -1,0 +1,82 @@
+<div *ngIf="loading" class="loader" id="loader"></div>
+
+<div id="content">
+  <!-- Begin Page Content -->
+  <div class="container-fluid" [ngClass]="{ 'container-fluid': loading }">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+          <a href="#" class="text-muted">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          Subscription History
+        </li>
+      </ol>
+    </nav>
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-3">
+      <h4 class="brown font-weight-bold">Subscription History</h4>
+      <form [formGroup]="form" style="padding: 0;margin: 0;">
+        <mat-form-field>
+          <mat-select placeholder="Add Columns" name="coloumns" (selectionChange)="addColoumns($event)"
+            class="filter-select" formControlName="columns" multiple>
+            <mat-option *ngFor="let data of rowData" [value]="data.value">
+              {{ data.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+
+    <div class="row">             
+      <div class="col-lg-12">
+        <div class="card card2 shadow mb-4">
+          <div class="card-body">
+            <p-table #dt1 [columns]="cols" [value]="dataSource" styleClass="p-datatable-customers"
+              [lazyLoadOnInit]="false" [lazy]="true" (onLazyLoad)="setPagination($event)" [paginator]="true"
+              [rows]="pageSize" [showCurrentPageReport]="true" styleClass="p-datatable-customers"
+              [totalRecords]="totalRecords"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              [rowsPerPageOptions]="[10, 25, 50]">
+              <ng-template pTemplate="caption">
+                <div class="table-header">
+                  <h4>List of Subscription History</h4>
+                  <span class="p-input-icon-left">
+                    <!-- <i class="pi pi-search"></i> -->
+                    <input pInputText type="text" class="form-control" (input)="
+                        dt1.filterGlobal($event.target.value, 'contains')
+                      " placeholder="Global Search" />
+                  </span>
+                </div>
+              </ng-template>
+
+              <ng-template pTemplate="header">
+                <tr>
+                  <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+                    {{ col.header }}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-dataSource>
+                <tr>
+                  <td *ngFor="let data of getData(dataSource)">{{ data }}</td>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                  <td [attr.colspan]="columns ? columns.length : 0">
+                    No records found
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <!-- End of Main Content -->
+</div>

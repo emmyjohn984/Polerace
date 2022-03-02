@@ -1,0 +1,385 @@
+// // Custom Theming for Angular Material
+// // For more information: https://material.angular.io/guide/theming
+ @import '~@angular/material/theming';
+// // Plus imports for other components in your app.
+
+// // Include the common styles for Angular Material. We include this here so that you only
+// // have to load a single css file for Angular Material in your app.
+// // Be sure that you only ever include this mixin once!
+ @include mat-core();
+
+// // Define the palettes for your theme using the Material Design palettes available in palette.scss
+// // (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// // hue. Available color palettes: https://material.io/design/color/
+ $dnd-evv-primary: mat-palette($mat-indigo);
+ $dnd-evv-accent: mat-palette($mat-pink, A200, A100, A400);
+
+// // The warn palette is optional (defaults to red).
+ $dnd-evv-warn: mat-palette($mat-red);
+
+// // Create the theme object (a Sass map containing all of the palettes).
+ $dnd-evv-theme: mat-light-theme($dnd-evv-primary, $dnd-evv-accent, $dnd-evv-warn);
+
+// // Include theme styles for core and each component used in your app.
+// // Alternatively, you can import and @include the theme mixins for each component
+// // that you are using.
+ @include angular-material-theme($dnd-evv-theme);
+
+
+// /* You can add global styles to this file, and also import other style files */
+// @import "../node_modules/ngx-toastr/toastr.css";
+
+// @import '~@mat-datetimepicker/core/datetimepicker/datetimepicker-theme.scss';
+
+// // Using the $theme variable from the pre-built theme you can call the theming function
+
+// @include mat-datetimepicker-theme($dnd-evv-theme);
+
+// html,
+// body {
+//   height: 100%;
+// }
+
+// body {
+//   margin: 0;
+//   font-family: 'Rubik', sans-serif!important;background: #F4F6FC!important;
+// }
+
+// body.ar-SA,
+// body.fa-IR {
+//   direction: rtl;
+// }
+// .header {
+//   background: #fff;
+// }
+// .footer{text-align: center;padding: 15px;}
+// .footer p{font-size: 14px;color: #091A59;}
+// .tab_custum.mat-primary .mat-tab-header{margin-bottom: 20px!important;}
+// .tab_custum label{width:100%;}
+// .tab_custum .mat-form-field{width:100%;}
+// .tab_custum .mat-tab-body-content{overflow: hidden;}
+// .tab_custum.mat-primary .mat-tab-header{margin-bottom: 20px!important;}
+// .tab_custum label{width:100%;}
+// .tab_custum .mat-form-field{width:100%;}
+// .tab_custum .mat-tab-body-content{overflow: hidden;}
+// /*Files Common*/
+// .example-full-width {
+//   width: 100%;
+// }
+// .head-title-buton{display: flex;align-items: center;justify-content: center;margin-bottom: 10px;}
+// .head-title-buton .row{margin:0;width: 100%;}
+// .head-title-buton .col-sm-6{padding: 0;}
+// // .account_info_section{border: 1px solid #ccc;height: 400px;overflow: auto;}
+// .account_info_section{border: 1px solid #ccc;}
+// .account_info_title{background: #eeeeee;padding: 10px;}
+// .account_info_title h2{font-size: 16px;margin:0;}
+// .account_info_content{padding: 15px;}
+// .page_content{background: #F4F6FC;padding: 30px 0;}
+// .page_content h1{color: #2E384D;font-size: 22px;margin-bottom: 15px;font-weight: 300;}
+// .head_common_section{background: #fff;box-shadow: 0px 3px 6px #3946530F;padding: 20px;margin-bottom: 15px;}
+// .title_common_section{display: flex;align-items: center;}
+// .title_common_section span{padding-left: 15px;font-size: 22px;color: #091A59;font-weight: 300;}
+// .title_common_section img{width: 35px;}
+// .colorblue{color: #1492E6;}
+// .coloryellow{color: #F7C137;}
+// .angular-editor-toolbar{background: #626d95!important;padding: 10px 15px!important;}
+// .angular-editor-toolbar .angular-editor-toolbar-set{margin-right: 0!important;}
+// .angular-editor-textarea{margin-top: 0!important;}
+// .upload_choose{border: 1px solid #091A59;padding: 30px 15px;text-align: center;}
+// .choosefile{width: 100%;text-align: center;}
+// .choosefile img{display: block;margin:0 auto;margin-bottom: 10px;}
+// .choosefile input{width: 72%;
+//   margin: 0 auto;}
+//   .isactive_check .mat-checkbox-layout{display: block;padding:0 0 10px 0;}
+//   .section_mobile img{width: 100%;}
+// .button_custom_upload{width: 100%;}
+// .brand-details {
+//   // float: left;
+//   // margin-top: 25%;
+//   text-align: center;
+//   width: 100%;
+// }
+// .brand-name {
+//     margin: 0px auto 0px;
+// }
+// .brand-name img{vertical-align: middle;width: 100%;}
+// .brand-desc p {
+//   color: #5e5c5c;
+//   font-size: 15px;
+//   font-weight: 700;
+//   line-height: 28px;
+// }
+// .brand-desc > a {
+//   color: #63a1d7;
+//   display: block;
+//   font-size: 15px;
+//   font-weight: 700;
+//   margin: 25px auto;
+//   text-decoration: none;
+// }
+// .brand-acc {
+//   /* margin: 50% auto 30px; */
+//   float: left;
+//   width: 100%;
+// }
+// .brand-acc > a {
+//   background-color: #d8e0f2;
+//   border: 1px solid #568cca;
+//   border-radius: 4px;
+//   color: #63a1d7;
+//   padding: 9px 15px;
+//   display: block;
+//   font-size: 15px;
+// }
+// .brand-connect {
+//   float: left;
+//   width: 100%;
+//   border-left: 1px solid #989796;
+//   padding-left: 15px;
+// }
+// .brand-connect > a {
+//   color: #63a1d7;
+//   display: block;
+//   font-size: 15px;
+//   font-weight: 700;
+//   text-decoration: none;
+// }
+// .con-acc {
+//   margin: 40px auto;
+//   float: left;
+//   width: 100%;
+//   text-align: right;
+// }
+// .con-acc .btn {
+//   color: #fff;
+// }
+// .con-acc a, .dashboard-btn {
+//   background-color: #568cca;
+//   color: #fff;
+//   font-weight: bold;
+//   padding: 10px 45px;
+//   text-transform: uppercase;
+//   border: none;
+//   border-radius: 4px!important;
+//   font-size: 14px;
+//   font-weight: normal;
+// }
+
+// // .cdk-overlay-pane{width: auto!important;}
+
+// button.close {
+//   padding: 0;
+//   cursor: pointer;
+//   background: transparent;
+//   border: 0;
+//   -webkit-appearance: none;
+//   &:hover,&:focus{
+//     box-shadow: none;
+//     outline: none;
+//   }
+// }
+
+// .close-btn-top {
+//   position: absolute;
+//   right: 10px;
+//   top: 5px;
+//   z-index: 5;
+// }
+
+// .close {
+//   float: right;
+//   font-size: 21px;
+//   font-weight: bold;
+//   line-height: 1;
+//   color: black;
+//   text-shadow: 0 1px 0 white;
+//   opacity: 0.9;
+//   filter: alpha(opacity=20);
+// }
+// .brand-connect h3 {
+//   margin-bottom: 0px;
+//   font-weight: 700;font-size: 18px;margin-top: 15px;color: #333333;
+// }
+// button:focus{outline: none;}
+// .brand-connect > p {
+//   color: #5e5c5c;
+//   font-size: 14px;
+//   line-height: 28px;
+// }
+// .brand-connect ul {
+//   padding: 0;
+//   margin: 10px auto;
+// }
+// .brand-connect h4 {
+//   color: #5e5c5c;
+//   font-size: 16px;
+//   font-weight: 600;
+// }
+// .brand-connect li {
+//   margin-left: 15px;
+//   padding: 5px 0;
+//   color: #5e5c5c;
+//   font-size: 14px;
+//   font-weight: 600;
+// }
+// .mat-dialog-container{padding: 0 10px!important;
+//   width: 700px!important;margin: 0 -10px!important;
+//   overflow: hidden!important;}
+
+// // .mat-dialog-content{background: #091A59;color: #fff;padding: 15px!important}
+
+// .mat-dialog-content p{margin-bottom: 0!important;padding-top: 15px!important;
+//   // padding-left: 15px!important;
+//   // padding-right: 15px!important;
+// }
+//   .mat-dialog-actions[align=center] {
+
+//     padding: 30px;
+// }
+// .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background, .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+//   background: #091A59;
+// }
+// .mat-dialog-actions{margin-bottom: 0px!important;}
+// .mat-dialog-actions button{    width: 100px;
+//   background: #091A59;
+//   display: inline-block;
+//   height: 40px;margin-right: 10px;
+//   color: #fff;
+// }
+
+
+// /*table custom as per design*/
+// .mat-table{background: none;}
+// // .mat-table thead{background: #fff;}
+// table {
+//   border-collapse: separate!important;
+//   border-spacing: 0 15px!important;
+// }
+// tr.mat-row, tr.mat-footer-row{background: #fff;}
+// .mat-elevation-z8{box-shadow: none;}
+// th.mat-header-cell, td.mat-cell, td.mat-footer-cell{border-bottom: none!important;}
+// .mat-header-cell{color: #091A59;font-weight: 600;}
+// .mat-table{font-family: 'Rubik', sans-serif!important;}
+
+// .custum-table-input .mat-form-field{display: block;}
+// .custum-table-input .mat-sort-header-button{display: block;}
+// .custum-table-input .mt10{margin-top: 10px;}
+// th:focus{outline: none;}
+// /*table custom as per design*/
+// .full-width-dialog .mat-dialog-container {
+//   width: 1200px !important;
+// }
+
+// @media (max-width:767px){
+
+//   .head-title-buton .text-right{text-align: left!important;}
+//   .head-title-buton .custumbtn button{margin-bottom: 10px;}
+//   .head_common_section .text-right{text-align: left!important;}
+//   .head_common_section .custumbtn button{margin-bottom: 10px;}
+//   .title_common_section{margin-bottom: 10px;}
+//   .section_mobile img{width: 100%;}
+//   .navbar-nav{background: #eee;padding: 10px;}
+//   .button_custom_upload button{margin-bottom: 10px;}
+// }
+
+// .check-asin{
+//   .mat-checkbox-layout{
+//     margin-bottom: 0!important;
+//   }
+// }
+// .ebay-preset{
+//   .mat-select{
+//     height: 15px;
+//   }
+// .shipping-service{
+//   .mat-form-field{
+//     margin-top: 4px!important;
+//   }
+// }
+// }
+// .amazon-order{
+
+//   th.mat-header-cell{
+//     vertical-align: initial;
+//   }
+// .products-actions{
+//   margin-bottom: 10px;
+// }
+// .asin-check{
+//   margin-top: 7px;
+// }
+// }
+// .add-product-excel{
+//   .choosefile{
+//     width: 210px;
+
+//     display: block;
+//     margin: 0 auto;
+//     input{
+//       white-space: nowrap;
+//       width: 210px;
+//       overflow: hidden;
+//       text-overflow: ellipsis;
+//     }
+//   }
+
+
+//     .add-product-table{
+//       overflow-x: hidden;
+//       @media (max-width:767px){
+//       overflow-x: auto;
+//       widows: 100%;
+//     }
+//   }
+
+// }
+// .dialogue-content-sec{
+//   .mat-dialog-container{
+//     padding: 5px;
+//     .mat-horizontal-stepper-header-container{
+//       display: block;
+//     }
+//   }
+// }
+
+// @keyframes spinner {
+//   to {transform: rotate(360deg);}
+// }
+
+// .spinner:before {
+//   content: '';
+//   box-sizing: border-box;
+//   position: absolute;
+//   top: 50%;
+//   left: 50%;
+//   width: 30px;
+//   height: 30px;
+//   margin-top: -15px;
+//   margin-left: -10px;
+//   border-radius: 50%;
+//   border: 2px solid #ffffff;
+//   border-top-color: #000000;
+//   animation: spinner .8s linear infinite;
+// }
+
+
+
+// Error-Color
+
+.mat-error{
+  color:red;
+}
+
+// Asterisk
+
+.required:after {
+  content:" *";
+  color: red;
+  size: 1rem;
+  font-size: 20px;
+}
+
+.optional{
+  margin-top: 9px;
+}
+

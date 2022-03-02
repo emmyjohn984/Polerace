@@ -1,0 +1,237 @@
+<div *ngIf="loading" class="loader" id="loader"></div>
+
+<div class="container-fluid" [ngClass]="{'container-fluid': loading}">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item">
+        <a href="#" class="text-muted">Dashboard</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="#" class="text-muted">Manage User</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Add User
+      </li>
+    </ol>
+  </nav>
+
+  <div class="d-sm-flex align-items-center justify-content-between mb-3">
+    <h4 class="brown font-weight-bold">Manage User</h4>
+  </div>
+  <div class="card mb-4 ">
+    <h5
+      class="card-header text-center purplebgcolor "
+      id="heading"
+      *ngIf="!Edit"
+    >
+      Add New User
+    </h5>
+    <h5
+      class="card-header text-center purplebgcolor "
+      id="heading"
+      *ngIf="Edit"
+    >
+      Edit User
+    </h5>
+    <div class="card-body pt-0">
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label class="required">First Name</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="firstName"
+              [ngClass]="{'is-invalid': submitted && f.firstName.errors}"
+            />
+            <mat-error *ngIf="submitted && f.firstName.errors">
+              <mat-error *ngIf="f.firstName.errors?.required">
+                Please Enter First Name.
+              </mat-error>
+            </mat-error>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="required">Last Name</label>
+            <input
+              type="text"
+              formControlName="lastName"
+              [ngClass]="{'is-invalid':submitted && f.lastName.errors}"
+              class="form-control "
+            />
+            <mat-error *ngIf="submitted && f.lastName.errors">
+              <mat-error *ngIf="f.lastName.errors?.required">
+                Please Enter Last Name.
+              </mat-error>
+            </mat-error>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label class="required">Email</label>
+            <input *ngIf="Edit"
+              readonly
+              type="text"
+              class="form-control"
+              formControlName="email"
+              [ngClass]="{'is-invalid': submitted && f.email.errors}"
+            />
+            <input *ngIf="!Edit"
+            type="text"
+            class="form-control"
+            formControlName="email"
+            [ngClass]="{'is-invalid': submitted && f.email.errors}"
+          />
+            <mat-error *ngIf="submitted && f.email.errors">
+              <mat-error *ngIf="f.email.errors?.required">
+                Please Enter Email.
+              </mat-error>
+            </mat-error>
+          </div>
+          <div class="col-md-6">
+            <label class="required">Postal Code</label>
+            <input
+              type="text"
+              formControlName="postalCode"
+              [ngClass]="{'is-invalid':submitted && f.postalCode.errors}"
+              class="form-control "
+            />
+            <mat-error *ngIf="submitted && f.postalCode.errors">
+              <mat-error *ngIf="f.postalCode.errors?.required">
+                Please Enter Postal Code.
+              </mat-error>
+              <mat-error *ngIf="f.postalCode.errors?.pattern">
+                Please Enter Valid Postal Code.
+              </mat-error>
+            </mat-error>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label class="required">Address Line 1</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="addressLine1"
+              [ngClass]="{'is-invalid': submitted && f.addressLine1.errors}"
+            />
+            <mat-error *ngIf="submitted && f.addressLine1.errors">
+              <mat-error *ngIf="f.addressLine1.errors?.required">
+                Please Enter AddressLine1.
+              </mat-error>
+            </mat-error>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="optional">Address Line 2</label>
+            <input
+              type="text"
+              formControlName="addressLine2"
+              [ngClass]="{'is-invalid':submitted && f.addressLine2.errors}"
+              class="form-control "
+            />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label class="required"> Country</label>
+            <select
+              (change)="onCountryChange($event)"
+              placeholder="Select country"
+              formControlName="countryId"
+              class="form-control"
+              [ngClass]="{'is-invalid':submitted && f.countryId.errors}"
+            >
+            <option [value]=null>Select Country</option>
+              <option *ngFor="let cus of   countries" [value]="cus.countryId"
+                >{{cus.countryName}}</option
+              >
+            </select>
+            <mat-error *ngIf="submitted && f.countryId.errors">
+              <mat-error *ngIf="f.countryId.errors?.required">
+                Please Select Country.
+              </mat-error>
+            </mat-error>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="required">State</label>
+            <select
+              placeholder="Select State"
+              formControlName="stateId"
+              class="form-control"
+              [ngClass]="{'is-invalid':submitted && f.stateId.errors}"
+            >
+            <option [value]=null>Select State</option>
+              <option *ngFor="let cus of   states" [value]="cus.stateId"
+                >{{cus.stateName}}</option
+              >
+            </select>
+            <mat-error *ngIf="submitted && f.stateId.errors">
+              <mat-error *ngIf="f.stateId.errors?.required">
+                Please Select State.
+              </mat-error>
+            </mat-error>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="required">Phone</label>
+            <input
+              type="number"
+              formControlName="phone"
+              [ngClass]="{'is-invalid':submitted && f.phone.errors}"
+              class="form-control "
+            />
+            <mat-error *ngIf="submitted && f.phone.errors">
+              <mat-error *ngIf="f.phone.errors?.required">
+                Please Enter Phone Number.
+              </mat-error>
+              <mat-error *ngIf="f.phone.errors?.pattern">
+                Please Enter Valid Phone Number.
+              </mat-error>
+            </mat-error>
+          </div>
+          <div class="col-md-6">
+            <label class="required">City</label>
+            <input
+              type="text"
+              formControlName="city"
+              [ngClass]="{'is-invalid':submitted && f.city.errors}"
+              class="form-control "
+            />
+            <mat-error *ngIf="submitted && f.city.errors">
+              <mat-error *ngIf="f.city.errors?.required">
+                Please Enter City.
+              </mat-error>
+            </mat-error>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-12">
+              <div class="pull-left">
+                <!-- <h6>isActive</h6> -->
+                <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="pull-right">
+              <button *ngIf="Edit" routerLink="/users/manage-user" type="reset" class="btn grey-btn font-weight-bold">
+                Cancel
+              </button>
+              <button *ngIf="!Edit" type="reset" class="btn grey-btn font-weight-bold">
+                Cancel
+              </button>
+              <button type="submit" class="btn purple-btn font-weight-bold">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

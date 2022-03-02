@@ -1,0 +1,116 @@
+
+<div *ngIf="loading" class="loader" id="loader"></div>
+<body id="hero" class="opac" [ngClass]="{'opac': loading}">
+  <app-authheader></app-authheader>
+<div class="row">
+  <div class="col-sm-6 col-lg-5 m-auto">
+
+    <h3 class="text-white text-center">Create New Account<br>
+      Polerce <span class="pcolor">Boost</span> Your Profits</h3>
+    <!-- <p class="text-white  text-center">What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and
+      typesetting industry Lorem Ipsum has </p> -->
+    <div class="card">
+      <div class="card-body">
+        <div class="card-text">
+          <form #userform="ngForm" (ngSubmit)="userform.valid && addData(userform)" novalidate>
+
+            <div class="form-group">
+              <label for="exampleInputEmail1" class="required">User Name</label>
+              <input  type="text" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Enter User Name"
+              required name="username" ngModel #username="ngModel" maxlength="50"
+              [ngClass]="{'is-invalid':userform.submitted && username.invalid}">
+              <mat-error *ngIf="userform.submitted && username.invalid">
+                <mat-error *ngIf="username.errors?.required">
+                  Please Enter User Name.
+                </mat-error>
+              </mat-error>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1" class="required">Email Address</label>
+              <input type="email" class="form-control form-control-lg " id="exampleInputEmail1" placeholder="example@email.com"
+              email required name="email" ngModel #email="ngModel"
+              [ngClass]="{'is-invalid':userform.submitted && email.invalid}">
+              <mat-error *ngIf="userform.submitted && email.invalid">
+                <mat-error *ngIf="email.errors?.email required">
+                  Please Enter Valid Email Address.
+                </mat-error>
+                <mat-error *ngIf="email.errors?.required">
+                  Please Enter Email Address.
+                </mat-error>
+              </mat-error>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1" class="required">Company Name</label>
+              <input type="password" class="form-control form-control-lg " id="exampleInputPassword1"
+              type="text" required name="companyname" ngModel #companyname="ngModel" placeholder="Enter Company Info" maxlength="50"
+              [ngClass]="{'is-invalid':userform.submitted && companyname.invalid}">
+              <mat-error *ngIf="userform.submitted && companyname.invalid">
+                <mat-error *ngIf="companyname.errors?.required">
+                  Please Enter Company Name.
+                </mat-error>
+              </mat-error>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1" class="required">Phone Number</label>
+              <input type="phone" class="form-control form-control-lg" id="phonenumber" maxlength="11"
+              required name="phone" ngModel pattern="[0-9 ]{10}" placeholder="Enter Phone Number"
+              #phone="ngModel" [ngClass]="{'is-invalid':userform.submitted && phone.invalid}">
+              <mat-error *ngIf="userform.submitted && phone.invalid">
+                <mat-error *ngIf="phone.errors?.required">
+                  Please Enter Phone Number.
+                </mat-error>
+                <mat-error *ngIf="phone.errors?.pattern">
+                  Please Enter Valid Phone Number.
+                </mat-error>
+              </mat-error>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1" class="required">Password</label>
+              <input type="password" placeholder="Enter Password" class="form-control form-control-lg " id="pass3"
+              required name="password" ngModel minlength="6"
+              #password="ngModel" [ngClass]="{'is-invalid':userform.submitted && password.invalid}">
+              <mat-error *ngIf="userform.submitted && password.invalid">
+                <mat-error *ngIf="password.errors?.minlength">
+                  Password Should Be Of 6 Characters .
+                </mat-error>
+                <mat-error *ngIf="password.errors?.required">
+                  Please Enter Password.
+                </mat-error>
+              </mat-error>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1" class="required">Confirm Password</label>
+              <input type="password" class="form-control form-control-lg " id="pass"
+              placeholder="Confirm Password" required name="confirmpassword" ngModel
+            #confirmpassword="ngModel" pattern="{{password.value}}" [ngClass]="{'is-invalid':userform.submitted && confirmpassword.invalid}">
+            <mat-error *ngIf="userform.submitted && confirmpassword.invalid">
+              <mat-error *ngIf="confirmpassword.errors?.required">
+                Please Enter Confirm Password.
+              </mat-error>
+              <mat-error *ngIf="confirmpassword.errors?.pattern">
+                Password Missmatch.
+              </mat-error>
+            </mat-error>
+            </div>
+            <button type="submit" class="btn btn-warning btn-block pt-3 pb-3" [ngClass]="{'btn': loading}">Sign Up</button>
+            <div class="sign-up">Already have an account? <a routerLink="/auth/login" class="pcolor">Sign in</a> </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+<app-authfooter></app-authfooter>
+
+
+<!-- data from API is displayed -->
+
+
+<!-- <div class="loader" id = "loder"></div>
+
+<h2>{{ dataDisplay }}</h2> -->
+
+

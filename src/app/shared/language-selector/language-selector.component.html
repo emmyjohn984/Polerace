@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col-12">
+    <span>
+      <i class="fas fa-globe"></i> {{currentLang.name}}</span>
+    <span class="divider">|</span>
+    <span class="low-opacity language-menu">简体中文 &nbsp; Français &nbsp;
+      <i class="fas fa-caret-down"></i>
+    </span>
+    <select type="string" [(ngModel)]="languageCode" (change)="onChangeCode(languageCode)">
+      <option *ngFor="let lang of languages; let num = index" [selected]="lang.code === currentLang.code"
+        [value]="lang.code">{{lang.name}}</option>
+    </select>
+  </div>
+</div>

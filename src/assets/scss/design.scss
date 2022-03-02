@@ -1,0 +1,29 @@
+@import "variable.scss";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');/* R-400, M-500, SB-600, B-700*/
+
+body { font-family:'Montserrat', sans-serif;}
+p { margin:0;padding:0;}
+h1, h2, h3, h4, h5, h6 { margin:0;padding:0;}
+ul, li { list-style:none;margin:0;padding:0;}
+img { max-width:100%;}
+a, button { cursor:pointer;outline:none !important;}
+
+/* buttons */
+.btn-action-sm,
+.btn-action-lg {
+    background-color:$primary-color;
+    color:#ffffff;
+    font-size:14px;
+    font-weight:$fw-semiBold;
+    width:9.375rem;
+    height:3.125rem;
+    text-transform:uppercase;
+    &:hover {
+        background-color:darken($primary-color, 10%);
+        color:#ffffff;
+    }
+}
+
+.btn-action-lg {
+    width:15.625rem;
+}

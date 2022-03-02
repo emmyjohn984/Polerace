@@ -1,0 +1,164 @@
+<div *ngIf="loading" class="loader" id="loader"></div>
+
+<div *ngIf="!viewProduct" id="content">
+  <!-- Begin Page Content -->
+  <div class="container-fluid" [ngClass]="{ 'container-fluid': loading }">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+          <a href="#" class="text-muted">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          Manage Products
+        </li>
+      </ol>
+    </nav>
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-3">
+      <h4 class="brown font-weight-bold">Manage Products</h4>
+    </div>
+
+    <!-- Content Row -->
+    <div class="bg-white card2 border shadow p-2">
+      <div class="d-sm-flex align-items-center justify-content-between">
+        <button class="btn btn-light text-uppercase pcolor2 font-weight-bold" id="add" (click)="addProduct()">
+          <i class="fa fa-plus"></i> Add New Product
+        </button>
+        <!-- <div class="pull-center"> -->
+        <label type="button" pButton pRipple class="xcl" icon="pi pi-file-excel" pTooltip="Excel"
+          tooltipPosition="bottom" id="csvFileUpload">
+          <input type="file" #fileImportInput name="File Upload" class="hide" hidden
+            (change)="fileChangeListener($event)" accept=".xlsx" />
+        </label>
+        <!-- </div> -->
+      </div>
+    </div>
+
+    <!-- Content Row -->
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="d-sm-flex align-items-center justify-content-between mt-4 mb-3">
+          <h5 class="text-uppercase font-weight-bold">Listing of Produtcs</h5>
+          <form [formGroup]="form" style="padding: 0;margin:0">
+            <mat-form-field>
+              <mat-select placeholder="Add Columns" name="coloumns" (selectionChange)="addColoumns($event)"
+                class="filter-select" formControlName="columns" multiple>
+                <mat-option *ngFor="let data of rowdata" [value]="data.value">
+                  {{ data.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+        </div>
+        <div class="card card2 shadow mb-4">
+          <!-- Card Body -->
+          <div class="card-body row">
+            <p-table #dt1 [value]="dataSource" [columns]="cols" [paginator]="true" paginatorPosition="bottom"
+              [rows]="10" [rowHover]="true" [rowsPerPageOptions]="[5, 10, 15, 20]" [totalRecords]="totalRecords"
+              pageLinks="3" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              [showCurrentPageReport]="true" [globalFilterFields]="baseColoumns" styleClass="p-datatable-customers"
+              [filterDelay]="0">
+              <ng-template pTemplate="caption">
+                <div class="p-d-flex">
+                  <div class="pull-right">
+                    <span class="p-input-icon-left p-ml-auto">
+                      <i class="pi pi-search" style="position: absolute; margin: 10px"></i>
+                      <input pInputText style="padding-left: 30px; margin-bottom: 5px" type="text" (input)="
+                          dt1.filterGlobal($event.target.value, 'contains')
+                        " placeholder="Search keyword" />
+                    </span>
+                  </div>
+
+                  <div class="drop">
+                    <p-dropdown [options]="filtersubc"
+                      (onChange)="dt1.filterGlobal($event.value.categoryName, 'contains')"
+                      placeholder="Filter By Category" optionLabel="categoryName" optionValue="categoryName"
+                      [(ngModel)]="categoryName">
+                    </p-dropdown>
+                    <p-button type="button" *ngIf="categoryName != ''" class="float-end" icon="pi pi-refresh"
+                      (click)="filterReset(); dt1.filterGlobal('', 'contains')"
+                      styleClass="p-button-text p-button-outlined"></p-button>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+                    {{ col.header }}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                  </th>
+                  <th *ngIf="form.value.columns.length">Action</th>
+                </tr>
+                <tr>
+                  <th *ngFor="let col of cols">
+                    <input pInputText type="text" (input)="
+                        dt1.filter(
+                          $event.target.value,
+                          col.field,
+                          'contains'
+                        )
+                      " placeholder="Search by {{col.header}}" class="p-column-filter" />
+                  </th>
+                  <th></th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-data>
+                <tr>
+                  <td *ngFor="let data of getData(data)">{{ data }}</td>
+                  <td *ngIf="form.value.columns.length">
+                    <a type="button" (click)="view(data.productId)">
+                      <i pTooltip="View" tooltipPosition="top" class="pi pi-eye"
+                        style="font-size: 1rem; margin-right: 10px"></i>
+                      <!-- View -->
+                    </a>
+                    <img pTooltip="Edit" tooltipPosition="top" type="button" src="../../../../../assets/img/pencil.png"
+                      (click)="edit(data.productId)" id="edit" height="20" width="20" />
+                    <img pTooltip="Delete" tooltipPosition="top" type="button" src="../../../../../assets/img/bin.png"
+                      id="delete" height="20" width="20" (click)="showDialog(data.productId)" data-toggle="modal"
+                      data-target="#deleteModal" />
+                    <!-- <img pTooltip="Update Inventory" tooltipPosition="top" type="button"
+                      src="../../../../../assets/img/updating.png" height="25" width="25" style="margin-left: 8px"
+                      (click)="updateInventory(data.productId)" /> -->
+                  </td>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td [attr.colspan]="baseColoumns ? baseColoumns.length : 0">
+                    No records found
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <!-- End of Main Content -->
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ready to Delete?</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">Are you sure for delete this product.</div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">
+          Cancel
+        </button>
+        <a class="btn btn-primary" style="color: white !important" (click)="deleteProduct($event)"
+          data-dismiss="modal">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>

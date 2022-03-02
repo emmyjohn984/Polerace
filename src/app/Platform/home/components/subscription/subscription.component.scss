@@ -1,0 +1,18 @@
+.btn-purple-outline {
+  color: #000;
+  border-radius: 35px;
+  border: 1px solid #850273;
+}
+.btn {
+  padding: 0.375rem 1.75rem;
+}
+.btn:not(:disabled):not(.disabled) {
+  cursor: pointer;
+}
+
+.btn-purple {
+  color: #fff;
+  border-radius: 35px;
+  border: 1px solid rgba(162, 0, 150, 0.75);
+  background: linear-gradient(to right, #850273 0%, #ee00d5 50%, #850273 100%);
+}

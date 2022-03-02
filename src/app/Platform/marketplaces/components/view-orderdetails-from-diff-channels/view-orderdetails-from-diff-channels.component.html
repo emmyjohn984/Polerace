@@ -1,0 +1,86 @@
+<div *ngIf="loading" class="loader" id="loader"></div>
+
+<div class="opac" [ngClass]="{ opac: loading }">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item">
+        <a routerLink="/dashboard" class="text-muted">Dashboard</a>
+      </li>
+      <li class="breadcrumb-item"><a class="text-muted">Marketplaces</a></li>
+      <li class="breadcrumb-item active" aria-current="page">
+        ViewOrderDetails
+      </li>
+    </ol>
+  </nav>
+
+  <div class="d-sm-flex align-items-center justify-content-between mb-3">
+    <h4 class="brown font-weight-bold">View order details</h4>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            <!-- <div class="d-inline h4" id="details">Order Details</div> -->
+            <!-- <div class="d-inline float-right"><small><a href="">Edit</a></small></div> -->
+            <div class="head h4">Order Details</div>
+          </div>
+          <div class="card-body">
+            <dl class="row">
+              <dd class="col-sm-8">Channel Name</dd>
+              <dt class="col-sm-4">{{ order?.globalMarketplaceName }}</dt>
+              <dd class="col-sm-8">Product Name</dd>
+              <dt class="col-sm-4">{{ order?.productName }}</dt>
+            </dl>
+            <dl class="row"></dl>
+            <dl class="row">
+              <dd class="col-sm-8">Quantity</dd>
+              <dt class="col-sm-4">{{ order?.totalQuantity }}</dt>
+              <dd class="col-sm-8">Product Code</dd>
+              <dt class="col-sm-4">{{ order?.sku }}</dt>
+            </dl>
+            <dl class="row">
+              <dd class="col-sm-8">Order Status</dd>
+              <dt class="col-sm-4">{{ order?.orderStatus }}</dt>
+              <dd class="col-sm-8">Purchase On</dd>
+              <dt class="col-sm-4">
+                {{ order?.createdDate | date: "dd/MM/yyyy" }}
+              </dt>
+            </dl>
+            <dl class="row">
+              <dd class="col-sm-8">Tax</dd>
+              <dt class="col-sm-4">{{ order?.tax }}</dt>
+              <dd class="col-sm-8">Grand Total</dd>
+              <dt class="col-sm-4">{{ order?.price }}</dt>
+            </dl>
+            <br />
+            <div class="row">
+              <div class="col-md-12 text-center">
+                <button
+                  style="margin-right: 3px"
+                  type="reset"
+                  id="btn1"
+                  class="btn grey-btn font-weight-bold"
+                  (click)="back()"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  class="btn purple-btn font-weight-bold"
+                  (click)="print()"
+                >
+                  Print
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+  </div>
+  <br /><br />
+</div>

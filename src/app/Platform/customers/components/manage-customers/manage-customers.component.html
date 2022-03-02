@@ -1,0 +1,270 @@
+<div *ngIf="loading" class="loader" id="loader"></div>
+
+<!-- Begin Page Content -->
+<div class="container-fluid" [ngClass]="{'container-fluid': loading}">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item">
+        <a href="#" class="text-muted" routerLink="/dashboard">Dashboard</a>
+      </li>
+      <li
+        class="breadcrumb-item active"
+        routerLinkActive="Active"
+        routerLink="/inventory/suppliers"
+        aria-current="page"
+        style="cursor: pointer;"
+      >
+        Customers
+      </li>
+    </ol>
+  </nav>
+
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-3">
+    <h4 class="brown font-weight-bold">Manage Customers</h4>
+  </div>
+
+  <!-- Content Row -->
+  <div class="row">
+    <div class=" col-lg-12">
+      <div
+        class="d-sm-flex align-items-center justify-content-between mt-4 mb-3"
+      >
+        <h5 class="text-uppercase font-weight-bold">
+          Listing of Customers
+        </h5>
+        <form [formGroup]="form1" style="padding: 0;margin:0">
+          <mat-form-field>
+            <mat-select placeholder="Add Columns" name="coloumns" (selectionChange)="addColoumns($event)"
+              class="filter-select" formControlName="columns" multiple>
+              <mat-option *ngFor="let data of rowData" [value]="data.value">
+                {{ data.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </form>
+      </div>
+      <div class="card card2 shadow mb-4">
+        <!-- Card Body -->
+        <div class="card-body">
+          <p-table
+            #dt
+            [value]="dataSource"
+            [columns]="cols"
+            [paginator]="true"
+            paginatorPosition="bottom"
+            [rows]="10"
+            [rowHover]="true"
+            [rowsPerPageOptions]="[5,10,15,20]"
+            totalRecords="totalRecords"
+            pageLinks="3"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true"
+            [globalFilterFields]="baseColoumns"
+            styleClass="p-datatable-customers"
+            [filterDelay]="0"
+            scrollDirection="both" [scrollable]="true" scrollHeight="400px" 
+          >
+          <ng-template pTemplate="caption">
+            <div class="table-header">
+              <h4>List of customers</h4>
+              <span class="p-input-icon-left">
+                <!-- <i class="pi pi-search"></i> -->
+                <input
+                  pInputText
+                  type="text"
+                  class="form-control"
+                  (input)="dt.filterGlobal($event.target.value, 'contains')"
+                  placeholder="Global Search"
+                />
+              </span>
+            </div>
+          </ng-template>
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th *ngFor="let col of cols" [pSortableColumn]="col.field" style="width:230px">
+                  {{ col.header }}
+                  <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+                <th style="width:230px">Actions</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-customers>
+              <tr>
+                <td *ngFor="let data of getData(customers)" style="width:230px">{{ data }}</td>
+                <td style="width:230px" >
+                  <a type="button" (click)="view(customers.customerId)">
+                      <i
+                        pTooltip="View"
+                        tooltipPosition="top"
+                        class="pi pi-eye"
+                        style="font-size: 1rem;margin-right:10px"
+                      ></i>
+                  </a>
+                  <i
+                    pTooltip="Email"
+                    tooltipPosition="top"
+                    type="button"
+                    (click)="email(customers)"
+                    height="20"
+                    width="20"
+                    id="delete"
+                    class="fa fa-envelope"
+                    aria-hidden="true"
+                    data-toggle="modal"
+                    data-target="#emailModal"
+                  ></i>
+                  <img
+                    pTooltip="Delete"
+                    tooltipPosition="top"
+                    type="button"
+                    src="../../../../../assets/img/bin.png"
+                    id="delete"
+                    height="20"
+                    width="20"
+                    (click)="showId(customers.customerId)"
+                    data-toggle="modal"
+                    data-target="#deleteModal"
+                  />
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+              <tr>
+                <td [attr.colspan]="columns ? 6 : 6">No records found</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+</div>
+
+<div
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ready to Delete?</h5>
+        <button
+          class="close"
+          type="button"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Select "Delete" below if you are ready to Delete Customer.
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">
+          Cancel
+        </button>
+        <a
+          class="btn btn-primary"
+          style="color: white !important;"
+          data-dismiss="modal"
+          (click)="deleteCustomer(this.deleteId)"
+          >Delete</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade "
+  id="emailModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Send Email</h5>
+        <button
+          class="close"
+          type="button"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="form">
+          <div class="row">
+            <div class="col-12">
+              <label>To</label>
+              <input class="form-control" formControlName="toEmail" />
+              <mat-error
+                *ngIf="f.toEmail.touched ||  f.toEmail.dirty && f.toEmail.invalid"
+              >
+                <mat-error *ngIf="f.toEmail.errors?.required">
+                  Please enter To.
+                </mat-error></mat-error
+              >
+            </div>
+            <div class="col-12">
+              <label>Subject</label>
+              <input
+                class="form-control"
+                class="form-control"
+                label="Subject"
+                formControlName="subject"
+              />
+              <mat-error
+                *ngIf="f.subject.touched ||  f.subject.dirty && f.subject.invalid"
+              >
+                <mat-error *ngIf="f.subject.errors?.required">
+                  Please enter Email Subject.
+                </mat-error></mat-error
+              >
+            </div>
+            <div class="col-12">
+              <label>Body</label>
+              <textarea
+                style="height: 200px;"
+                class="form-control"
+                label="Body"
+                formControlName="body"
+              ></textarea>
+              <mat-error
+                *ngIf="f.body.touched ||  f.body.dirty && f.body.invalid"
+              >
+                <mat-error *ngIf="f.body.errors?.required">
+                  Please enter Email Body.
+                </mat-error></mat-error
+              >
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">
+          Cancel
+        </button>
+        <button
+          class="btn btn-primary"
+          style="color: white !important;"
+          data-dismiss="modal"
+          [disabled]="form.invalid"
+          (click)="sendEmail()"
+        >
+          Send Email
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

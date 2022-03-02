@@ -1,0 +1,191 @@
+<div class="container-fluid">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item">
+        <a href="#" class="text-muted">Dashboard</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="#" class="text-muted">Manage MarketPlace</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Add MarketPlace
+      </li>
+    </ol>
+  </nav>
+
+  <div class="d-sm-flex align-items-center justify-content-between mb-3">
+    <h4 class="brown font-weight-bold">Manage MarketPlace</h4>
+  </div>
+  <div class="card mb-4 ">
+    <h5 class="card-header text-center purplebgcolor " id="heading" *ngIf="!Edit">
+      Add New MarketPlace
+    </h5>
+    <h5 class="card-header text-center purplebgcolor " id="heading" *ngIf="Edit">
+      Edit MarketPlace
+    </h5>
+    <div class="card-body pt-0">
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label>User Marketplace Name</label>
+            <input type="text" class="form-control" formControlName="userMarketplaceName" id="userMarketplaceName"
+              maxlength="50" [ngClass]="{'is-invalid': submitted && f.userMarketplaceName.errors}" />
+            <mat-error *ngIf="submitted && f.userMarketplaceName.errors">
+              <mat-error *ngIf="f.userMarketplaceName.errors?.required">
+                Marketplace Name should be entered.
+              </mat-error>
+            </mat-error>
+          </div>
+          <div class="form-group col-md-6">
+            <label>User Access Token</label>
+            <input formControlName="userAccessToken" [ngClass]="{'is-invalid':submitted && f.userAccessToken.errors}"
+              class="form-control " />
+            <mat-error *ngIf="submitted && f.userAccessToken.errors">
+              <mat-error *ngIf="f.userAccessToken.errors?.required">
+                User AccessToken should be entered.
+              </mat-error>
+            </mat-error>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label>User Marketplace URL</label>
+            <input type="text" class="form-control" [ngClass]="{'is-invalid':submitted && f.userMarketplaceURL.errors}"
+              formControlName="userMarketplaceURL" id="userMarketplaceURL" />
+            <mat-error *ngIf="submitted && f.userMarketplaceURL.errors">
+              <mat-error *ngIf="f.userMarketplaceURL.errors?.required">
+                User MarketplaceURL should be entered.
+              </mat-error>
+            </mat-error>
+          </div>
+          <div class="form-group col-md-6">
+            <label>Global Marketplace Name</label>
+            <select formControlName="globalMarketplaceId" (change)="onMarketPlaceChange($event)"
+            [ngClass]="{'is-invalid':submitted && f.globalMarketplaceId.errors}"
+            name="globalMarketplaceId" class="form-control">
+              <option value="">Select GlobalMarketplace</option>
+              <option *ngFor="let market of globalmarket" [value]="market.globalMarketplaceId">
+                {{market.globalMarketplaceName}}</option>
+            </select>
+            <mat-error *ngIf="submitted && f.globalMarketplaceId.errors">
+              <mat-error *ngIf="f.globalMarketplaceId.errors?.required">
+                GlobalMarketplace Name should be entered.
+              </mat-error>
+            </mat-error>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label>Refresh Token</label>
+            <input type="text" class="form-control" [ngClass]="{'is-invalid':submitted && f.refreshToken.errors}"
+              formControlName="refreshToken" id="refreshToken" />
+            <mat-error *ngIf="submitted && f.refreshToken.errors">
+              <mat-error *ngIf="f.refreshToken.errors?.required">
+                Refresh Token should be entered.
+              </mat-error>
+            </mat-error>
+          </div>
+          <div class="form-group col-md-6">
+            <label>Client Id</label>
+            <input type="text" class="form-control  " formControlName="walmartClientId"
+              [ngClass]="{'is-invalid':submitted && f.walmartClientId.errors}" id="walmartClientId" />
+            <mat-error *ngIf="submitted && f.walmartClientId.errors">
+              <mat-error *ngIf="f.walmartClientId.errors?.required">
+                ClientId should be entered.
+              </mat-error>
+            </mat-error>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label>Client Secret</label>
+            <input type="text" class="form-control  " formControlName="walmartClientSecret"
+              [ngClass]="{'is-invalid':submitted && f.walmartClientSecret.errors}" id="walmartClientSecret" />
+            <mat-error *ngIf="submitted && f.walmartClientSecret.errors">
+              <mat-error *ngIf="f.walmartClientSecret.errors?.required">
+                clientSecret should be entered.
+              </mat-error>
+            </mat-error>
+          </div>
+          <div class="form-group col-md-6" *ngIf="showAmazon">
+            <label>Amazon Seller ID</label>
+            <input type="text" class="form-control  " formControlName="amazonSellerID"
+              [ngClass]="{'is-invalid':submitted && f.amazonSellerID.errors}" id="amazonSellerID" />
+            <mat-error *ngIf="submitted && f.amazonSellerID.errors">
+              <mat-error *ngIf="f.amazonSellerID.errors?.required">
+                AmazonSellerID should be entered.
+              </mat-error>
+            </mat-error>
+          </div>
+        </div>
+
+        <div class="" formArrayName="userMarketplaceSiteMapList">
+          <button type="button" class="btn purple-btn" (click)="getMarket()">
+            Add Global MarketPlace Site
+          </button>
+
+          <div *ngFor="let market of userMarket.controls;let i=index" [formGroupName]="i">
+
+            <div class="row">
+
+
+              <div class="form-group col-md-6">
+                <label>Global MarketplaceSiteName</label>
+                <select formControlName="globalMarketplaceSiteId" name="globalMarketplaceSiteId" class="form-control" placeholder="Select MarketplaceSiteName">
+                  <option value="">Select GlobalMarketplaceSiteName</option>
+                  <option *ngFor="let site of globalsite" [value]="site.globalMarketplaceSiteId">
+                    {{site.globalMarketplaceSiteName}}</option>
+                </select>
+              </div>
+
+              <div class="form-group col-md-6">
+                <label> Region Code</label>
+                <input type="text" class="form-control  " formControlName="regionCode" id="regionCode" />
+              </div>
+            </div>
+            <div class="row">
+
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-3">
+            <h6>isAmazonBusiness</h6>
+            <p-inputSwitch formControlName="isAmazonBusiness"></p-inputSwitch>
+          </div>
+          <div class="col-md-3">
+            <h6>isAmazonFBA</h6>
+            <p-inputSwitch formControlName="isAmazonFBA"></p-inputSwitch>
+          </div>
+          <div class="col-md-3">
+            <h6>iseBay</h6>
+            <p-inputSwitch formControlName="iseBay"></p-inputSwitch>
+          </div>
+          <div class="col-md-3">
+            <h6>isOauth</h6>
+            <p-inputSwitch formControlName="isOauth"></p-inputSwitch>
+          </div>
+        </div>
+
+        <div class="row mb-4 mt-2">
+          <div class="col-md-9 ">
+          </div>
+
+          <div class="col-md-3">
+            <div class="pull-right">
+              <button type="reset" class="btn grey-btn font-weight-bold">
+                Cancel
+              </button>
+              <button type="submit" class="btn purple-btn font-weight-bold">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

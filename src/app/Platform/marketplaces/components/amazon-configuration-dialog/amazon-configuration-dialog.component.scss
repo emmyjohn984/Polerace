@@ -1,0 +1,88 @@
+.mat-stepper-horizontal {
+    margin-top: 8px;
+  }
+
+  .mat-form-field {
+    margin-top: 16px;
+  }
+
+  .connect-btn{
+    padding: 2px;
+    min-width: 200px;
+  }
+
+.next-previous{
+  padding-top: 50px;
+}
+
+.help-sec {
+  border: 1px solid #c5c3c2;
+  border-radius: 4px;
+  padding: 25px 15px;
+  margin: 15px auto;
+}
+
+.btn{
+  background-color: #3f51b5;
+  color: white;
+}
+
+.example-full-width{
+  width: 245px !important;
+}
+
+.brand-connect {
+  float: left;
+  width: 100%;
+  border-left: 1px solid #989796;
+  padding-left: 15px;
+}
+
+.brand-connect h3,h4 {
+  margin-bottom: 0px;
+  font-weight: 700;
+  font-size: 18px;
+  margin-top: 15px;
+  color: #333333;
+}
+
+.mat-dialog-content p {
+  margin-bottom: 0 !important;
+  padding-top: 15px !important;
+}
+
+.brand-connect li {
+  margin-left: 15px;
+  padding: 5px 0;
+  color: #5e5c5c;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.brand-desc p {
+  color: #5e5c5c;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 28px;
+}
+
+
+ul {
+  display: block;
+  list-style-type: disc;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+}
+.brand-connect ul {
+  padding: 0;
+  margin: 10px auto;
+}
+
+button.close {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+}

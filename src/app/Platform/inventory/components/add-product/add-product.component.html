@@ -1,0 +1,2237 @@
+<div *ngIf="loading" class="loader" id="loader"></div>
+<div id="content">
+  <div class="container-fluid" [ngClass]="{ 'container-fluid': loading }">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+          <a href="#" class="text-muted">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a href="#" class="text-muted">Manage Product</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Add Products</li>
+      </ol>
+    </nav>
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-3">
+      <h4 class="brown font-weight-bold">Manage Products</h4>
+    </div>
+    <div class="card mb-4">
+      <h5
+        class="card-header text-center purplebgcolor"
+        id="heading"
+        *ngIf="!isEdit"
+      >
+        Add New Products
+      </h5>
+      <h5
+        class="card-header text-center purplebgcolor"
+        id="heading"
+        *ngIf="isEdit"
+      >
+        Edit Product
+      </h5>
+      <div class="card-body pt-0">
+        <!-- start of collapse -->
+        <div class="accordion" id="accordionExample">
+          <!-- start of form 1 -->
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <!-- start one -->
+            <div class="card">
+              <div class="card-header" id="headingOne">
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link btn-block text-left"
+                    id="productinfo"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#collapseOne"
+                    aria-expanded="true"
+                    aria-controls="collapseOne"
+                  >
+                    <i class="fas fa-info"></i> Product Info
+                  </button>
+                </h2>
+              </div>
+
+              <div
+                id="collapseOne"
+                class="collapse show"
+                aria-labelledby="headingOne"
+                data-parent="#accordionExample"
+              >
+                <div class="card-body">
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label class="required">Product Title</label>
+                      <input
+                        type="title"
+                        class="form-control form-control-lg"
+                        formControlName="title"
+                        id="title"
+                      />
+                      <mat-error
+                        *ngIf="
+                          f.title.touched || (f.title.dirty && f.title.invalid)
+                        "
+                      >
+                        <mat-error *ngIf="f.title.errors?.required">
+                          Please Enter Product Title.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label class="required">Sub Title</label>
+                      <input
+                        type="text"
+                        class="form-control form-control-lg"
+                        formControlName="subTitle"
+                      />
+                      <mat-error
+                        *ngIf="
+                          f.subTitle.touched ||
+                          (f.subTitle.dirty && f.subTitle.invalid)
+                        "
+                      >
+                        <mat-error *ngIf="f.subTitle.errors?.required">
+                          Please Enter Sub Title.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label class="required">Product Description</label>
+                      <input
+                        type="text"
+                        formControlName="description"
+                        class="form-control form-control-lg"
+                      />
+                      <mat-error
+                        *ngIf="
+                          f.description.touched ||
+                          (f.description.dirty && f.description.invalid)
+                        "
+                      >
+                        <mat-error *ngIf="f.description.errors?.required">
+                          Please Enter Product Description.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+
+                    <div class="form-group col-md-6 float-right">
+                      <label class="required">Short Description</label>
+                      <input
+                        formControlName="shortDescription"
+                        rows="2"
+                        type="text"
+                        class="form-control form-control-lg"
+                      />
+                      <mat-error
+                        *ngIf="
+                          f.shortDescription.touched ||
+                          (f.shortDescription.dirty &&
+                            f.shortDescription.invalid)
+                        "
+                      >
+                        <mat-error *ngIf="f.shortDescription.errors?.required">
+                          Please enter Short Description.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label class="required">SKU</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        (change)="onChangeSku()"
+                        formControlName="sku"
+                      />
+                      <mat-error
+                        *ngIf="f.sku.touched || (f.sku.dirty && f.sku.invalid)"
+                      >
+                        <mat-error *ngIf="f.sku.errors?.required">
+                          Please Enter Sku.
+                        </mat-error>
+                      </mat-error>
+                      <mat-error *ngIf="duplicate">
+                        Sku Already Exist.
+                      </mat-error>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label class="optional">Item Type</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="itemType"
+                      />
+                      <mat-error
+                        *ngIf="
+                          f.itemType.touched ||
+                          (f.itemType.dirty && f.itemType.invalid)
+                        "
+                      >
+                        <mat-error *ngIf="f.itemType.errors?.required">
+                          Please enter Item Type.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                    <div
+                      class="form-group col-md-6 float-right"
+                      style="display: none"
+                    >
+                      <label class="required">Asin</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="asin"
+                      />
+                      <mat-error
+                        *ngIf="
+                          f.asin.touched || (f.asin.dirty && f.asin.invalid)
+                        "
+                      >
+                        <mat-error *ngIf="f.asin.errors?.required">
+                          Please Enter Asin.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md-6 float-right">
+                      <label class="required">Brand Name</label>
+                      <input
+                        [readonly]="isEdit"
+                        type="text"
+                        class="form-control"
+                        formControlName="brandName"
+                      />
+                      <mat-error
+                        *ngIf="
+                          f.brandName.touched ||
+                          (f.brandName.dirty && f.brandName.invalid)
+                        "
+                      >
+                        <mat-error *ngIf="f.brandName.errors?.required">
+                          Please Enter Brand Name.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label class="required">Select Supplier</label>
+                      <!-- <input
+                        type="text"
+                        class="form-control"
+                        [readonly]="isEdit"
+                        formControlName="supplierName"
+                      /> -->
+                      <select
+                        placeholder="select Supplier"
+                        formControlName="supplierId"
+                        class="form-control"
+                      >
+                        <option ngValue="">Select Supplier</option>
+                        <option
+                          *ngFor="let sup of suppliers"
+                          [value]="sup.supplierId"
+                        >
+                          {{ sup.fullName }}
+                        </option>
+                      </select>
+                      <mat-error
+                        *ngIf="
+                          f.supplierId.touched ||
+                          (f.supplierId.dirty && f.supplierId.invalid)
+                        "
+                      >
+                        <mat-error *ngIf="f.supplierId.errors?.required">
+                          Please Select Supplier.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label class="required">Select Category</label>
+                      <select
+                        (change)="categoryChanged($event.target.value)"
+                        formControlName="categoryId"
+                        class="form-control"
+                      >
+                        <option value="">Select Category</option>
+                        <option
+                          *ngFor="let cat of category | orderBy: 'categoryName'"
+                          [value]="cat.categoryId"
+                        >
+                          {{ cat.categoryName }}
+                        </option>
+                      </select>
+                      <mat-error
+                        *ngIf="
+                          f.categoryId.touched ||
+                          (f.categoryId.dirty && f.categoryId.invalid)
+                        "
+                      >
+                        <mat-error *ngIf="f.categoryId.errors?.required">
+                          Please Select Category Name.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label class="optional">Select SubCategory</label>
+                      <select
+                        formControlName="subCategoryId"
+                        class="form-control"
+                      >
+                        <option value="0">Select SubCategory</option>
+                        <option
+                          *ngFor="let cat of subcategories"
+                          [value]="cat.categoryId"
+                        >
+                          {{ cat.categoryName }}
+                        </option>
+                      </select>
+                      <!-- <mat-error
+                        *ngIf="f.parentCategoryId.touched ||  f.parentCategoryId.dirty && f.parentCategoryId.invalid"
+                      >
+                        <mat-error *ngIf="f.parentCategoryId.errors?.required">
+                          Please enter SubCategory Name.
+                        </mat-error></mat-error
+                      > -->
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md-6 float-right">
+                      <label class="required">Manufacture</label>
+                      <input
+                        type="text"
+                        [readonly]="isEdit"
+                        class="form-control"
+                        formControlName="manufacture"
+                      />
+                      <mat-error
+                        *ngIf="
+                          f.manufacture.touched ||
+                          (f.manufacture.dirty && f.manufacture.invalid)
+                        "
+                      >
+                        <mat-error *ngIf="f.manufacture.errors?.required">
+                          Please Enter Manufacture.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label class="optional">Notes</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="notes"
+                      />
+                      <!-- <mat-error
+                        *ngIf="f.notes.touched ||  f.notes.dirty && f.notes.invalid"
+                      >
+                        <mat-error *ngIf="f.notes.errors?.required">
+                          notes is required.
+                        </mat-error></mat-error
+                      > -->
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md-6" style="display: none">
+                      <label>Text Description</label>
+                      <input
+                        class="form-control"
+                        formControlName="textDescription"
+                      />
+                      <!-- <mat-error
+                        *ngIf="f.textDescription.touched ||  f.textDescription.dirty && f.textDescription.invalid"
+                      >
+                        <mat-error *ngIf="f.textDescription.errors?.required">
+                          Text Description is required.
+                        </mat-error></mat-error
+                      > -->
+                    </div>
+                    <div
+                      class="form-group col-md-6 float-right"
+                      style="display: none"
+                    >
+                      <label>BulletPoint1</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="bulletPoint1"
+                      />
+                      <!-- <mat-error
+                        *ngIf="f.bulletPoint1.touched ||  f.bulletPoint1.dirty && f.bulletPoint1.invalid"
+                      >
+                        <mat-error *ngIf="f.bulletPoint1.errors?.required">
+                          Bullet Point1 is required.
+                        </mat-error></mat-error
+                      > -->
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md-6" style="display: none">
+                      <label>Bullet Point2</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="bulletPoint2"
+                      />
+                      <!-- <mat-error
+                        *ngIf="f.bulletPoint2.touched ||  f.bulletPoint2.dirty && f.bulletPoint2.invalid"
+                      >
+                        <mat-error *ngIf="f.bulletPoint2.errors?.required">
+                          BulletPoint2 is required.
+                        </mat-error></mat-error
+                      > -->
+                    </div>
+
+                    <div
+                      class="form-group col-md-6 float-right"
+                      style="display: none"
+                    >
+                      <label>Bullet Point3</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="bulletPoint3"
+                      />
+                      <!-- <mat-error
+                        *ngIf="f.bulletPoint3.touched ||  f.bulletPoint3.dirty && f.bulletPoint3.invalid"
+                      >
+                        <mat-error *ngIf="f.bulletPoint3.errors?.required">
+                          BulletPoint3 is required.
+                        </mat-error></mat-error
+                      > -->
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md-6" style="display: none">
+                      <label>Bullet Point4</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="bulletPoint4"
+                      />
+                      <!-- <mat-error
+                        *ngIf="f.bulletPoint4.touched ||  f.bulletPoint4.dirty && f.bulletPoint4.invalid"
+                      >
+                        <mat-error *ngIf="f.bulletPoint4.errors?.required">
+                          BulletPoint4 is required.
+                        </mat-error></mat-error
+                      > -->
+                    </div>
+
+                    <div
+                      class="form-group col-md-6 float-right"
+                      style="display: none"
+                    >
+                      <label>Bullet Point5</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="bulletPoint5"
+                      />
+                      <!-- <mat-error
+                        *ngIf="f.bulletPoint5.touched ||  f.bulletPoint5.dirty && f.bulletPoint5.invalid"
+                      >
+                        <mat-error *ngIf="f.bulletPoint5.errors?.required">
+                          BulletPoint5 is required.
+                        </mat-error></mat-error
+                      > -->
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div
+                      class="form-group col-md-6 float-right"
+                      style="display: none"
+                    >
+                      <label>EAN</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="ean"
+                      />
+                      <!-- <mat-error *ngIf="f.ean.touched ||  f.ean.dirty && f.ean.invalid">
+                        <mat-error *ngIf="f.ean.errors?.required">
+                          ean is required.
+                        </mat-error>
+                        <mat-error *ngIf="f.ean.errors?.maxlength">
+                          Ean length exceeded.
+                        </mat-error>
+                      </mat-error> -->
+                    </div>
+
+                    <div class="form-group col-md-6" style="display: none">
+                      <label>Upc</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="upc"
+                      />
+                      <!-- <mat-error *ngIf="f.upc.touched ||  f.upc.dirty && f.upc.invalid">
+                        <mat-error *ngIf="f.upc.errors?.required">
+                          upc is required.
+                        </mat-error>
+
+                        <mat-error *ngIf="f.upc.errors?.maxlength">
+                          Upc length exceeded.
+                        </mat-error>
+                      </mat-error> -->
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div
+                      class="form-group col-md-6 float-right"
+                      style="display: none"
+                    >
+                      <label>Isbn</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="isbn"
+                      />
+                      <!-- <mat-error
+                        *ngIf="f.isbn.touched ||  f.isbn.dirty && f.isbn.invalid"
+                      >
+                        <mat-error *ngIf="f.isbn.errors?.required">
+                          isbn is required.
+                        </mat-error>
+
+                        <mat-error *ngIf="f.isbn.errors?.maxlength">
+                          Isbn length exceeded.
+                        </mat-error>
+                      </mat-error> -->
+                    </div>
+
+                    <div class="form-group col-md-6" style="display: none">
+                      <label>Gcid</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="gcid"
+                      />
+                      <!-- <mat-error
+                        *ngIf="f.gcid.touched ||  f.gcid.dirty && f.gcid.invalid"
+                      >
+                        <mat-error *ngIf="f.gcid.errors?.required">
+                          gcid is required.
+                        </mat-error>
+
+                        <mat-error *ngIf="f.gcid.errors?.maxlength">
+                          Gcid length exceeded.
+                        </mat-error>
+                      </mat-error> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end one -->
+
+            <!-- start 2 -->
+            <div class="card">
+              <div class="card-header" id="heading2">
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link btn-block text-left collapsed"
+                    id="price1"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#collapse2"
+                    aria-expanded="false"
+                    aria-controls="collapse2"
+                  >
+                    <i class="fas fa-dollar-sign"></i> Price
+                  </button>
+                </h2>
+              </div>
+              <div
+                id="collapse2"
+                class="collapse"
+                aria-labelledby="headingTwo"
+                data-parent="#accordionExample"
+              >
+                <div class="card-body">
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label>Selling Price</label>
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        formControlName="sellingPrice"
+                        (keydown)="onlyacceptnumber($event)"
+                      />
+                      <mat-error
+                        *ngIf="
+                          f.sellingPrice.touched ||
+                          (f.sellingPrice.dirty && f.sellingPrice.invalid)
+                        "
+                      >
+                        <mat-error *ngIf="f.sellingPrice.errors?.required">
+                          Please enter Selling Price.
+                        </mat-error>
+                        <mat-error *ngIf="f.sellingPrice.errors?.maxlength">
+                          Selling Price length exceeded.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+
+                    <div class="form-group col-md-6 float-right">
+                      <label>Special Selling Price</label>
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        formControlName="specialSellingPrice"
+                        (keydown)="onlyacceptnumber($event)"
+                      />
+                      <mat-error
+                        *ngIf="
+                          f.specialSellingPrice.touched ||
+                          (f.specialSellingPrice.dirty &&
+                            f.specialSellingPrice.invalid)
+                        "
+                      >
+                        <mat-error
+                          *ngIf="f.specialSellingPrice.errors?.required"
+                        >
+                          Please enter Special Selling Price.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-md-6 float-right">
+                      <label>Minimum Price</label>
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        formControlName="minimumPrice"
+                        (keydown)="onlyacceptnumber($event)"
+                      />
+                      <mat-error
+                        *ngIf="
+                          f.minimumPrice.touched ||
+                          (f.minimumPrice.dirty && f.minimumPrice.invalid)
+                        "
+                      >
+                        <mat-error *ngIf="f.minimumPrice.errors?.required">
+                          Please enter Minimum Price.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label>Maximum Price</label>
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        formControlName="maximumPrice"
+                        (keydown)="onlyacceptnumber($event)"
+                      />
+                      <mat-error
+                        *ngIf="
+                          f.maximumPrice.touched ||
+                          (f.maximumPrice.dirty && f.maximumPrice.invalid)
+                        "
+                      >
+                        <mat-error *ngIf="f.maximumPrice.errors?.required">
+                          Please enter Maximum Price.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label>Buy Price</label>
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        formControlName="buyPrice"
+                        (keydown)="onlyacceptnumber($event)"
+                      />
+                      <mat-error
+                        *ngIf="
+                          f.buyPrice.touched ||
+                          (f.buyPrice.dirty && f.buyPrice.invalid)
+                        "
+                      >
+                        <mat-error *ngIf="f.buyPrice.errors?.required">
+                          Please enter Buy Price.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                    <div class="form-group col-md-6 float-right">
+                      <label>Buy It Now Price</label>
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        formControlName="buyItNowPrice"
+                        (keydown)="onlyacceptnumber($event)"
+                      />
+                      <mat-error
+                        *ngIf="
+                          f.buyItNowPrice.touched ||
+                          (f.buyItNowPrice.dirty && f.buyItNowPrice.invalid)
+                        "
+                      >
+                        <mat-error *ngIf="f.buyItNowPrice.errors?.required">
+                          Please enter Buy it Now Price.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-md-6 float-right">
+                      <label>Start Price</label>
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        formControlName="startPrice"
+                        (keydown)="onlyacceptnumber($event)"
+                      />
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>Initial Cost Price</label>
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        formControlName="initialCostPrice"
+                        (keydown)="onlyacceptnumber($event)"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-md-6 float-right">
+                      <label>Whole Sale Price</label>
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        formControlName="wholeSalePrice"
+                        (keydown)="onlyacceptnumber($event)"
+                      />
+                      <mat-error
+                        *ngIf="
+                          f.wholeSalePrice.touched ||
+                          (f.wholeSalePrice.dirty && f.wholeSalePrice.invalid)
+                        "
+                      >
+                        <mat-error *ngIf="f.wholeSalePrice.errors?.required">
+                          Please enter Whole Sale Price.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>Retail Price</label>
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        formControlName="retailPrice"
+                        (keydown)="onlyacceptnumber($event)"
+                      />
+                      <mat-error
+                        *ngIf="
+                          f.retailPrice.touched ||
+                          (f.retailPrice.dirty && f.retailPrice.invalid)
+                        "
+                      >
+                        <mat-error *ngIf="f.retailPrice.errors?.required">
+                          Please enter Retail Price.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-md-6 float-right">
+                      <label>Best Offer Auto Accept Price</label>
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        formControlName="bestOfferAutoAcceptPrice"
+                        (keydown)="onlyacceptnumber($event)"
+                      />
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>Reserve Price</label>
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        formControlName="reservePrice"
+                        (keydown)="onlyacceptnumber($event)"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end 2 -->
+
+            <!-- start 3 -->
+            <div class="card">
+              <div class="card-header" id="headingThree">
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link btn-block text-left collapsed"
+                    id="Shipping"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#collapseThree"
+                    aria-expanded="false"
+                    aria-controls="collapseThree"
+                  >
+                    <i class="fas fa-file"></i> Product Specification
+                  </button>
+                </h2>
+              </div>
+              <div
+                id="collapseThree"
+                class="collapse"
+                aria-labelledby="headingThree"
+                data-parent="#accordionExample"
+              >
+                <div class="card-body">
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label>Low Stock</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="lowStock"
+                      />
+                    </div>
+
+                    <div class="form-group col-md-6 float-right">
+                      <label>Quantity</label>
+                      <input
+                        type="number"
+                        min="0"
+                        onkeydown="return event.keyCode !== 190"
+                        class="form-control"
+                        formControlName="quantity"
+                        (keydown)="onlyacceptnumber($event)"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label>Weight</label>
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        formControlName="weight"
+                        (keydown)="onlyacceptnumber($event)"
+                      />
+                    </div>
+                    <div class="form-group col-md-6 float-right">
+                      <label>Weight Unit</label>
+                      <select
+                        type="text"
+                        class="form-control"
+                        formControlName="weightUnit"
+                      >
+                        <option value="">Select Weight Unit</option>
+                        <option value="Milligram">Milligram (mg)</option>
+                        <option value="Gram">Gram (gm)</option>
+                        <option value="Kilogram">Kilogram (kg)</option>
+                      </select>
+                      <mat-error
+                        *ngIf="
+                          f.weightUnit.touched ||
+                          (f.weightUnit.dirty && f.weightUnit.invalid)
+                        "
+                      >
+                        <mat-error *ngIf="f.weightUnit.errors?.required">
+                          Please enter Weight Unit.
+                        </mat-error>
+
+                        <mat-error *ngIf="f.weightUnit.errors?.maxlength">
+                          Weight Unit length exceeded.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md-6 float-right">
+                      <label>Height</label>
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        formControlName="height"
+                        (keydown)="onlyacceptnumber($event)"
+                      />
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>Height Unit</label>
+                      <select
+                        name=""
+                        id=""
+                        class="form-control"
+                        formControlName="heightUnit"
+                      >
+                        <option value="">Select Height Unit</option>
+                        <option value="Millimeters">Millimeters (mm)</option>
+                        <option value="Centimeters">Centimeters (cm)</option>
+                        <option value="Inches">Inches (in)</option>
+                        <option value="Feet">Feet (ft)</option>
+                        <option value="Meter">Meter (m)</option>
+                      </select>
+                      <!-- <label>Width</label>
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        formControlName="width"
+                      /> -->
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label>Width</label>
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        formControlName="width"
+                        (keydown)="onlyacceptnumber($event)"
+                      />
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label>Width Unit</label>
+                      <!-- <input
+                      type="number"
+                      min="0"
+                      class="form-control"
+                      formControlName="width"
+                    /> -->
+
+                      <select
+                        name=""
+                        id=""
+                        class="form-control"
+                        formControlName="widthUnit"
+                      >
+                        <option value="">Select Width Unit</option>
+                        <option value="Millimeters">Millimeters (mm)</option>
+                        <option value="Centimeters">Centimeters (cm)</option>
+                        <option value="Inches">Inches (in)</option>
+                        <option value="Feet">Feet (ft)</option>
+                        <option value="Meter">Meter (m)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-md-6 float-right">
+                      <label>Length</label>
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        formControlName="length"
+                        (keydown)="onlyacceptnumber($event)"
+                      />
+                    </div>
+                    <!-- commented on 29-11-2021 -->
+                    <div class="form-group col-md-6">
+                      <label>Length Unit</label>
+
+                      <select
+                        name=""
+                        id=""
+                        type="text"
+                        class="form-control"
+                        formControlName="lengthUnit"
+                      >
+                        <option value="">Select Length Unit</option>
+
+                        <option value="Millimeters">Millimeters (mm)</option>
+                        <option value="Centimeters">Centimeters (cm)</option>
+                        <option value="Inches">Inches (in)</option>
+                        <option value="Feet">Feet (ft)</option>
+                        <option value="Meter">Meter (m)</option>
+                      </select>
+                      <!-- <input
+                        type="text"
+                        class="form-control"
+                        formControlName="dimentionUnits"
+                      />
+                      <mat-error
+                        *ngIf="f.dimentionUnits.touched ||  f.dimentionUnits.dirty && f.dimentionUnits.invalid"
+                      >
+                        <mat-error *ngIf="f.dimentionUnits.errors?.required">
+                          Please enter Dimention Units.
+                        </mat-error>
+                        <mat-error *ngIf="f.dimentionUnits.errors?.maxlength">
+                          Dimention Units length exceeded.
+                        </mat-error>
+                      </mat-error> -->
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label>Barcode</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="barcode"
+                      />
+                      <mat-error
+                        *ngIf="
+                          f.barcode.touched ||
+                          (f.barcode.dirty && f.barcode.invalid)
+                        "
+                      >
+                        <mat-error *ngIf="f.barcode.errors?.maxlength">
+                          Barcode length exceeded.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>Barcode Type</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="barcodeType"
+                      />
+                      <mat-error
+                        *ngIf="
+                          f.barcodeType.touched ||
+                          (f.barcodeType.dirty && f.barcodeType.invalid)
+                        "
+                      >
+                        <mat-error *ngIf="f.barcodeType.errors?.required">
+                          Please enter Barcode Type.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                  </div>
+                  <div class="row" style="display: none">
+                    <div class="form-group col-md-6">
+                      <label>Buffer Quantity</label>
+                      <input
+                        type="number"
+                        min="0"
+                        onkeydown="return event.keyCode !== 190"
+                        class="form-control"
+                        formControlName="bufferQuantity"
+                      />
+                    </div>
+
+                    <div class="form-group col-md-6 float-right">
+                      <label>Amazon TaxCode</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="amazonTaxCode"
+                      />
+                      <mat-error
+                        *ngIf="
+                          f.amazonTaxCode.touched ||
+                          (f.amazonTaxCode.dirty && f.amazonTaxCode.invalid)
+                        "
+                      >
+                        <mat-error *ngIf="f.amazonTaxCode.errors?.required">
+                          Please enter Amazon TaxCode.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label>Charity Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="charityName"
+                      />
+                      <!-- <mat-error
+                        *ngIf="f.charityName.touched ||  f.charityName.dirty && f.charityName.invalid"
+                      >
+                        <mat-error *ngIf="f.charityName.errors?.required">
+                          Charity Name is required.
+                        </mat-error></mat-error
+                      > -->
+                    </div>
+                    <div class="form-group col-md-6 float-right">
+                      <label>Donation Percentage</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        formControlName="donationPercentage"
+                        (keydown)="onlyacceptnumber($event)"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div
+                      class="form-group col-md-6 float-right"
+                      style="display: none"
+                    >
+                      <label>Processing Min Days</label>
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        formControlName="processingMinDays"
+                        (keydown)="onlyacceptnumber($event)"
+                      />
+                    </div>
+
+                    <div class="form-group col-md-6" style="display: none">
+                      <label>Processing Max Days</label>
+                      <input
+                        type="number"
+                        min="0"
+                        onkeydown="return event.keyCode !== 190"
+                        (keydown)="onlyacceptnumber($event)"
+                        class="form-control"
+                        formControlName="processingMaxDays"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md-6 float-right">
+                      <label>Location</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="location"
+                      />
+                      <mat-error
+                        *ngIf="
+                          f.location.touched ||
+                          (f.location.dirty && f.location.invalid)
+                        "
+                      >
+                        <mat-error *ngIf="f.location.errors?.required">
+                          Please enter location .
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end 3 -->
+
+            <!-- start 4 -->
+            <div class="card">
+              <div class="card-header" id="heading4">
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link btn-block text-left collapsed"
+                    id="others"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#collapse4"
+                    aria-expanded="false"
+                    aria-controls="collapse4"
+                  >
+                    <i class="fas fa-sitemap"></i> Others
+                  </button>
+                </h2>
+              </div>
+              <div
+                id="collapse4"
+                class="collapse"
+                aria-labelledby="heading4"
+                data-parent="#accordionExample"
+              >
+                <div class="card-body">
+                  <div class="row">
+                    <div class="form-group col-md-6 float-right">
+                      <label>Mpn</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="mpn"
+                      />
+                      <!-- <mat-error *ngIf="f.mpn.touched ||  f.mpn.dirty && f.mpn.invalid">
+                        <mat-error *ngIf="f.mpn.errors?.required">
+                          mpn is required.
+                        </mat-error></mat-error
+                      > -->
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label>Labels</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="labels"
+                      />
+                      <!-- <mat-error
+                        *ngIf="f.labels.touched ||  f.labels.dirty && f.labels.invalid"
+                      >
+                        <mat-error *ngIf="f.labels.errors?.required">
+                          labels is required.
+                        </mat-error></mat-error
+                      > -->
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md-6 float-right">
+                      <label>Classification</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="classification"
+                      />
+                      <!-- <mat-error
+                        *ngIf="f.classification.touched ||  f.classification.dirty && f.classification.invalid"
+                      >
+                        <mat-error *ngIf="f.classification.errors?.required">
+                          classification is required.
+                        </mat-error></mat-error
+                      > -->
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>Flag</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="flag"
+                      />
+                      <!-- <mat-error
+                        *ngIf="f.flag.touched ||  f.flag.dirty && f.flag.invalid"
+                      >
+                        <mat-error *ngIf="f.flag.errors?.required">
+                          flag is required.
+                        </mat-error></mat-error
+                      > -->
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-md-6 float-right">
+                      <label>Condition Name</label>
+
+                      <select
+                        formControlName="conditionId"
+                        class="form-control"
+                      >
+                        <option [value]="null">Select Condition</option>
+                        <option
+                          *ngFor="
+                            let cat of condition
+                              | orderBy: 'amazonConditionName'
+                          "
+                          [value]="cat.conditionId"
+                        >
+                          {{ cat.amazonConditionName }}
+                        </option>
+                      </select>
+                      <!-- <mat-error
+                        *ngIf="f.conditionId.touched ||  f.conditionId.dirty && f.conditionId.invalid"
+                      >
+                        <mat-error *ngIf="f.conditionId.errors?.required">
+                          Condition Name is required.
+                        </mat-error></mat-error
+                      > -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end 4 -->
+
+            <!-- start 5 -->
+            <div class="card">
+              <div class="card-header" id="heading5">
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link btn-block text-left collapsed"
+                    id="seo"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#collapse5"
+                    aria-expanded="false"
+                    aria-controls="collapse5"
+                  >
+                    <i class="fas fa-search-plus"></i> SEO
+                  </button>
+                </h2>
+              </div>
+              <div
+                id="collapse5"
+                class="collapse"
+                aria-labelledby="heading5"
+                data-parent="#accordionExample"
+              >
+                <div class="card-body">
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label>Meta Title</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="metaTitle"
+                      />
+                      <!-- <mat-error
+                        *ngIf="f.metaTitle.touched ||  f.metaTitle.dirty && f.metaTitle.invalid"
+                      >
+                        <mat-error *ngIf="f.metaTitle.errors?.required">
+                          Meta Title is required.
+                        </mat-error></mat-error
+                      > -->
+                    </div>
+                    <div class="form-group col-md-6 float-right">
+                      <label>Meta Tag</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="metaTag"
+                      />
+                      <!-- <mat-error
+                        *ngIf="f.metaTag.touched ||  f.metaTitle.dirty && f.metaTag.invalid"
+                      >
+                        <mat-error *ngIf="f.metaTag.errors?.required">
+                          Meta Tag is required.
+                        </mat-error></mat-error
+                      > -->
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md-6 float-right">
+                      <label>Meta Description</label>
+                      <input
+                        formControlName="metaDescription"
+                        class="form-control"
+                      />
+                      <!-- <mat-error
+                        *ngIf="f.metaDescription.touched ||  f.metaDescription.dirty && f.metaDescription.invalid"
+                      >
+                        <mat-error *ngIf="f.metaDescription.errors?.required">
+                          Meta Description is required.
+                        </mat-error></mat-error
+                      > -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end of 5 -->
+          </form>
+          <!-- end of form 1 -->
+
+
+            <!-- start of form 6 -->
+          <!-- start 4 -->
+
+          <div class="card">
+            <div class="card-header" id="heading8">
+              <h2 class="mb-0">
+                <button
+                  class="btn btn-link btn-block text-left collapsed"
+                  id="Shippings"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#collapse8"
+                  aria-expanded="false"
+                  aria-controls="collapse8"
+                >
+                  <i class="fas fa-shipping-fast"></i> Shipping Package
+                </button>
+              </h2>
+            </div>
+            <div
+              id="collapse8"
+              class="collapse"
+              aria-labelledby="heading8"
+              data-parent="#accordionExample"
+            >
+              <div class="card-body">
+                <form [formGroup]="form6" (ngSubmit)="onSubmit()">
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label class="required">Shipping Package Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="shippingPackageName"
+                        min="0"
+                        onkeydown="return event.keyCode !== 190"
+                        id="package"
+                        maxlength="50"
+                        [ngClass]="{
+                          'is-invalid':
+                            submitted && f6.shippingPackageName.errors
+                        }"
+                      />
+                      <mat-error
+                        *ngIf="submitted && f6.shippingPackageName.errors"
+                      >
+                        <mat-error
+                          *ngIf="f6.shippingPackageName.errors?.required"
+                        >
+                          Please Enter Shipping Package Name.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label class="required">Select Supplier</label>
+                      <select
+                        [ngClass]="{
+                          'is-invalid': submitted && f6.supplierId.errors
+                        }"
+                        placeholder="Select Supplier"
+                        class="form-control"
+                        formControlName="supplierId"
+                        (change)="filterData($event)"
+                      >
+                        <option value="">Select Supplier</option>
+                        <option
+                          *ngFor="let sup of suplier"
+                          [value]="sup.supplierId"
+                        >
+                          {{ sup.firstName }}
+                        </option>
+                      </select>
+                      <mat-error *ngIf="submitted && f6.supplierId.errors">
+                        <mat-error *ngIf="f6.supplierId.errors?.required">
+                          Please Select Supplier.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label class="required">Package Quantity</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        formControlName="quantity"
+                        min="0"
+                        onkeydown="return event.keyCode !== 190"
+                        id="quantity"
+                        maxlength="50"
+                        (keydown)="onlyacceptnumber($event)"
+                        [ngClass]="{
+                          'is-invalid': submitted && f6.quantity.errors
+                        }"
+                      />
+                      <mat-error *ngIf="submitted && f6.quantity.errors">
+                        <mat-error *ngIf="f6.quantity.errors?.required">
+                          Please Enter Package Quantity.
+                        </mat-error>
+                        <mat-error *ngIf="f6.quantity.errors?.pattern">
+                          Package Quantity Should Not Be 0.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label class="optional"> Supplier Address</label>
+                      <input
+                        type="text"
+                        formControlName="supplierAddress"
+                        [ngClass]="{
+                          'is-invalid': submitted && f6.supplierAddress.errors
+                        }"
+                        class="form-control"
+                        [(ngModel)]="addressLine"
+                      />
+                      <mat-error *ngIf="submitted && f6.supplierAddress.errors">
+                        <mat-error *ngIf="f6.supplierAddress.errors?.required">
+                          Please Enter Supplier Address.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label class="required">Package Weight</label>
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        formControlName="weight"
+                        id="productWeight"
+                        maxlength="50"
+                        (keydown)="onlyacceptnumber($event)"
+                        [ngClass]="{
+                          'is-invalid': submitted && f6.weight.errors
+                        }"
+                      />
+                      <mat-error *ngIf="submitted && f6.weight.errors">
+                        <mat-error *ngIf="f6.weight.errors?.required">
+                          Please Enter Package Weight.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label class="required">Package Weight Unit</label>
+                      <select
+                        type="text"
+                        formControlName="weightUnit"
+                        [ngClass]="{
+                          'is-invalid': submitted && f6.weightUnit.errors
+                        }"
+                        class="form-control"
+                      >
+                        <option value="">Select Weight Unit</option>
+                        <option value="Kilogram">Kilogram (kg)</option>
+                        <option value="Gram">Gram (gm)</option>
+                        <option value="Milligram">Milligram (mg)</option>
+                      </select>
+                      <mat-error *ngIf="submitted && f6.weightUnit.errors">
+                        <mat-error *ngIf="f6.weightUnit.errors?.required">
+                          Please Select Package Weight Unit.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label class="required">Package Height</label>
+                      <input
+                        type="number"
+                        formControlName="height"
+                        [ngClass]="{
+                          'is-invalid': submitted && f6.height.errors
+                        }"
+                        min="0"
+                        (keydown)="onlyacceptnumber($event)"
+                        class="form-control"
+                      />
+                      <mat-error *ngIf="submitted && f6.height.errors">
+                        <mat-error *ngIf="f6.height.errors?.required">
+                          Please Select Package Height.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label class="required">Package Height Unit</label>
+                      <select
+                        type="text"
+                        formControlName="heightUnit"
+                        [ngClass]="{
+                          'is-invalid': submitted && f6.heightUnit.errors
+                        }"
+                        class="form-control"
+                      >
+                        <option value="">Select Height Unit</option>
+                        <option value="Meter">Meter (m)</option>
+                        <option value="Feet">Feet (ft)</option>
+                        <option value="Inches">Inches (in)</option>
+                        <option value="Centimeters">Centimeters (cm)</option>
+                        <option value="Millimeters">Millimeters (mm)</option>
+                      </select>
+                      <mat-error *ngIf="submitted && f6.heightUnit.errors">
+                        <mat-error *ngIf="f6.heightUnit.errors?.required">
+                          Please Select Height Unit.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label class="required">Package Length</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        min="0"
+                        formControlName="length"
+                        id="productLength"
+                        maxlength="50"
+                        (keydown)="onlyacceptnumber($event)"
+                        [ngClass]="{
+                          'is-invalid': submitted && f6.length.errors
+                        }"
+                      />
+                      <mat-error *ngIf="submitted && f6.length.errors">
+                        <mat-error *ngIf="f6.length.errors?.required">
+                          Please Enter Package Length.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label class="required">Package Length Unit</label>
+                      <select
+                        type="text"
+                        formControlName="lengthUnit"
+                        [ngClass]="{
+                          'is-invalid': submitted && f6.lengthUnit.errors
+                        }"
+                        class="form-control"
+                      >
+                        <option value="">Select Length Unit</option>
+                        <option value="">Select Unit</option>
+                        <option value="Meter">Meter (m)</option>
+                        <option value="Feet">Feet (ft)</option>
+                        <option value="Inches">Inches (in)</option>
+                        <option value="Centimeters">Centimeters (cm)</option>
+                        <option value="Millimeters">Millimeters (mm)</option>
+                      </select>
+                      <mat-error *ngIf="submitted && f6.lengthUnit.errors">
+                        <mat-error *ngIf="f6.lengthUnit.errors?.required">
+                          Please Select Package Length Unit.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label class="required">Package Width</label>
+                      <input
+                        type="number"
+                        min="0"
+                        (keydown)="onlyacceptnumber($event)"
+                        formControlName="width"
+                        [ngClass]="{
+                          'is-invalid': submitted && f6.width.errors
+                        }"
+                        class="form-control"
+                      />
+                      <mat-error *ngIf="submitted && f6.width.errors">
+                        <mat-error *ngIf="f6.width.errors?.required">
+                          Please Enter Package Width.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label class="required">Package Width Unit</label>
+                      <select
+                        type="number"
+                        min="0"
+                        (keydown)="onlyacceptnumber($event)"
+                        formControlName="widthUnit"
+                        [ngClass]="{
+                          'is-invalid': submitted && f6.width.errors
+                        }"
+                        class="form-control"
+                      >
+                        <option value="">Select Width Unit</option>
+                        <option value="Meter">Meter (m)</option>
+                        <option value="Feet">Feet (ft)</option>
+                        <option value="Inches">Inches (in)</option>
+                        <option value="Centimeters">Centimeters (cm)</option>
+                        <option value="Millimeters">Millimeters (mm)</option>
+                      </select>
+                      <mat-error *ngIf="submitted && f6.width.errors">
+                        <mat-error *ngIf="f6.width.errors?.required">
+                          Please Select Package Width Unit.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label class="required">Billing Address</label>
+                      <input
+                        type="text"
+                        formControlName="billingAddress"
+                        [ngClass]="{
+                          'is-invalid': submitted && f6.billingAddress.errors
+                        }"
+                        class="form-control"
+                      />
+                      <mat-error *ngIf="submitted && f6.billingAddress.errors">
+                        <mat-error *ngIf="f6.billingAddress.errors?.required">
+                          Please Enter Billing Address.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label class="required">Price</label>
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        formControlName="price"
+                        id="price"
+                        (keydown)="onlyacceptnumber($event)"
+                        maxlength="50"
+                        [ngClass]="{
+                          'is-invalid': submitted && f6.price.errors
+                        }"
+                        (change)="price($event)"
+                      />
+                      <mat-error *ngIf="submitted && f6.price.errors">
+                        <mat-error *ngIf="f6.price.errors?.required">
+                          Please Enter Price.
+                        </mat-error>
+                      </mat-error>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label>Discount</label>
+                      <input
+                        type="number"
+                        min="0"
+                        formControlName="discount"
+                        (change)="discoun($event)"
+                        class="form-control"
+                        (keydown)="onlyacceptnumber($event)"
+                        [ngClass]="{
+                          'is-invalid': submitted && f6.discount.errors
+                        }"
+                      />
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label> Taxes</label>
+                      <input
+                        type="number"
+                        min="0"
+                        class="form-control"
+                        formControlName="taxes"
+                        id="taxes"
+                        maxlength="50"
+                        (keydown)="onlyacceptnumber($event)"
+                        (change)="tax($event)"
+                        [ngClass]="{
+                          'is-invalid': submitted && f6.taxes.errors
+                        }"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label> Total Price</label>
+                      <input
+                        type="number"
+                        [readonly]="isEdit1"
+                        min="0"
+                        class="form-control"
+                        formControlName="totalPrice"
+                        id="taxes"
+                        maxlength="50"
+                        (keydown)="onlyacceptnumber($event)"
+                        [(ngModel)]="sum"
+                        [ngClass]="{
+                          'is-invalid': submitted && f6.totalPrice.errors
+                        }"
+                      />
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- end 4 -->
+          <!-- end of form 6 -->
+
+          <!-- start of 6 -->
+          <div class="card">
+            <div class="card-header" id="heading6">
+              <h2 class="mb-0">
+                <button
+                  class="btn btn-link btn-block text-left collapsed"
+                  id="inventory"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#collapse6"
+                  aria-expanded="false"
+                  aria-controls="collapse6"
+                >
+                  <i class="fas fa-sitemap"></i> Inventory
+                </button>
+              </h2>
+            </div>
+            <div
+              id="collapse6"
+              class="collapse"
+              aria-labelledby="heading6"
+              data-parent="#accordionExample"
+            >
+              <div class="card-body">
+                <!-- start of inventory form -->
+                <!-- start of form 2 -->
+                <form [formGroup]="form2">
+                  <p>
+                    <button
+                      type="button"
+                      class="btn purple-btn"
+                      (click)="getinventoryVariations()"
+                    >
+                      Add Inventory Variation
+                    </button>
+                  </p>
+                  <div formArrayName="inventoryVariations">
+                    <div
+                      class="inventoryVariations"
+                      *ngFor="
+                        let skill of geinventoryVariations.controls;
+                        let i = index
+                      "
+                    >
+                      <div [formGroupName]="i" class="m-3">
+                        <div class="row">
+                          <div class="form-group col-md-6 float-right">
+                            <label>Varation Title</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              formControlName="varationTitle"
+                            />
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label>Sku</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              formControlName="sku"
+                            />
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="form-group col-md-6 float-right">
+                            <label>Barcode</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              formControlName="barcode"
+                            />
+                          </div>
+
+                          <div class="form-group col-md-6">
+                            <label>Price</label>
+                            <input
+                              type="number"
+                              min="0"
+                              class="form-control"
+                              formControlName="price"
+                              (keydown)="onlyacceptnumber($event)"
+                            />
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="form-group col-md-6 float-right">
+                            <label>Selling Price</label>
+                            <input
+                              type="number"
+                              min="0"
+                              class="form-control"
+                              formControlName="sellingPrice"
+                              (keydown)="onlyacceptnumber($event)"
+                            />
+                          </div>
+
+                          <div class="form-group col-md-6">
+                            <label>Buy Price</label>
+                            <input
+                              type="number"
+                              min="0"
+                              class="form-control"
+                              formControlName="buyPrice"
+                              (keydown)="onlyacceptnumber($event)"
+                            />
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="form-group col-md-6 float-right">
+                            <label>Initial Cost Price</label>
+                            <input
+                              type="number"
+                              min="0"
+                              class="form-control"
+                              formControlName="initialCostPrice"
+                              (keydown)="onlyacceptnumber($event)"
+                            />
+                          </div>
+
+                          <div class="form-group col-md-6">
+                            <label>Whole Sale Price</label>
+                            <input
+                              type="number"
+                              min="0"
+                              class="form-control"
+                              formControlName="wholeSalePrice"
+                              (keydown)="onlyacceptnumber($event)"
+                            />
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="form-group col-md-6 float-right">
+                            <label>Retail Price</label>
+                            <input
+                              type="number"
+                              min="0"
+                              class="form-control"
+                              formControlName="retailPrice"
+                              (keydown)="onlyacceptnumber($event)"
+                            />
+                          </div>
+                          <div class="form-group col-md-6 float-right">
+                            <label>Low Stock Alert Quantity</label>
+                            <input
+                              onkeydown="return event.keyCode !== 190"
+                              type="number"
+                              min="0"
+                              onkeydown="return event.keyCode !== 190"
+                              class="form-control"
+                              formControlName="lowStockAlertQuantity"
+                              (keydown)="onlyacceptnumber($event)"
+                            />
+                          </div>
+                          <div
+                            class="form-group col-md-6"
+                            style="display: none"
+                          >
+                            <label>Original Quantity</label>
+                            <input
+                              type="number"
+                              min="0"
+                              onkeydown="return event.keyCode !== 190"
+                              class="form-control"
+                              formControlName="originalQuantity"
+                              (keydown)="onlyacceptnumber($event)"
+                            />
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="form-group col-md-6 float-right">
+                            <label>Available Quantity</label>
+                            <input
+                              type="number"
+                              min="0"
+                              onkeydown="return event.keyCode !== 190"
+                              class="form-control"
+                              formControlName="availableQuantity"
+                              (keydown)="onlyacceptnumber($event)"
+                            />
+                          </div>
+
+                          <div
+                            class="form-group col-md-6"
+                            style="display: none"
+                          >
+                            <label>Ordered Quantity</label>
+                            <input
+                              type="number"
+                              min="0"
+                              onkeydown="return event.keyCode !== 190"
+                              class="form-control"
+                              formControlName="orderedQuantity"
+                              (keydown)="onlyacceptnumber($event)"
+                            />
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div
+                            class="form-group col-md-6"
+                            style="display: none"
+                          >
+                            <label>Asin</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              formControlName="asin"
+                            />
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div
+                            class="form-group col-md-6 float-right"
+                            style="display: none"
+                          >
+                            <label>Ean</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              formControlName="ean"
+                            />
+                          </div>
+
+                          <div
+                            class="form-group col-md-6"
+                            style="display: none"
+                          >
+                            <label>Upc</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              formControlName="upc"
+                            />
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div
+                            class="form-group col-md-6 float-right"
+                            style="display: none"
+                          >
+                            <label>Isbn</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              formControlName="isbn"
+                            />
+                          </div>
+
+                          <div
+                            class="form-group col-md-6"
+                            style="display: none"
+                          >
+                            <label>Gcid</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              formControlName="gcid"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <!-- end of form 2 -->
+                <!-- end of inventory form -->
+              </div>
+            </div>
+          </div>
+          <!-- end of 6 -->
+
+          <!-- start of 7 -->
+          <div class="card">
+            <div class="card-header" id="heading7">
+              <h2 class="mb-0">
+                <button
+                  class="btn btn-link btn-block text-left collapsed"
+                  type="button"
+                  id="pictures"
+                  data-toggle="collapse"
+                  data-target="#collapse7"
+                  aria-expanded="false"
+                  aria-controls="collapse7"
+                >
+                  <i class="far fa-images"></i> Pictures
+                </button>
+              </h2>
+            </div>
+            <div
+              id="collapse7"
+              class="collapse"
+              aria-labelledby="heading7"
+              data-parent="#accordionExample"
+            >
+              <div class="card-body">
+                <!-- start of form 3 -->
+                <form [formGroup]="form3" (ngSubmit)="onSubmit()">
+                  <!-- start of product image form -->
+                  <label>Product Image </label>
+
+                  <!-- <div *ngFor="let i of productImage">
+
+                    <img  [src]="i.imageUrl" alt=""  height="40" width="50" />
+
+
+                   </div> -->
+
+                  <!-- <div class="files"></div> -->
+                  <div class="">
+                    <div
+                      class="dropzone"
+                      appDnd
+                      (fileDropped)="onFileDropped($event)"
+                    >
+                      <input
+                        class="fileinput"
+                        type="file"
+                        #fileDropRef
+                        id="fileDropRef"
+                        multiple
+                        (change)="fileBrowseHandler($event)"
+                      />
+
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="63"
+                        height="64"
+                        viewBox="0 0 63 64"
+                      >
+                        <g fill="#3B454F" fill-rule="nonzero">
+                          <path
+                            d="M42.656 15.135a1.953 1.953 0 0 1-1.391-.578L31.5 4.795l-9.765 9.762a1.97 1.97 0 1 1-2.785-2.785L30.106.616a1.97 1.97 0 0 1 2.785 0l11.157 11.156a1.97 1.97 0 0 1-1.392 3.363z"
+                          />
+                          <path
+                            d="M31.5 36.791a1.97 1.97 0 0 1-1.969-1.969V2.01a1.97 1.97 0 0 1 3.938 0v32.812a1.97 1.97 0 0 1-1.969 1.969z"
+                          />
+                          <path
+                            d="M55.781 63.041H7.22A7.225 7.225 0 0 1 0 55.822V41.385a4.599 4.599 0 0 1 4.594-4.594h7.234a4.567 4.567 0 0 1 4.402 3.276l2.814 9.382a.658.658 0 0 0 .628.467h23.656a.658.658 0 0 0 .628-.467l2.814-9.385a4.572 4.572 0 0 1 4.402-3.273h7.234A4.599 4.599 0 0 1 63 41.385v14.437a7.225 7.225 0 0 1-7.219 7.219zM4.594 40.729a.656.656 0 0 0-.657.656v14.437a3.286 3.286 0 0 0 3.282 3.282H55.78a3.286 3.286 0 0 0 3.282-3.282V41.385a.656.656 0 0 0-.657-.656h-7.234a.65.65 0 0 0-.628.467L47.73 50.58a4.628 4.628 0 0 1-4.402 3.274H19.672a4.567 4.567 0 0 1-4.402-3.276l-2.814-9.382a.65.65 0 0 0-.628-.467H4.594z"
+                          />
+                        </g>
+                      </svg>
+
+                      <h3 class="fileh3">Drag and drop Images</h3>
+                      <h3 class="fileh3">or</h3>
+                      <label class="filelabel" for="fileDropRef"
+                        >Browse for file</label
+                      >
+                    </div>
+                    <div class="files-list">
+                      <div
+                        class="single-file"
+                        *ngFor="let file of files; let i = index"
+                      >
+                        <div class="file-icon" style="width: 50px">
+                          <svg
+                            version="1.1"
+                            id="Capa_1"
+                            xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                            x="0px"
+                            y="0px"
+                            viewBox="0 0 58 58"
+                            style="enable-background: new 0 0 58 58"
+                            xml:space="preserve"
+                          >
+                            <polygon
+                              style="fill: #edeada"
+                              points="51.5,14 37.5,0 6.5,0 6.5,58 51.5,58 "
+                            />
+                            <g>
+                              <path
+                                style="fill: #cec9ae"
+                                d="M16.5,23h25c0.552,0,1-0.447,1-1s-0.448-1-1-1h-25c-0.552,0-1,0.447-1,1S15.948,23,16.5,23z"
+                              />
+                              <path
+                                style="fill: #cec9ae"
+                                d="M16.5,15h10c0.552,0,1-0.447,1-1s-0.448-1-1-1h-10c-0.552,0-1,0.447-1,1S15.948,15,16.5,15z"
+                              />
+                              <path
+                                style="fill: #cec9ae"
+                                d="M41.5,29h-25c-0.552,0-1,0.447-1,1s0.448,1,1,1h25c0.552,0,1-0.447,1-1S42.052,29,41.5,29z"
+                              />
+                              <path
+                                style="fill: #cec9ae"
+                                d="M41.5,37h-25c-0.552,0-1,0.447-1,1s0.448,1,1,1h25c0.552,0,1-0.447,1-1S42.052,37,41.5,37z"
+                              />
+                              <path
+                                style="fill: #cec9ae"
+                                d="M41.5,45h-25c-0.552,0-1,0.447-1,1s0.448,1,1,1h25c0.552,0,1-0.447,1-1S42.052,45,41.5,45z"
+                              />
+                            </g>
+                            <polygon
+                              style="fill: #cec9ae"
+                              points="37.5,0 37.5,14 51.5,14 "
+                            />
+                          </svg>
+                        </div>
+
+                        <div class="info">
+                          <h4 class="name">
+                            {{ file?.name }}
+                          </h4>
+                          <p class="size">
+                            <!-- {{ formatBytes(file?.size) }} -->
+                          </p>
+                          <!-- <progress-bar [progress]="file?.progress"></progress-bar> -->
+                        </div>
+
+                        <div class="delete" (click)="deleteFile(i)">
+                          <svg
+                            xmlns="assets/admin/img/plus-icon.png"
+                            width="14"
+                            height="18"
+                            viewBox="0 0 14 18"
+                          >
+                            <path
+                              fill="#B1B1B1"
+                              fill-rule="nonzero"
+                              d="M1 16c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v10zm3.17-7.83a.996.996 0 0 1 1.41 0L7 9.59l1.42-1.42a.996.996 0 1 1 1.41 1.41L8.41 11l1.42 1.42a.996.996 0 1 1-1.41 1.41L7 12.41l-1.42 1.42a.996.996 0 1 1-1.41-1.41L5.59 11 4.17 9.58a.996.996 0 0 1 0-1.41zM10.5 1L9.79.29C9.61.11 9.35 0 9.09 0H4.91c-.26 0-.52.11-.7.29L3.5 1H1c-.55 0-1 .45-1 1s.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1h-2.5z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="d-sm-flex align-items-center justify-content-between">
+                    <ul class="list-inline">
+                      <li class="list-inline-item"><img src="img/pimg1.jpg" alt="" /></li>
+                      <li class="list-inline-item"><img src="img/pimg1.jpg" alt="" /></li>
+                      <li class="list-inline-item"><img src="img/pimg1.jpg" alt="" /></li>
+                    </ul>
+                    <div class=" ml-auto">
+                      <button class="btn   purple-btn-pill font-weight-bold">
+                        Browse
+                      </button>
+                    </div>
+                  </div> -->
+                </form>
+                <!-- end of form -->
+                <!-- end of product image form -->
+              </div>
+            </div>
+          </div>
+          <!-- end of 7 -->
+        </div>
+        <!-- end of collapse -->
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="pull-right">
+                <!-- <div class="df-switch "> -->
+                <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+                <!-- </div> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-4 mt-2">
+            <div class="col-md-9"></div>
+
+            <div class="col-md-3">
+              <div class="pull-right">
+                <button
+                  type="button"
+                  class="btn grey-btn font-weight-bold"
+                  (click)="back()"
+                >
+                  Cancel
+                </button>
+                <button type="submit" class="btn purple-btn font-weight-bold">
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-view-product *ngIf="previewPage" [invent]="inventoryData">
+</app-view-product>

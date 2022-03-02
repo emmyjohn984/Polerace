@@ -1,0 +1,266 @@
+<div *ngIf="loading" class="loader" id="loader"></div>
+<div class="load" [ngClass]="{'load': loading}">
+<div class="container-fluid">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item">
+        <a href="#" class="text-muted">Dashboard</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Manage Products Insights
+      </li>
+    </ol>
+  </nav>
+</div>
+
+<div class="bg-white card2 border shadow p-2">
+  <div class="d-sm-flex align-items-center justify-content-between">
+    <h4  class="brown font-weight-bold">Manage Product Insights</h4>
+    <form [formGroup]="form" style="padding: 0;margin:0">
+      <mat-form-field>
+        <mat-select placeholder="Add Columns" name="coloumns" (selectionChange)="addColoumns($event)"
+          class="filter-select" formControlName="columns" multiple>
+          <mat-option *ngFor="let data of rowData" [value]="data.value">
+            {{ data.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+</div>
+<div class="row ml-sm-1 mr-1">
+  <div style="display: block" class="card pull-left col-md-4 mt-2">
+    <br />
+    <select
+      class="form-control col-md-12"
+      (change)="onChnnelChangeData($event)"
+      ngbPopover=""
+      triggers="mouseenter:mouseleave"
+    >
+      <option value="0">All</option>
+      <option *ngFor="let i of data" [value]="i.globalMarketplaceId">
+        {{ i.globalMarketplaceName }}
+      </option>
+    </select>
+    <br />
+    <canvas
+      baseChart
+      [chartType]="chartType"
+      [data]="chartData"
+      [labels]="chartLabels"
+      [colors]="chartColors"
+      [options]="chartOptions"
+    >
+    </canvas>
+    <br />
+    <h4 style="text-align: center">Product Order Status</h4>
+  </div>
+
+  <div class="card col-md-8 pull-right mt-2" style="margin-left: auto">
+    <div style="display: block">
+      <canvas
+        baseChart
+        [datasets]="lineChartData"
+        [labels]="lineChartLabels"
+        [colors]="lineChartColors"
+        [legend]="lineChartLegend"
+        [chartType]="lineChartType"
+        [plugins]="lineChartPlugins"
+      >
+      </canvas>
+      <br />
+      <h4 style="text-align: center">
+        Daily Sales Stats From Different MarketPlaces
+      </h4>
+    </div>
+  </div>
+</div>
+
+
+<div class="col bg-white card2 border shadow p-2 mt-2">
+  <p-table
+    #dt1
+    [columns]="cols"
+    [value]="data2"
+    [paginator]="true"
+    paginatorPosition="bottom"
+    [rows]="10"
+    [rowHover]="true"
+    [rowsPerPageOptions]="[5, 10, 15, 20]"
+    totalRecords="totalRecords"
+    pageLinks="3"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [showCurrentPageReport]="true"
+    [globalFilterFields]="baseColoumns"
+    styleClass="p-datatable-customers"
+    [filterDelay]="0"
+  >
+  <ng-template pTemplate="caption">
+    <div class="">
+      <form class="form-caption   form-inline"> 
+     
+     
+        <div class="input-group col-lg-3 col-sm-6  pb-2  " id="drop">    
+       
+          <select class="form-control select border" [(ngModel)]="day"
+                      [ngModelOptions]="{standalone: true}" (change)="secondDrop($event)"  [ngClass]="day !=''? 'input-groups':'border'">
+                      <option value="" disabled>Filter By Last Days</option>
+                        <option *ngFor="let data of Days"[value]="data.day">{{data.label}}</option>
+                      </select>
+            <!-- <p-dropdown
+              
+              [options]="Days"
+              (onChange)="secondDrop($event.value.day)"
+              placeholder="Filter By Days"
+              optionLabel="label"
+              optionValue="day"
+              [(ngModel)]="day"
+              [ngModelOptions]="{standalone: true}"
+            >
+            
+            </p-dropdown> -->
+            <div class="input-group-append ">  
+            <p-button
+            type="button"
+            *ngIf="day!=''"
+            class=" float-end "
+            icon="pi pi-refresh"
+            (click)="dayFilterReset();dt1.filterGlobal('', 'contains')"
+            styleClass="p-button-text p-button-outlined"
+          ></p-button>
+            </div>   
+        </div>
+
+        <div class="input-group  col-lg-3 col-sm-6  pb-2  ">
+          <select  class="form-control select border"[(ngModel)]="globalMarketplace"
+          [ngModelOptions]="{standalone: true}" (change)="onMarketplaceChange($event)" placeholder="Filter By Days"  [ngClass]="globalMarketplace !=''? 'input-groups':'border'">
+          <option value="" disabled>Filter By MarketPlaces</option>
+            <option *ngFor="let data of marketplaces"[value]="data.globalMarketplaceId">{{data.globalMarketplaceName}}</option>
+          </select>
+            <!-- <p-dropdown
+            [options]="marketplaces"
+            (onChange)="onMarketplaceChange($event.value.globalMarketplaceId)"
+            placeholder="Filter By MarketPlaces"
+            optionLabel="globalMarketplaceName"
+            optionValue="globalMarketplaceId"
+            [(ngModel)]="globalMarketplace"
+            [ngModelOptions]="{standalone: true}"
+          >
+          </p-dropdown> -->
+            <div class="input-group-append ">
+              <p-button
+              type="button"
+              *ngIf="globalMarketplace!=''"
+              class=" float-end "
+              icon="pi pi-refresh"
+              (click)="marketFilterReset();dt1.filterGlobal('', 'contains')"
+              styleClass="p-button-text p-button-outlined"
+            ></p-button>
+            </div>
+          
+          
+          
+        </div>
+        <!-- <div class="col-md-1"></div> -->
+        <!-- <div class="  col-lg-2    pb-2"></div> -->
+        <div class="input-group  col-lg-2 col-sm-4  pb-2">
+        
+            <input
+            class="form-control date"
+            type="date"
+            id="start"
+            placeholder="start"
+            (change)="val($event)"
+            ngbPopover=""
+            triggers="mouseenter:mouseleave"
+            popoverTitle="Please, select start date"
+            [(ngModel)]="calander1"
+            [ngModelOptions]="{standalone: true}"
+            
+          />
+            <!-- <div class="input-group-append"> -->
+              <!-- <p-button style="display: none;"
+              type="button"
+              *ngIf="calander1!=''"
+              class=" float-end "
+              icon="pi pi-refresh"
+              (click)="dateFilterReset();dt1.filterGlobal('', 'contains')"
+              styleClass="p-button-text p-button-outlined"
+            ></p-button> -->
+            <!-- </div>               -->
+       
+        </div>
+
+        <div class="input-group  col-lg-2 col-sm-4  pb-2">
+         
+            <input
+            class="form-control date"
+            type="date"
+            id="end"
+            placeholder="end"
+            (change)="val1($event)"
+            ngbPopover=""
+            triggers="mouseenter:mouseleave"
+            
+            [(ngModel)]="calander2"
+            [ngModelOptions]="{standalone: true}"
+            [ngClass]="calander2 !=''? 'input-groups':'border'"
+          />
+            <div class="input-group-append">
+              <p-button
+        type="button"
+        *ngIf="calander2!=''"
+        class=" float-end "
+        icon="pi pi-refresh"
+        (click)="dateFilterReset();dt1.filterGlobal('', 'contains')"
+        styleClass="p-button-text p-button-outlined"
+      ></p-button>
+            </div>
+        
+           
+        
+       
+       
+        </div>
+        <!-- <div class="col-lg-2">
+
+        </div> -->
+        <div class=" col-lg-2 col-sm-4  pb-2 pr-2">
+
+            <input
+            class="search form-control"
+            
+              type="text"
+              (input)="dt1.filterGlobal($event.target.value, 'contains')"
+              placeholder="Search keyword"
+            />
+        </div>
+      
+    </form> 
+    </div>
+    
+    
+  </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+          {{ col.header }}
+          <p-sortIcon [field]="col.field"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-data2>
+      <tr>
+        <td *ngFor="let data of getData(data2)">{{ data }}</td>
+      </tr></ng-template
+    >
+
+    <ng-template pTemplate="emptymessage" let-columns>
+      <tr>
+        <td [attr.colspan]="columns ? 4 : 4">No records found</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+</div>

@@ -1,0 +1,62 @@
+<app-homeheader></app-homeheader>
+<a class="back-to-top" [ngClass]="{'button-scroll-to-top--show': showScroll}"  (click)="scrollToTop()"  style="display: inline;cursor:pointer;"><i class="ri-arrow-up-line"></i></a>
+<div *ngIf="loading" id="preloader"></div>
+<!-- ======= Header ======= -->
+
+<!-- End Header -->
+
+<!-- ======= Hero Section ======= -->
+
+<div class="masthead">
+  <div class="container h-100">
+    <div class="row h-100 align-items-center">
+      <div class="col-12 text-center">
+        <h1 class="font-weight-light text-white">Book a Demo</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- End Hero -->
+
+<main id="main">
+  <section id="pricing" class="pricing">
+    <div class="container aos-init aos-animate" data-aos="fade-up">
+      <div class="section-title">
+        <p class="text-uppercase ycolor">Book A Demo</p>
+        <h2>Schedule a <span class="ycolor">personal call.</span></h2>
+        <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+      </div>
+      <div class="col-sm-6 m-auto">
+        <form action="#" method="post" role="form" class="">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="name">Your Name</label>
+              <input type="text" name="name" class="form-control" id="name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+              <div class="validate"></div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="name">Your Email</label>
+              <input type="email" class="form-control" name="email" id="email" data-rule="email" data-msg="Please enter a valid email">
+              <div class="validate"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="name">Subject</label>
+            <input type="text" class="form-control" name="subject" id="subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject">
+            <div class="validate"></div>
+          </div>
+          <div class="form-group">
+            <label for="name">Message</label>
+            <textarea class="form-control" name="message" rows="10" data-rule="required" data-msg="Please write something for us"></textarea>
+            <div class="validate"></div>
+          </div>
+          <a href="#" class="btn btn-purple ml-3 text-uppercase  ">Send Message</a>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- End #main -->
+
+<app-homefooter></app-homefooter>

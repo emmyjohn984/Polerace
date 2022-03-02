@@ -1,0 +1,379 @@
+<div class="page_content">
+    <form [formGroup]="myProfile">
+        <div class="container-fluid">
+            <div class="head-title-buton">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h1>My Profile</h1>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <div class="example-button-row custumbtn">
+                            <button mat-raised-button color="primary" [routerLink]="['/dashboard']">Cancel</button>
+                        </div>
+                        <div class="example-button-row custumbtn">
+                            <button mat-raised-button color="primary" form="myProfile" class="text-uppercase"
+                                [class.spinner]="submitted" [disabled]="submitted" cdkFocusInitial
+                                (click)="onSubmit($event)">
+                                {{submitted==true?'Saving...':'Save'}}
+                            </button>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-12">
+
+
+                    <div class="common_content_section">
+                        <div class="row">
+
+                            <div class="col-sm-6">
+                                <div class="account_info_section">
+                                    <div class="account_info_title">
+                                        <h2>Account Info</h2>
+                                    </div>
+                                    <div class="account_info_content">
+                                        <div class="row">
+
+                                            <div class="col-sm-12">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Primary Email" formControlName="email"
+                                                        [readonly]="true"
+                                                        [ngClass]="{ 'is-invalid': submitted && formControls.email.errors }"
+                                                        required>
+                                                    <mat-error *ngIf="formControls.email.errors?.required">
+                                                        Please enter primary email
+                                                    </mat-error>
+                                                    <mat-error *ngIf="formControls.email.errors?.email">
+                                                        Please enter a valid email address
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col-sm-12">
+                                                <mat-checkbox formControlName="alterPassword"
+                                                    (change)="showOptions($event)">Change Password?</mat-checkbox>
+                                            </div>
+
+                                        </div>
+                                        <div *ngIf="alterPassword">
+                                            <div class="row">
+
+                                                <div class="col-sm-12">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="New Password" type="text"
+                                                            formControlName="password" type="password" maxlength="15"
+                                                            minlength="5"
+                                                            [ngClass]="{ 'is-invalid': submitted && formControls.password.errors }"
+                                                            autocomplete="new-password">
+                                                        <mat-error *ngIf="formControls.password.errors?.required">
+                                                            Please enter password
+                                                        </mat-error>
+                                                        <mat-error *ngIf="formControls.password.errors?.minlength">
+                                                            Password must be at least 5 characters long.
+                                                        </mat-error>
+                                                        <mat-error *ngIf="formControls.password.errors?.maxlength">
+                                                            Password can be max 15 characters long.
+                                                        </mat-error>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="col-sm-12">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Confirm Password" type="password"
+                                                            maxlength="15" minlength="5"
+                                                            formControlName="confirmPassword"
+                                                            [ngClass]="{ 'is-invalid': submitted && formControls.confirmPassword.errors }"
+                                                            autocomplete="new-password">
+                                                        <mat-error
+                                                            *ngIf="formControls.confirmPassword.errors?.required">
+                                                            Please enter confirm password
+                                                        </mat-error>
+                                                        <mat-error
+                                                            *ngIf="formControls.confirmPassword.errors.confirmedValidator">
+                                                            Password and Confirm Password must be match.
+                                                        </mat-error>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+
+                                                <div class="col-sm-12 text-center">
+                                                    <div class="example-button-row custumbtn">
+                                                        <button mat-raised-button color="primary" type="button"
+                                                            [disabled]="submitted"
+                                                            (click)="Updatepassword($event);">Update Passsword</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+
+                                    <div class="common_content_section mt15">
+                                        <div class="custum-field-head">
+                                            <h3>USER PROFILE PHOTO</h3>
+                                        </div>
+                                        <div class="p15">
+                                            <div class="row">
+                                                <div class="col-sm-4"></div>
+                                                <div class="col-sm-4">
+                                                    <img *ngIf="imagePreview" [src]="imagePreview" class="img-thumbnail"
+                                                        height="80" with="80" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-4 "></div>
+                                                <div class="col-sm-4 ">
+
+                                                    <div class="upload_choose d-flex justify-content-center">
+                                                        <div class="choosefile">
+                                                            <img src="../../../../../assets/img/choosefile.svg">
+                                                            <input type="file" title=" "
+                                                                (change)="handleImageChange($event)">
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                            <p class="text-center">
+                                                (Browse any jpg, jpeg, bmp, png file.)
+                                            </p>
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-sm-12 text-center">
+                                                <div class="example-button-row custumbtn">
+                                                    <button mat-raised-button color="primary" type="button"
+                                                        [disabled]="submitted" (click)="uploadPhoto($event)">Upload Photo</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="account_info_section">
+                                    <div class="account_info_title">
+                                        <h2>Personal Info</h2>
+                                    </div>
+                                    <div class="account_info_content">
+                                        <div class="row">
+
+                                            <div class="col-sm-12">
+
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="First Name" formControlName="firstName"
+                                                        [ngClass]="{ 'is-invalid': submitted && formControls.firstName.errors }"
+                                                        required>
+                                                    <mat-error *ngIf="formControls.firstName.errors?.required">
+                                                        Please enter first name
+                                                    </mat-error>
+                                                </mat-form-field>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-sm-12">
+
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Last Name" formControlName="lastName"
+                                                        [ngClass]="{ 'is-invalid': submitted && formControls.lastName.errors }"
+                                                        required>
+                                                    <mat-error *ngIf="formControls.lastName.errors?.required">
+                                                        Please enter last name
+                                                    </mat-error>
+                                                </mat-form-field>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-sm-12">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Tag Line" formControlName="tagLine"
+                                                        [ngClass]="{ 'is-invalid': submitted && formControls.tagLine.errors }">
+                                                    <mat-error *ngIf="formControls.tagLine.errors?.required">
+                                                        Please enter tag line
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-sm-12">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Line Address 1"
+                                                        formControlName="addressLine1"
+                                                        [ngClass]="{ 'is-invalid': submitted && formControls.addressLine1.errors }"
+                                                        required>
+                                                    <mat-error *ngIf="formControls.addressLine1.errors?.required">
+                                                        Please enter line address 1
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-sm-12">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Line Address 2"
+                                                        formControlName="addressLine2"
+                                                        [ngClass]="{ 'is-invalid': submitted && formControls.addressLine2.errors }">
+                                                    <mat-error *ngIf="formControls.addressLine2.errors?.required">
+                                                        Please enter line address 2
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-sm-12">
+                                                <mat-form-field class="example-full-width">
+                                                    <mat-label>Select Country</mat-label>
+                                                    <mat-select matInput placeholder="Country"
+                                                        (selectionChange)="onCountryChange($event)"
+                                                        formControlName="countryId"
+                                                        [ngClass]="{ 'is-invalid': submitted && formControls.countryId.errors }"
+                                                        required>
+                                                        <mat-option *ngFor="let country of countries"
+                                                            [value]="country.countryId">
+                                                            {{country.countryName}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                    <mat-error *ngIf="formControls.countryId.errors">
+                                                        Please select country
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-sm-12">
+                                                <mat-form-field class="example-full-width">
+                                                    <mat-label>Select State</mat-label>
+                                                    <mat-select matInput placeholder="States" formControlName="stateId"
+                                                        [ngClass]="{ 'is-invalid': submitted && formControls.stateId.errors }"
+                                                        required>
+                                                        <mat-option>--</mat-option>
+                                                        <mat-option *ngFor="let state of states"
+                                                            [value]="state.stateId">
+                                                            {{state.stateName}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                    <mat-error *ngIf="formControls.stateId.errors">
+                                                        Please select state
+                                                    </mat-error>
+                                                </mat-form-field>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-sm-12">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="City" formControlName="city"
+                                                        [ngClass]="{ 'is-invalid': submitted && formControls.city.errors }"
+                                                        required>
+                                                    <mat-error *ngIf="formControls.city.errors?.required">
+                                                        Please enter city
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col-sm-12">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Postal code"
+                                                        formControlName="postalCode"
+                                                        (keyup)="validateNumberInput($event)" id="postalCode"
+                                                        maxlength="6"
+                                                        [ngClass]="{ 'is-invalid': submitted && formControls.postalCode.errors }"
+                                                        required>
+                                                    <mat-error *ngIf="formControls.postalCode.errors?.required">
+                                                        Please enter postal code
+                                                    </mat-error>
+                                                    <mat-error *ngIf="formControls.postalCode.errors?.maxlength">
+                                                        Postal code can be max 6 characters long.
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-sm-12">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput placeholder="Phone" formControlName="phone"
+                                                        [ngClass]="{ 'is-invalid': submitted && formControls.phone.errors }"
+                                                        (keyup)="validateNumberInput($event)" id="phone" maxlength="11"
+                                                        required>
+                                                    <mat-error *ngIf="formControls.phone.errors?.required">
+                                                        Please enter phone
+                                                    </mat-error>
+                                                    <mat-error *ngIf="formControls.phone.errors?.maxlength">
+                                                        Phone can be max 11 characters long.
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="head_common_section">
+                        <div class="row">
+                            <div class="col-sm-12 text-right">
+                                <div class="example-button-row custumbtn">
+                                    <button mat-raised-button color="primary"
+                                        [routerLink]="['/dashboard']">Cancel</button>
+                                </div>
+                                <div class="example-button-row custumbtn">
+                                    <button mat-raised-button color="primary" form="myProfile" class="text-uppercase"
+                                        [class.spinner]="submitted" [disabled]="submitted" cdkFocusInitial
+                                        (click)="onSubmit($event)">
+                                        {{submitted==true?'Saving...':'Save'}}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+

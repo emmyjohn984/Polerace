@@ -1,0 +1,126 @@
+<div class="mat-dialog-content" >
+    <div class="container" style="position: relative;">
+        <button type="button" class="close close-btn-top" (click)="onCancelClick()">×</button>
+
+        <div *ngIf="!isConnecteBay;else eBayConnectSteps" class="row">
+          <div class="col-sm-4">
+            <div class="brand-details">
+              <div class="brand-name">
+                <img src="../../../../../assets/img/ebay-logo.jpg" alt="">
+              </div>
+              <div class="brand-desc">
+                <p>If it exists in the world, it is probably for sale on eBay.</p>
+                <a target="_blank" href="https://www.ebay.com/" >Visit ebay.com</a>
+              </div>
+              <div class="brand-acc">
+                <a target="_blank" href="https://reg.ebay.com/reg/PartialReg">Create eBay Account</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-8">
+            <div class="brand-connect">
+              <h3>Connecting eBay to Polerace</h3>
+              <p>Connecting your eBay account is the quickest way to import and manage your inventory, listings and sales
+                orders.</p>
+              <ul>
+                <h4>What information is synced?</h4>
+                <li>Products</li>
+                <li>Listings</li>
+                <li>Sales Orders</li>
+                <!-- <li>Stock Levels</li> -->
+              </ul>
+              <!-- <h4>Setup Support</h4>
+              <a href="" target="_blank">eBay Setup Guide</a><br>
+              <a target="_blank" href="">Start a Web Chat</a> -->
+
+              <div class="con-acc"><a href="javascript:void(0)" class="btn " (click)="connecteBayPopupStep(1)">Connect eBay</a>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+        <ng-template #eBayConnectSteps>
+          <div>
+            <mat-horizontal-stepper linear #stepper>
+              <mat-step [stepControl]="setupeBayFormGroup" [editable]="isEditable">
+                <form [formGroup]="setupeBayFormGroup">
+                  <ng-template matStepLabel>Setup</ng-template>
+                  <div class="row">
+                    <div class=" col-sm-8">
+                      <mat-form-field class="example-full-width">
+                        <mat-label>Account Name</mat-label>
+                        <input matInput formControlName="accountName" placeholder="Account Name" required>
+                        <mat-error *ngIf="formControls.accountName.errors?.required">
+                            Please input account name
+                          </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-8">
+                      <mat-form-field class="example-full-width" required>
+                        <mat-label>Regions</mat-label>
+                        <mat-select formControlName="globalMarketplaceSiteIDs" multiple>
+                          <mat-option *ngFor="let marketplaceSite of eBayMarketplaceSites"
+                            [value]="marketplaceSite.globalMarketplaceSiteId">{{marketplaceSite.globalMarketplaceSiteName}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formControls.globalMarketplaceSiteIDs.errors?.required">
+                            Please select region
+                          </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="row next-previous">
+                      <div class="col-sm-6">
+                        <button mat-raised-button color="primary" (click)="backToOverview()">Back</button>
+                      </div>
+                      <div class="col-sm-6">
+                          <button mat-raised-button color="primary" class="float-right" (click)="goForward(stepper)">
+                              Next
+                            </button>
+                      </div>
+                    </div>
+                </form>
+              </mat-step>
+              <mat-step [completed]="false">
+                  <ng-template matStepLabel>Connect</ng-template>
+                  <div class="row">
+                    <div class="col-sm-2">
+                      <label>Connect</label>
+                    </div>
+                    <div class="col-sm-10">
+                        <button class="connect-btn" mat-raised-button color="primary" type="button" (click)="eBayForAuthorizationClick()">
+                          Connect
+                        </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-10">
+                      This will take you to eBay where you will be asked to login and authorise the connection.
+                      Once completed, you will be brought straight back to Polerace.
+                    </div>
+                  </div>
+                  <div class="row next-previous">
+                    <div class="col-sm-6">
+                      <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+                    </div>
+                    <div class="col-sm-6">
+                      <button mat-raised-button class="float-right" color="primary" type="button" (click)="eBayForAuthorizationClick()"> Connect </button>
+                    </div>
+                  </div>
+              </mat-step>
+              <mat-step>
+                <ng-template matStepLabel>Finish</ng-template>
+                <p>Setup finished.</p>
+              </mat-step>
+            </mat-horizontal-stepper>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+

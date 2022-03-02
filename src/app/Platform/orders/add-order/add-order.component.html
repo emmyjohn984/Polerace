@@ -1,0 +1,223 @@
+<div *ngIf="loading" class="loader" id="loader"></div>
+
+<div class="container-fluid" [ngClass]="{'container-fluid': loading}">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item">
+        <a routerLink="/dashboard" class="text-muted">Dashboard</a>
+      </li>
+      <li class="breadcrumb-item"><a class="text-muted">orders</a></li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Add purchase order
+      </li>
+    </ol>
+  </nav>
+
+  <div class="d-sm-flex align-items-center justify-content-between mb-3">
+    <h4 class="brown font-weight-bold">Add purchase order</h4>
+  </div>
+
+  <div class="card mb-4 ">
+    <h5 *ngIf="!Edit" class="card-header text-center purplebgcolor ">
+      Add New purchase order
+    </h5>
+    <h5 *ngIf="Edit" class="card-header text-center purplebgcolor ">
+      Edit purchase order
+    </h5>
+    <div class="card-body pt-0">
+      <form [formGroup]="purchaseOrderForm" (ngSubmit)="onSubmit($event)">
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label class="required">Product Name</label>
+             <select type="text" class="form-control"  formControlName="productId"
+             [ngClass]="{'is-invalid':submitted && f.productId.errors}"  (change)="subTotal($event)" >
+              <option value="">Select Product Name</option>
+              <option *ngFor="let prod of title" [value]="prod.products.productId">{{ prod?.products?.title}}</option>
+            </select>
+            <mat-error *ngIf="submitted && f.productId.errors">
+              <mat-error *ngIf="f.productId.errors?.required">
+                Please Select Product.
+              </mat-error>
+            </mat-error>
+            </div>
+
+          <div class="form-group col-md-6">
+            <!-- <input class="required">Select Product</label> -->
+            <label class="required">Shipping Package Name</label>
+            <select type="text" class="form-control"  formControlName="shippingPackageId" (change)="getShippingPrice($event)"
+            [ngClass]="{'is-invalid':submitted && f.shippingPackageId.errors}">
+            <option value="">Select Shipping Package</option>
+            <option *ngFor="let ls of shippingPackageName" [value]="ls.shippingPackageId">{{ls.shippingPackageName}}</option>
+          </select>
+          <mat-error *ngIf="submitted && f.shippingPackageId.errors">
+            <mat-error *ngIf="f.shippingPackageId.errors?.required">
+              Please Select Shipping Package.
+            </mat-error>
+          </mat-error>
+
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="required">Supplier Name</label>
+            <select type="text" formControlName="supplierId" class="form-control" [ngClass]="{'is-invalid':submitted && f.supplierId.errors}">
+              <option value="">Select Supplier</option>
+              <option *ngFor="let supp of supplier " [value]="supp.supplierId">{{supp.firstName}} {{supp.lastName}}
+              </option>
+            </select>
+            <mat-error *ngIf="submitted && f.supplierId.errors">
+              <mat-error *ngIf="f.supplierId.errors?.required">
+                Please Select Supplier.
+              </mat-error>
+            </mat-error>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="required">Quantity</label>
+            <input type="number" (keydown)="onlyacceptnumber($event)"
+            formControlName="quantity" class="form-control " [ngClass]="{'is-invalid':submitted && f.quantity.errors}" />
+            <mat-error *ngIf="submitted && f.quantity.errors">
+              <mat-error *ngIf="f.quantity.errors?.required">
+                Please Enter Quantity.
+              </mat-error>
+            </mat-error>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label>Product Order Number</label>
+            <input type="text" formControlName="pO_Number" class="form-control " />
+          </div>
+
+          <div class="form-group col-md-6">
+            <label >Tracking Number</label>
+            <input type="text" formControlName="tracking_Number" class="form-control " />
+          </div>
+
+          <div class="form-group col-md-6">
+            <label>Product Price</label>
+            <input type="number" (keydown)="onlyacceptnumber($event)"
+             formControlName="subtotal_Price" class="form-control" (change)="prodPrice($event)" [(ngModel)]="sellingPrice" [ngClass]="{'is-invalid':submitted && f.subtotal_Price.errors}"/>
+            <mat-error
+            *ngIf="f.subtotal_Price.touched ||  f.subtotal_Price.dirty && f.subtotal_Price.invalid"
+          >
+            <mat-error *ngIf="f.subtotal_Price.errors?.required">
+              Please Enter tracking_Number .
+            </mat-error></mat-error
+          >
+          </div>
+
+          <div class="form-group col-md-6">
+            <label>Shipping Price</label>
+            <input type="number" (keydown)="onlyacceptnumber($event)"
+             formControlName="shipping_Price" class="form-control"  (change)="shipPrice($event)" [(ngModel)]="price" [ngClass]="{'is-invalid':submitted && f.shipping_Price.errors}" />
+            <mat-error
+            *ngIf="f.shipping_Price.touched ||  f.shipping_Price.dirty && f.shipping_Price.invalid"
+          >
+            <mat-error *ngIf="f.shipping_Price.errors?.required">
+              Please Enter Shipping Price .
+            </mat-error></mat-error
+          >
+          </div>
+
+          <div class="form-group col-md-6">
+            <label>Tax</label>
+            <input type="number"  (keydown)="onlyacceptnumber($event)"
+            formControlName="tax" class="form-control" (change)="handletax($event)" [(ngModel)]="tax1" [ngClass]="{'is-invalid':submitted && f.tax.errors}"/>
+            <mat-error
+            *ngIf="f.tax.touched ||  f.tax.dirty && f.tax.invalid"
+          >
+            <mat-error *ngIf="f.tax.errors?.required">
+              Please Enter tax .
+            </mat-error></mat-error
+          >
+          </div>
+
+          <div class="form-group col-md-6">
+            <label>Discount</label>
+            <input type="number" (keydown)="onlyacceptnumber($event)"
+            formControlName="discount" class="form-control" (change)="discount($event)" [(ngModel)]="discountvalue" [ngClass]="{'is-invalid':submitted && f.discount.errors}" />
+            <mat-error
+            *ngIf="f.discount.touched ||  f.discount.dirty && f.discount.invalid"
+          >
+            <mat-error *ngIf="f.discount.errors?.required">
+              Please Enter discount .
+            </mat-error></mat-error
+          >
+          </div>
+
+          <div class="form-group col-md-6">
+            <label >Total Price </label>
+            <input type="number"  [readonly]="isEdit"  formControlName="total_Price" class="form-control" (change)="totPrice($event)" [(ngModel)]="totalPrice" [ngClass]="{'is-invalid':submitted && f.total_Price.errors}"/>
+            <mat-error
+            *ngIf="f.total_Price.touched ||  f.total_Price.dirty && f.shipping_Price.invalid"
+          >
+            <mat-error *ngIf="f.total_Price.errors?.required">
+              Please Enter Total Price .
+            </mat-error></mat-error
+          >
+          </div>
+
+           <div class="form-group col-md-6">
+            <label>Cost Price</label>
+            <input type="number" [readonly]="isEdit" formControlName="buyPrice"
+            class="form-control" [(ngModel)]="buyPrice" />
+          </div>
+
+          <div class="form-group col-md-6">
+            <label >Grand Total</label>
+            <input type="text" [readonly]="isEdit1" formControlName="grandTotal" class="form-control"  [(ngModel)]="Gtotal" />
+
+          </div>
+
+          <div class="form-group col-md-6">
+            <label >Profit </label>
+            <input type="number"  [readonly]="isEdit"  formControlName="profit" class="form-control" [(ngModel)]="Totalprofit"/>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="required">Order Status</label>
+            <select formControlName="fulfillment_Status" class="form-control"  [ngClass]="{'is-invalid':submitted && f.fulfillment_Status.errors}">
+              <option value="">Select Status</option>
+              <option value="1">Pending</option>
+              <option value="2">Shipped</option>
+              <option value="3" *ngIf="disable">Recieved</option>
+              <option value="4" *ngIf="disable">Canceled</option>
+            </select>
+            <mat-error *ngIf="submitted && f.fulfillment_Status.errors">
+              <mat-error *ngIf="f.fulfillment_Status.errors?.required">
+                Please Select Order Status.
+              </mat-error>
+            </mat-error>
+          </div>
+        </div>
+        <!-- <div class="custom-control custom-switch">
+          <input type="checkbox" class="custom-control-input" id="customSwitches" formControlName="isActive">
+          <label class="custom-control-label" for="customSwitches">isActive</label>
+        </div> -->
+        <div class="row">
+          <div class="col">
+            <div class="col">
+              <div class="pull-left">
+                <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-right">
+            <button *ngIf="!Edit" type="reset" id="btn1" class="btn grey-btn font-weight-bold">
+              Cancel
+            </button>
+            <button *ngIf="Edit" routerLink="/orders/order-listing" id="btn1" class="btn grey-btn font-weight-bold">
+              Cancel
+            </button>
+            <button type="submit" class="btn purple-btn font-weight-bold">
+              Save
+            </button>
+          </div>
+        </div>
+        <!-- <pre>Form values: {{ purchaseOrderForm?.value | json }}</pre> -->
+      </form>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+#btn1{
+  margin-right: 5px;
+}
+
+.col-md-2{
+  padding-top: 15px;
+}
+
+.purplebgcolor {
+  background: #850273;
+  color: #fff;
+}
+
+.purple-btn-pill {
+  background-color: #850273;
+  color: #fff;
+  border-radius: 50px;
+}
+
+.grey-btn {
+  background-color: #d4d4d4;
+  color: #000;
+}
+
+.purple-btn {
+  background-color: #850273;
+  color: #fff;
+}
+
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #850273  ;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+  margin: 55px auto;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  // opacity: 0.5;
+  margin-top: 400px;
+  z-index: 1;
+
+  }
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+a{
+  cursor: pointer;
+}
+
+.container-fluid{
+  opacity: 0.2;
+}

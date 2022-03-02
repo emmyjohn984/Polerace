@@ -1,0 +1,279 @@
+<div *ngIf="loading" class="loader" id="loader"></div>
+<div class="container-fluid" [ngClass]="{ 'container-fluid': loading }">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item">
+        <a href="#" class="text-muted">Dashboard</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="#" class="text-muted">Manage Shipping Package</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Add Shipping Package
+      </li>
+    </ol>
+  </nav>
+
+  <div class="d-sm-flex align-items-center justify-content-between mb-3">
+    <h4 class="brown font-weight-bold">Manage Shipping Package</h4>
+  </div>
+  <div class="card mb-4">
+    <h5 class="card-header text-center purplebgcolor" id="heading" *ngIf="!Edit">
+      Add New Shipping Package
+    </h5>
+    <h5 class="card-header text-center purplebgcolor" id="heading" *ngIf="Edit">
+      Edit Shipping Package
+    </h5>
+    <div class="card-body pt-0">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label class="required">Shipping Package Name</label>
+            <input type="text" class="form-control" formControlName="shippingPackageName" min="0"
+              onkeydown="return event.keyCode !== 190" id="package" maxlength="50" 
+              [ngClass]="{'is-invalid': submitted && f.shippingPackageName.errors}" />
+            <mat-error *ngIf="submitted && f.shippingPackageName.errors">
+              <mat-error *ngIf="f.shippingPackageName.errors?.required">
+                Please Enter Shipping Package Name.
+              </mat-error>
+            </mat-error>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="required">Select Supplier</label>
+            <select [ngClass]="{ 'is-invalid': submitted && f.supplierId.errors }" placeholder="Select Supplier"
+              class="form-control" formControlName="supplierId" (change)="filterData($event)">
+              <option value="">Select Supplier</option>
+              <option *ngFor="let sup of suplier" [value]="sup.supplierId">
+                {{ sup.firstName }}
+              </option>
+            </select>
+            <mat-error *ngIf="submitted && f.supplierId.errors">
+              <mat-error *ngIf="f.supplierId.errors?.required">
+                Please Select Supplier.
+              </mat-error>
+            </mat-error>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label class="required">Package Quantity</label>
+            <input type="number" class="form-control" formControlName="quantity" min="0"
+              onkeydown="return event.keyCode !== 190" id="quantity" maxlength="50" (keydown)="onlyacceptnumber($event)"
+              [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }" />
+            <mat-error *ngIf="submitted && f.quantity.errors">
+              <mat-error *ngIf="f.quantity.errors?.required">
+                Please Enter Package Quantity.
+              </mat-error>
+              <mat-error *ngIf="f.quantity.errors?.pattern">
+                Package Quantity Should Not Be 0.
+              </mat-error>
+            </mat-error>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="optional"> Supplier Address</label>
+            <input type="text" formControlName="supplierAddress" [ngClass]="{
+                'is-invalid': submitted && f.supplierAddress.errors
+              }" class="form-control" [(ngModel)]="addressLine" />
+              <mat-error *ngIf="submitted && f.supplierAddress.errors">
+                <mat-error *ngIf="f.supplierAddress.errors?.required">
+                  Please Enter Supplier Address.
+                </mat-error>
+              </mat-error>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label class="required">Package Weight</label>
+            <input type="number" min="0" class="form-control" formControlName="weight" id="productWeight" maxlength="50"
+              (keydown)="onlyacceptnumber($event)" [ngClass]="{ 'is-invalid': submitted && f.weight.errors }" />
+              <mat-error *ngIf="submitted && f.weight.errors">
+                <mat-error *ngIf="f.weight.errors?.required">
+                  Please Enter Package Weight.
+                </mat-error>
+              </mat-error>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="required">Package Weight Unit</label>
+            <select type="text" formControlName="weightUnit"
+              [ngClass]="{ 'is-invalid': submitted && f.weightUnit.errors }" class="form-control">
+              <option value="">Select Weight Unit</option>
+              <option value="Kilogram">Kilogram (kg)</option>
+              <option value="Gram">Gram (gm)</option>
+              <option value="Milligram">Milligram (mg)</option>
+            </select>
+            <mat-error *ngIf="submitted && f.weightUnit.errors">
+              <mat-error *ngIf="f.weightUnit.errors?.required">
+                Please Select Package Weight Unit.
+              </mat-error>
+            </mat-error>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label class="required">Package Height</label>
+            <input type="number" formControlName="height" [ngClass]="{ 'is-invalid': submitted && f.height.errors }"
+              min="0" (keydown)="onlyacceptnumber($event)" class="form-control" />
+              <mat-error *ngIf="submitted && f.height.errors">
+                <mat-error *ngIf="f.height.errors?.required">
+                  Please Select Package Height.
+                </mat-error>
+              </mat-error>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="required">Package Height Unit</label>
+            <select type="text" formControlName="heightUnit"
+              [ngClass]="{ 'is-invalid': submitted && f.heightUnit.errors }" class="form-control">
+              <option value="">Select Height Unit</option>
+              <option value="Meter">Meter (m)</option>
+              <option value="Feet">Feet (ft)</option>
+              <option value="Inches">Inches (in)</option>
+              <option value="Centimeters">Centimeters (cm)</option>
+              <option value="Millimeters">Millimeters (mm)</option>
+            </select>
+            <mat-error *ngIf="submitted && f.heightUnit.errors">
+              <mat-error *ngIf="f.heightUnit.errors?.required">
+                Please Select Height Unit.
+              </mat-error>
+            </mat-error>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label class="required">Package Length</label>
+            <input type="number" class="form-control" min="0" formControlName="length" id="productLength" maxlength="50"
+              (keydown)="onlyacceptnumber($event)" [ngClass]="{ 'is-invalid': submitted && f.length.errors }" />
+              <mat-error *ngIf="submitted && f.length.errors">
+                <mat-error *ngIf="f.length.errors?.required">
+                  Please Enter Package Length.
+                </mat-error>
+              </mat-error>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="required">Package Length Unit</label>
+            <select type="text" formControlName="lengthUnit"
+              [ngClass]="{ 'is-invalid': submitted && f.lengthUnit.errors }" class="form-control">
+              <option value="">Select Length Unit</option>
+              <option value="">Select Unit</option>
+              <option value="Meter">Meter (m)</option>
+              <option value="Feet">Feet (ft)</option>
+              <option value="Inches">Inches (in)</option>
+              <option value="Centimeters">Centimeters (cm)</option>
+              <option value="Millimeters">Millimeters (mm)</option>
+            </select>
+            <mat-error *ngIf="submitted && f.lengthUnit.errors">
+              <mat-error *ngIf="f.lengthUnit.errors?.required">
+                Please Select Package Length Unit.
+              </mat-error>
+            </mat-error>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="required">Package Width</label>
+            <input type="number" min="0" (keydown)="onlyacceptnumber($event)" formControlName="width"
+              [ngClass]="{ 'is-invalid': submitted && f.width.errors }" class="form-control" />
+              <mat-error *ngIf="submitted && f.width.errors">
+                <mat-error *ngIf="f.width.errors?.required">
+                  Please Enter Package Width.
+                </mat-error>
+              </mat-error>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="required">Package Width Unit</label>
+            <select type="number" min="0" (keydown)="onlyacceptnumber($event)" formControlName="widthUnit"
+              [ngClass]="{ 'is-invalid': submitted && f.width.errors }" class="form-control">
+              <option value="">Select Width Unit</option>
+              <option value="Meter">Meter (m)</option>
+              <option value="Feet">Feet (ft)</option>
+              <option value="Inches">Inches (in)</option>
+              <option value="Centimeters">Centimeters (cm)</option>
+              <option value="Millimeters">Millimeters (mm)</option>
+            </select>
+            <mat-error *ngIf="submitted && f.width.errors">
+              <mat-error *ngIf="f.width.errors?.required">
+                Please Select Package Width Unit.
+              </mat-error>
+            </mat-error>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label class="required">Billing Address</label>
+            <input type="text" formControlName="billingAddress"
+              [ngClass]="{ 'is-invalid': submitted && f.billingAddress.errors }" class="form-control" />
+              <mat-error *ngIf="submitted && f.billingAddress.errors">
+                <mat-error *ngIf="f.billingAddress.errors?.required">
+                  Please Enter Billing Address.
+                </mat-error>
+              </mat-error>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="required">Price</label>
+            <input type="number" min="0" class="form-control" formControlName="price" id="price"
+              (keydown)="onlyacceptnumber($event)" maxlength="50"
+              [ngClass]="{ 'is-invalid': submitted && f.price.errors }" (change)="price($event)" />
+              <mat-error *ngIf="submitted && f.price.errors">
+                <mat-error *ngIf="f.price.errors?.required">
+                  Please Enter Price.
+                </mat-error>
+              </mat-error>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label>Discount</label>
+            <input type="number" min="0" formControlName="discount" (change)="discoun($event)" class="form-control"
+              (keydown)="onlyacceptnumber($event)" [ngClass]="{ 'is-invalid': submitted && f.discount.errors }" />
+          </div>
+
+          <div class="form-group col-md-6">
+            <label> Taxes</label>
+            <input type="number" min="0" class="form-control" formControlName="taxes" id="taxes" maxlength="50"
+              (keydown)="onlyacceptnumber($event)" (change)="tax($event)"
+              [ngClass]="{ 'is-invalid': submitted && f.taxes.errors }" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label> Total Price</label>
+            <input type="number" [readonly]="isEdit1" min="0" class="form-control" formControlName="totalPrice"
+              id="taxes" maxlength="50" (keydown)="onlyacceptnumber($event)" [(ngModel)]="sum"
+              [ngClass]="{ 'is-invalid': submitted && f.totalPrice.errors }" />
+          </div>
+        </div>
+        <div class="row"></div>
+        <br />
+        <div class="row">
+          <div class="col-md-12">
+            <div class="pull-left">
+              <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-right">
+            <div class="pull-right">
+              <button type="reset" class="btn grey-btn font-weight-bold">
+                Cancel
+              </button>
+              <button type="submit" class="btn purple-btn font-weight-bold">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

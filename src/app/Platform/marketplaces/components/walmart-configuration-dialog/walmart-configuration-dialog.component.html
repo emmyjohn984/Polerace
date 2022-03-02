@@ -1,0 +1,105 @@
+<div class="mat-dialog-content">
+    <div class="container" style="position: relative;">
+        <button type="button" class="close close-btn-top" (click)="onNoClick()">×</button>
+        <div class="row">
+            <div class="col-sm-4" >
+                <div class="brand-details">
+                    <div class="brand-name">
+                        <img src="../../../../../assets/img/walmart.png" alt="" class="wall">
+                    </div>
+                    <div class="brand-desc">
+                        <p>Walmart is a marketplace where people around the world connect, both online and offline, to
+                            make, sell and buy unique goods.</p>
+                        <a href="https://www.walmart.com/" target="_blank">Visit walmart.com</a>
+                    </div>
+                    <div class="brand-acc">
+                        <a href="https://www.walmart.com/account/signup" target="_blank">Create Walmart Account</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="brand-connect" *ngIf="!IsConnectClicked">
+                    <h3>Connecting Walmart to Polerace</h3>
+                    <p>Connecting your Walmart account is the quickest way to import and manage your inventory, listings
+                        and sales orders.</p>
+                      <h4>What information is synced?</h4>
+                    <ul>
+                        <li>Products and Variations</li>
+                        <li>Listings</li>
+                        <li>Sales Orders</li>
+                    </ul>
+
+                    <div class="con-acc"><a (click)="onConnectBtnClick()" class="btn">Connect Walmart</a></div>
+
+                </div>
+                <div class="brand-connect" *ngIf="IsConnectClicked">
+
+                    <form [formGroup]="walmartFormGroup">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <ul>
+                                  <h3>Connecting Walmart to Polerace</h3>
+                                    <li>Log into the developer center by <a target="_blank"
+                                            href="https://developer.walmart.com/home?isLoginReqd=true">clicking
+                                            here</a>. Select the appropriate country for which you are trying to
+                                        integrate and login.</li>
+                                    <li>Select Polerace from the drop down menu and click Add Solution Provider.</li>
+                                    <li>Click the "pencil" icon and set all options to Full Access if available.
+                                        Otherwise, set to View Only.</li>
+                                    <li>Generate your API keys and paste the corresponding Client ID and Client Secret
+                                        into the fields provided.</li>
+                                </ul>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Client Id" formControlName="clientId" required>
+                                    <mat-error *ngIf="formControls.clientId.hasError('required')">
+                                        Please enter Client Id
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-12">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Client Secret" formControlName="clientSecret" required>
+                                    <mat-error *ngIf="formControls.clientSecret.hasError('required')">
+                                        Please enter Client Secret
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-12">
+                                <mat-form-field class="example-full-width" required>
+                                    <mat-label>Select Regions</mat-label>
+                                    <mat-select formControlName="globalMarketplaceSiteID"
+                                        (selectionChange)="globalMarketplaceSiteChange($event)">
+                                        <mat-option *ngFor="let marketplaceSite of globalMarketplaceSites"
+                                            [value]="marketplaceSite.globalMarketplaceSiteId">
+                                            {{marketplaceSite.amazonSiteRegion}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="formControls.globalMarketplaceSiteID.errors?.required">
+                                        Please select region
+                                    </mat-error>
+                                </mat-form-field>
+                                <p>
+                                    {{regions}}
+                                </p>
+                            </div>
+                            <div class="col-sm-12 btnContainer">
+                                <button mat-raised-button class="float-right" (click)="onSubmit()"
+                                    color="primary">Save</button>
+                                <button mat-raised-button type="button" class="float-left" (click)="onCancelBtnClick()"
+                                    color="primary">Cancel</button>
+
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

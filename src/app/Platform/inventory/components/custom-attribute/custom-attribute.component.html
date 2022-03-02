@@ -1,0 +1,68 @@
+<div class="mat-dialog-content">
+  <div class="container" style="position: relative;">
+    <button type="button" (click)="cancelClick()" class="close close-btn-top">×</button>
+    <div class="row">
+      <div class="col-sm-12">
+        <h6>Add atttribute</h6>
+      </div>
+    </div>
+      <form [formGroup]="addCusForm" (change)="formChanged()">
+        <div class="row">
+          <!-- <div class="col-sm-3">
+                      </div> -->
+          <div class="col-sm-12">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Attribute Name" formControlName="customAttributeName" required>
+              <mat-error *ngIf="addCusForm.controls.customAttributeName.hasError('required')">
+                Please enter attribute name
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- <div class="col-sm-3">
+                      </div> -->
+        </div>
+        <div class="row">
+          <!-- <div class="col-sm-3">
+                        </div> -->
+          <div class="col-sm-12">
+            <mat-form-field class="example-full-width">
+              <mat-label>Select Attribute Type</mat-label>
+              <mat-select matInput placeholder="Attribute Type" formControlName="customAttributeTypeId" required>
+                <mat-option *ngFor="let attributeType of attributeTypes" [value]="attributeType.customAttributeTypeId">
+                  {{attributeType.customAttributeTypeValue}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="addCusForm.controls.customAttributeTypeId.errors">
+                Please select attribute type
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- <div class="col-sm-3">
+                        </div> -->
+        </div>
+        <div class="row">
+          <!-- <div class="col-sm-3">
+                          </div> -->
+          <div class="col-sm-12">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Attribute Value" formControlName="customAttributeValue" required>
+              <mat-error *ngIf="addCusForm.controls.customAttributeValue.hasError('required')">
+                Please enter attribute value
+              </mat-error>
+              <mat-error *ngIf="addCusForm.controls.customAttributeValue.hasError('pattern')">
+                Please enter valid custom attribute value
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- <div class="col-sm-3">
+                          </div> -->
+        </div>
+        <div class="btn-sec">
+          <button mat-raised-button type="submit" color="primary" class="float-left"
+            (click)="onAddCustomAttribute()">Save</button>
+          <button mat-raised-button type="button" color="primary" class="float-right"
+            (click)="cancelClick()">Cancel</button>
+        </div>
+      </form>
+  </div>
+  </div>

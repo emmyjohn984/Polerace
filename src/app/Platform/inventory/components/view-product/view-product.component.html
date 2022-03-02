@@ -1,0 +1,175 @@
+<div *ngIf="loading" class="loader" id="loader"></div>
+
+<div id="content">
+  <!-- End of Topbar -->
+
+  <!-- Begin Page Content -->
+  <div class="container-fluid" [ngClass]="{ 'container-fluid': loading }">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+          <a href="#" class="text-muted">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a href="#" class="text-muted">Manage Product</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          Product Details
+        </li>
+      </ol>
+    </nav>
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-3">
+      <h6 class="brown font-weight-bold">Product Details</h6>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div id="custCarousel" class="carousel slide" data-ride="carousel" align="left">
+          <!-- slides -->
+          <div class="carousel-inner">
+            <div *ngIf="data.productImages.length>0">
+              <div class="carousel-item active" *ngFor="let img of data.productImages; let i = index"
+                [ngClass]="{ active: i == 0 }">
+                <img [src]="img.imageUrl" class="img-fluid" />
+              </div>
+            </div>
+            <div *ngIf="data.productImages.length===0">
+              <div class="carousel-item active">
+                <img src="../../../../../assets/noimage.jpg" class="img-fluid" />
+              </div>
+            </div>
+          </div>
+          <!-- Left right -->
+          <a class="carousel-control-prev" href="#custCarousel" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </a>
+          <a class="carousel-control-next" href="#custCarousel" data-slide="next">
+            <span class="carousel-control-next-icon"></span> </a><!-- Thumbnails -->
+          <ol class="carousel-indicators list-inline">
+            <li class="list-inline-item" *ngFor="let img of data.productsImages; let i = index"
+              [ngClass]="{ active: i == 0 }">
+              <a id="carousel-selector-0" class="selected" data-slide-to="0" data-target="#custCarousel">
+                <img [src]="img.imageUrl" class="img-fluid" style="width: 125px;height: 125px;object-fit: cover;" />
+              </a>
+            </li>
+          </ol>
+        </div>
+      </div>
+      <br><br>
+      <div class="col-md-6">
+        <!-- <h2>Product Name</h2>
+        <p class="size">{{data.products.title}}</p>
+        <h4>Short Description</h4>
+        <p class="size">
+          {{ data.products.shortDescription }}
+        </p>
+        <h4>Description</h4>
+        <p class="size">
+          {{ data.products.description }}
+        </p>
+        <h4>Price</h4>
+        <del>{{data.products.sellingPrice}}</del>
+        <h4>Buy It Now Price</h4>
+        <p class="size">{{data.products.buyItNowPrice}}</p>
+        <h4>Published</h4>
+         -->
+        <article class="content-body">
+          <h2 class="title">{{data.products.title}}</h2>
+          <div class="mb-3">
+            <var class="price h4">${{data.products.buyItNowPrice}}</var>
+            <span class="text-muted"></span>
+          </div> <!-- price-detail-wrap .// -->
+
+          <p>{{ data.products.description }}</p>
+
+
+          <dl class="row">
+            <dt class="col-sm-3">Brand Name</dt>
+            <dd class="col-sm-9">{{data.products.brandName}}</dd>
+
+            <dt class="col-sm-3">Manufacture</dt>
+            <dd class="col-sm-9">{{data.products.manufacture}}</dd>
+
+            <dt class="col-sm-3">Short Description</dt>
+            <dd class="col-sm-9">{{data.products.shortDescription}}</dd>
+            <dt class="col-sm-3">Published</dt>
+            <p-inputSwitch class="col-sm-9" [readonly]="true" [(ngModel)]="checked1"></p-inputSwitch>
+          </dl>
+
+          <hr>
+
+        </article>
+      </div>
+    </div>
+    <br /><br />
+    <br><br><br>
+
+    <div class="container">
+      <div class="card text-center">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card-header" id="bg">
+              <h5>Product Specification Details</h5>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class='row'>
+              <div class="col-md-6">
+                <article class="content-body">
+                  <dl class="row">
+                    <dt class="col-sm-3">Item Type</dt>
+                    <dd class="col-sm-9">{{data.products.itemType}}</dd>
+                    <dt class="col-sm-3">Quantity</dt>
+                    <dd class="col-sm-9">{{data.products.quantity}}</dd>
+                    <dt class="col-sm-3">Weight</dt>
+                    <dd class="col-sm-9">{{data.products.weight}}</dd>
+                    <dt class="col-sm-3">Height</dt>
+                    <dd class="col-sm-9">{{data.products.height}}</dd>
+                    <dt class="col-sm-3">Width</dt>
+                    <dd class="col-sm-9">{{data.products.width}}</dd>
+                    <dt class="col-sm-3">Length</dt>
+                    <dd class="col-sm-9">{{data.products.length}}</dd>
+                  </dl>
+                </article>
+              </div>
+              <div class="col-md-6">
+                <article class="content-body">
+                  <dl class="row">
+                    <dt class="col-sm-3">Start Price</dt>
+                    <dd class="col-sm-9">{{data.products.startPrice}}</dd>
+                    <dt class="col-sm-3">Buy Now Price</dt>
+                    <dd class="col-sm-9">{{data.products.buyItNowPrice}}</dd>
+                    <dt class="col-sm-3">Reserve Price</dt>
+                    <dd class="col-sm-9">{{data.products.reservePrice}}</dd>
+                    <dt class="col-sm-3">Selling Price</dt>
+                    <dd class="col-sm-9">{{data.products.sellingPrice}}</dd>
+                    <dt class="col-sm-3">Asin</dt>
+                    <dd class="col-sm-9">{{data.products.asin}}</dd>
+                    <dt class="col-sm-3">Gcid</dt>
+                    <dd class="col-sm-9">{{data.products.gcid}}</dd>
+                  </dl>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br><br>
+    <div class="col text-center pb-3">
+      <button class="btn grey-btn font-weight-bold" (click)="back()">
+        Back
+      </button>
+      <button class="btn purple-btn font-weight-bold" style="margin-left: 10px" (click)="edit()">
+        Edit
+      </button>
+    </div>
+  </div>
+</div>
+<!-- </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

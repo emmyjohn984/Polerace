@@ -1,0 +1,67 @@
+<!-- Login Polerce  -->
+<div *ngIf="loading" class="loader" id="loader"></div>
+
+<div id="hero">
+
+  <app-authheader></app-authheader>
+
+<div class="row">
+  <div class="col-sm-6 col-md-5 col-md-5 m-auto" id="row">
+    <h3 class="text-white text-center">Login Polerce<br>
+      <span class="pcolor">Boost</span> Your Profits</h3>
+    <!-- <p class="text-white  text-center">What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and
+ typesetting industry Lorem Ipsum has </p> -->
+
+
+    <div class="card">
+      <div class="card-body">
+        <div class="card-text">
+          <form [formGroup]="loginForm" (ngSubmit)="addData($event)">
+            <div class="form-group">
+              <label for="exampleInputEmail1" class="required">Email Address</label>
+              <input  type="text" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="example@gmail.com"
+              required name="email" formControlName="email"
+              [ngClass]="{'is-invalid':submitted }">
+              <mat-error *ngIf="submitted && f.email.invalid">
+                <mat-error *ngIf="f.email.errors?.required">
+                  Please Enter Email Address.
+                </mat-error>
+              </mat-error>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1" class="required">Password</label>
+              <input type="password" placeholder="Password" id="exampleInputpassword1" class="form-control form-control-lg " id="pass3"
+              required name="password"
+              formControlName="password" [ngClass]="{'is-invalid':submitted}">
+              <mat-error *ngIf="submitted && f.password.invalid ">
+                <mat-error *ngIf="f.password.errors?.required">
+                  Please Enter Password.
+                </mat-error>
+              </mat-error>
+              <a routerLink = "/auth/retrivepassword" class="text-muted" style="float:right;font-size:12px;">Forgot password?</a><br>
+              <input type="checkbox" class="text-muted" name="rememberme" formControlName="rememberme"
+              [ngClass]="{'is-invalid':f.submitted && f.rememberme.invalid}" > Remember me
+            </div>
+            <button type="submit" class="btn btn-warning btn-block pt-3 pb-3" [ngClass]="{'btn': loading}">Sign in</button>
+            <!-- <p class="text-center">or sign in with</p> -->
+            <!-- <div class="row  ">
+              <div class="col-sm-4">
+                <button class="btn btn-outline-dark btn-block btn-sm"><img src="./../../../../assets/polercelinks/img/g-icon.png" class="img-fluid mr-2" alt=""/> Google</button>
+              </div>
+              <div class="col-sm-4">
+                <button class="btn btn-outline-dark btn-block btn-sm"><img src="./../../../../assets/polercelinks/img/f-icon.png" class="img-fluid mr-2" alt=""/> Facebook</button>
+              </div>
+              <div class="col-sm-4">
+                <button class="btn btn-outline-dark btn-block btn-sm"><img src="./../../../../assets/polercelinks/img/link-icon.png" class="img-fluid mr-2" alt=""/> Linkedin</button>
+              </div>
+            </div> -->
+            <div class="sign-up">New here? <a routerLink = "/auth/register" class="pcolor">Create an account</a> </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<app-authfooter></app-authfooter>

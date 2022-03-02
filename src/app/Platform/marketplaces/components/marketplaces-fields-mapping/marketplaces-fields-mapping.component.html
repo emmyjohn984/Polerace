@@ -1,0 +1,201 @@
+<div class="page_content">
+    <form [formGroup]="mappingAddForm">
+        <div class="container-fluid">
+            <div class="head-title-buton">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h1>Manage Fields Mapping</h1>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <div class="example-button-row custumbtn">
+                            <button mat-raised-button color="primary"
+                                [routerLink]="['/inventory/products']">Cancel</button>
+                        </div>
+                        <div class="example-button-row custumbtn"
+                            *ngIf="permissionsHelper.isEditable('Channel Configuration') || userRole =='admin'">
+                            <button mat-raised-button color="primary" (click)="onSubmit($event)">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="common_content_section">
+                        <mat-tab-group [(selectedIndex)]="selectedIndex">
+                            <mat-tab label="Amazon">
+                                <div class="col-sm-12">
+                                    <div formArrayName="amazonFieldsArray">
+                                        <div *ngFor="let control of getAmazonFieldsControls.controls; let i=index"
+                                            [formGroupName]="i">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <input type="hidden" formControlName="marketplaceFieldId">
+                                                    <input type="hidden" formControlName="applicationFieldId">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput formControlName="marketplaceFieldName" readonly>
+                                                        <span [class.required]="control.value.required==1"></span>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <!-- <mat-form-field class="example-full-width">
+                                                        <mat-select matInput placeholder="Select Application Field"
+                                                            formControlName="applicationFieldId">
+                                                            <mat-option *ngFor="let fields of masterApplicationFields"
+                                                                [value]="fields.applicationFieldId">
+                                                                {{fields.fieldName}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field> -->
+                                                    <div class="ng-autocomplete p-1">
+                                                        <ng-autocomplete [data]="masterApplicationFields"
+                                                            [searchKeyword]="keyword"
+                                                            placeholder="Select Application Field"
+                                                            formControlName="applicationFieldObject"
+                                                            [initialValue]=control.value.applicationFieldName
+                                                            [minQueryLength]=2 [historyListMaxNumber]=5
+                                                            (selected)='selectEvent($event,i)'
+                                                            (inputChanged)='onChangeSearch($event)'
+                                                            (inputFocused)='onFocused($event)'
+                                                            [itemTemplate]="itemTemplate"
+                                                            [notFoundTemplate]="notFoundTemplate">
+                                                        </ng-autocomplete>
+
+                                                        <ng-template #itemTemplate let-item>
+                                                            <a [innerHTML]="item.fieldName"></a>
+                                                        </ng-template>
+
+                                                        <ng-template #notFoundTemplate let-notFound>
+                                                            <div [innerHTML]="notFound"></div>
+                                                        </ng-template>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </mat-tab>
+                            <mat-tab label="eBay">
+                                <div class="col-sm-12">
+                                    <div formArrayName="eBayFieldsArray">
+                                        <div *ngFor="let control of geteBayFieldsControls.controls; let i=index"
+                                            [formGroupName]="i">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <input type="hidden" formControlName="marketplaceFieldId">
+                                                    <input type="hidden" formControlName="applicationFieldId">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput formControlName="marketplaceFieldName" readonly>
+                                                        <span [class.required]="control.value.required==1"></span>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <!-- <mat-form-field class="example-full-width">
+                                                        <mat-select matInput placeholder="Select Application Field"
+                                                            formControlName="applicationFieldId">
+                                                            <mat-option *ngFor="let fields of masterApplicationFields"
+                                                                [value]="fields.applicationFieldId">
+                                                                {{fields.fieldName}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field> -->
+                                                    <div class="ng-autocomplete p-1">
+                                                        <ng-autocomplete [data]="masterApplicationFields"
+                                                            [searchKeyword]="keyword"
+                                                            placeholder="Select Application Field"
+                                                            formControlName="applicationFieldObject"
+                                                            [initialValue]=control.value.applicationFieldName
+                                                            [minQueryLength]=2 [historyListMaxNumber]=5
+                                                            (selected)='selectEventeBay($event,i)'
+                                                            (inputChanged)='onChangeSearch($event)'
+                                                            (inputFocused)='onFocused($event)'
+                                                            [itemTemplate]="itemTemplate"
+                                                            [notFoundTemplate]="notFoundTemplate">
+                                                        </ng-autocomplete>
+
+                                                        <ng-template #itemTemplate let-item>
+                                                            <a [innerHTML]="item.fieldName"></a>
+                                                        </ng-template>
+
+                                                        <ng-template #notFoundTemplate let-notFound>
+                                                            <div [innerHTML]="notFound"></div>
+                                                        </ng-template>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                            <mat-tab label="Walmart">
+                                <div class="col-sm-12">
+                                    <div formArrayName="walmartFieldsArray">
+                                        <div *ngFor="let control of getWalmartFieldsControls.controls; let i=index"
+                                            [formGroupName]="i">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <input type="hidden" formControlName="marketplaceFieldId">
+                                                    <input type="hidden" formControlName="applicationFieldId">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput formControlName="marketplaceFieldName" readonly>
+                                                        <span [class.required]="control.value.required==1"></span>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <!-- <mat-form-field class="example-full-width">
+                                                        <mat-select matInput placeholder="Select Application Field"
+                                                            formControlName="applicationFieldId">
+                                                            <mat-option *ngFor="let fields of masterApplicationFields"
+                                                                [value]="fields.applicationFieldId">
+                                                                {{fields.fieldName}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field> -->
+                                                    <div class="ng-autocomplete p-1">
+                                                        <ng-autocomplete [data]="masterApplicationFields"
+                                                            [searchKeyword]="keyword"
+                                                            placeholder="Select Application Field"
+                                                            formControlName="applicationFieldObject"
+                                                            [initialValue]=control.value.applicationFieldName
+                                                            [minQueryLength]=2 [historyListMaxNumber]=5
+                                                            (selected)='selectEventWalmart($event,i)'
+                                                            (inputChanged)='onChangeSearch($event)'
+                                                            (inputFocused)='onFocused($event)'
+                                                            [itemTemplate]="itemTemplate"
+                                                            [notFoundTemplate]="notFoundTemplate">
+                                                        </ng-autocomplete>
+
+                                                        <ng-template #itemTemplate let-item>
+                                                            <a [innerHTML]="item.fieldName"></a>
+                                                        </ng-template>
+
+                                                        <ng-template #notFoundTemplate let-notFound>
+                                                            <div [innerHTML]="notFound"></div>
+                                                        </ng-template>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                        </mat-tab-group>
+                    </div>
+                </div>
+            </div>
+            <div id="spinner">
+                <app-progress-spinner class="example-margin" [color]="color" [mode]="mode" [value]="value"
+                    [backdropEnabled]="true" [positionGloballyCenter]="true"
+                    [displayProgressSpinner]="displayProgressSpinner">
+                </app-progress-spinner>
+            </div>
+        </div>
+    </form>
+    <div class="example-button-row custumbtn next-right">
+        <button mat-raised-button type="button" class="float-left" color="primary" (click)="previousStep();"
+            *ngIf="selectedIndex!==0">Back</button>
+        <button mat-raised-button type="button" color="primary" (click)="nextStep();"
+            *ngIf="selectedIndex!==2">Next</button>
+    </div>
+
+</div>

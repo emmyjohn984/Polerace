@@ -1,0 +1,224 @@
+#heading{
+  background-color: #850273;
+  color: #fff;
+}
+
+.check{
+  margin-right: 1230px;
+  font-size: 20px;
+  ::ng-deep .mat-checkbox-inner-container {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+#addbtn{
+  color:#850273
+}
+
+#btn1{
+  margin-right: 5px;
+}
+
+.col-md-2{
+  padding-top: 15px;
+}
+
+.purplebgcolor {
+  background: #850273;
+  color: #fff;
+}
+
+.purple-btn-pill {
+  background-color: #850273;
+  color: #fff;
+  border-radius: 50px;
+}
+
+.grey-btn {
+  background-color: #d4d4d4;
+  color: #000;
+}
+
+.purple-btn {
+  background-color: #850273;
+  color: #fff;
+}
+
+
+:host ::ng-deep {
+  .p-paginator {
+      .p-paginator-current {
+          margin-left: auto;
+      }
+  }
+
+  .p-progressbar {
+      height: .5rem;
+      background-color: #D8DADC;
+
+      .p-progressbar-value {
+          background-color: #607D8B;
+      }
+  }
+
+  .table-header {
+      display: flex;
+      justify-content: space-between;
+  }
+
+  .p-calendar .p-datepicker {
+      min-width: 25rem;
+
+      td {
+          font-weight: 400;
+      }
+  }
+
+  .p-datatable.p-datatable-customers {
+      .p-datatable-header {
+          padding: 1rem;
+          text-align: left;
+          font-size: 1.5rem;
+      }
+
+      .p-paginator {
+          padding: 1rem;
+      }
+
+      .p-datatable-thead > tr > th {
+          text-align: left;
+      }
+
+      .p-datatable-tbody > tr > td {
+          cursor: auto;
+      }
+
+      .p-dropdown-label:not(.p-placeholder) {
+          text-transform: uppercase;
+      }
+  }
+
+  /* Responsive */
+  .p-datatable-customers .p-datatable-tbody > tr > td .p-column-title {
+      display: none;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  :host ::ng-deep {
+      .p-datatable {
+          &.p-datatable-customers {
+              .p-datatable-thead > tr > th,
+              .p-datatable-tfoot > tr > td {
+                  display: none !important;
+              }
+
+              .p-datatable-tbody > tr {
+                  border-bottom: 1px solid var(--layer-2);
+
+                  > td {
+                      text-align: left;
+                      display: block;
+                      border: 0 none !important;
+                      width: 100% !important;
+                      float: left;
+                      clear: left;
+                      border: 0 none;
+
+                      .p-column-title {
+                          padding: .4rem;
+                          min-width: 30%;
+                          display: inline-block;
+                          margin: -.4rem 1rem -.4rem -.4rem;
+                          font-weight: bold;
+                      }
+
+                      .p-progressbar {
+                          margin-top: .5rem;
+                      }
+                  }
+              }
+          }
+      }
+  }
+
+}
+
+
+#delete{
+  margin-left: 14px;
+}
+
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #850273  ;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+  margin: 55px auto;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  // opacity: 0.5;
+  margin-top: 400px;
+  }
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+:host::ng-deep.ui-paginator
+{
+  text-align: right !important;
+}
+
+:host::ng-deep.body .ui-table .ui-sortable-column.ui-state-highlight {
+  /* background-color: #007ad9; */
+  /* color: #ffffff; */
+  color: #75bef8 !important;
+  background-color: #f4f4f4;
+  /* border: #75bef8; */
+}
+
+.sorticon{
+  color: #75bef8;
+  size: 0.2rem !important;
+}
+
+.container-fluid{
+  opacity: 0.2;
+}
+
+#pull-right{
+  float: right!important;
+}
+
+.pull-left{
+  float: left;
+}
+
+.drop{
+  text-align: left;
+  }
+
+  :host ::ng-deep  .p-frozen-column {
+    font-weight: bold;
+  }
+  :host ::ng-deep .p-datatable-frozen-tbody {
+    font-weight: bold;
+  }
+  
+
