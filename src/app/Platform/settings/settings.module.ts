@@ -54,10 +54,9 @@ import { ChangepasswordComponent } from './components/changepassword/changepassw
 import { UpdateprofileComponent } from './components/updateprofile/updateprofile.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-import {InputSwitchModule} from 'primeng/inputswitch';
+import { InputSwitchModule } from 'primeng/inputswitch';
 import { TableModule } from 'primeng';
 import { UpdateSubscriptionComponent } from './components/update-subscription/update-subscription.component';
-import { NgxStripeModule } from 'ngx-stripe';
 import { StripePaymentComponent } from './components/stripe-payment/stripe-payment.component';
 
 @NgModule({
@@ -113,8 +112,6 @@ import { StripePaymentComponent } from './components/stripe-payment/stripe-payme
     TableModule,
     ScrollingModule,
     InputSwitchModule,
-    NgxStripeModule.forRoot('pk_test_51ILpJsFRXrII7xkxwrQpAr9ZIIGgBy4xiSC9Iv2pHOamjrEU1LRuzRrZAh8l2FXiaRIQjsCwYS2BWODYe5F3oTYs00aN68wZ8N'),
-
   ]
 })
 export class SettingsModule { }

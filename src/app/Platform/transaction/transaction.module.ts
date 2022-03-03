@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgxStripeModule } from 'ngx-stripe';
 import { TransactionRoutingModule } from './transaction-routing.module';
 import { SubscriptionHistoryComponent } from './components/subscription-history/subscription-history.component';
 import { TableModule } from 'primeng/table';
@@ -20,7 +19,6 @@ import { ViewsubscriptionhistoryComponent } from './components/viewsubscriptionh
     TableModule,
     DropdownModule,
     ButtonModule,
-    NgxStripeModule,
     FormsModule,
     MultiSelectModule,
     MatSelectModule,

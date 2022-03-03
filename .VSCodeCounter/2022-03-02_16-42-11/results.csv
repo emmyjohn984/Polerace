@@ -1,0 +1,13 @@
+"filename", "language", "TypeScript", "SCSS", "HTML", "comment", "blank", "total"
+"d:\AngularProject\Polerace\src\app\Platform\transaction\components\subscription-history\subscription-history.component.html", "HTML", 0, 0, 126, 5, 6, 137
+"d:\AngularProject\Polerace\src\app\Platform\transaction\components\subscription-history\subscription-history.component.scss", "SCSS", 0, 110, 0, 3, 20, 133
+"d:\AngularProject\Polerace\src\app\Platform\transaction\components\subscription-history\subscription-history.component.spec.ts", "TypeScript", 20, 0, 0, 0, 6, 26
+"d:\AngularProject\Polerace\src\app\Platform\transaction\components\subscription-history\subscription-history.component.ts", "TypeScript", 157, 0, 0, 0, 22, 179
+"d:\AngularProject\Polerace\src\app\Platform\transaction\components\viewsubscriptionhistory\viewsubscriptionhistory.component.html", "HTML", 0, 0, 73, 5, 4, 82
+"d:\AngularProject\Polerace\src\app\Platform\transaction\components\viewsubscriptionhistory\viewsubscriptionhistory.component.scss", "SCSS", 0, 110, 0, 3, 20, 133
+"d:\AngularProject\Polerace\src\app\Platform\transaction\components\viewsubscriptionhistory\viewsubscriptionhistory.component.spec.ts", "TypeScript", 20, 0, 0, 0, 6, 26
+"d:\AngularProject\Polerace\src\app\Platform\transaction\components\viewsubscriptionhistory\viewsubscriptionhistory.component.ts", "TypeScript", 166, 0, 0, 7, 16, 189
+"d:\AngularProject\Polerace\src\app\Platform\transaction\services\transaction-service.service.ts", "TypeScript", 17, 0, 0, 2, 8, 27
+"d:\AngularProject\Polerace\src\app\Platform\transaction\transaction-routing.module.ts", "TypeScript", 18, 0, 0, 0, 4, 22
+"d:\AngularProject\Polerace\src\app\Platform\transaction\transaction.module.ts", "TypeScript", 28, 0, 0, 0, 2, 30
+"Total", "-", 426, 220, 199, 25, 114, 984

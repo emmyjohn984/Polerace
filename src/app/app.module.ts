@@ -40,7 +40,6 @@ export function createTranslateLoader(http: HttpClient) {
     { prefix: './assets/locales/', suffix: '.json?v=' + cacheBustSuffix },
   ]);
 }
-import { NgxStripeModule } from 'ngx-stripe';
 import { MatSelectModule } from '@angular/material/select';
 import { MatListModule } from '@angular/material/list';
 
@@ -50,7 +49,6 @@ import { MatListModule } from '@angular/material/list';
     BrowserModule,
     DashboardModule,
     ChartsModule,
-    NgxStripeModule.forRoot('pk_test_51ILpJsFRXrII7xkxwrQpAr9ZIIGgBy4xiSC9Iv2pHOamjrEU1LRuzRrZAh8l2FXiaRIQjsCwYS2BWODYe5F3oTYs00aN68wZ8N'),
     //AuthModule,
     // RouterModule,
     HttpClientModule,

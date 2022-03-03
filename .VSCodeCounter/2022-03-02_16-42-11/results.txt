@@ -1,0 +1,41 @@
+Date : 2022-03-02 16:42:11
+Directory : d:\AngularProject\Polerace\src\app\Platform\transaction
+Total : 11 files,  845 codes, 25 comments, 114 blanks, all 984 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| TypeScript |          7 |        426 |          9 |         64 |        499 |
+| SCSS       |          2 |        220 |          6 |         40 |        266 |
+| HTML       |          2 |        199 |         10 |         10 |        219 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                                 | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                                    |         11 |        845 |         25 |        114 |        984 |
+| components                                                                                                                           |          8 |        782 |         23 |        100 |        905 |
+| components\subscription-history                                                                                                      |          4 |        413 |          8 |         54 |        475 |
+| components\viewsubscriptionhistory                                                                                                   |          4 |        369 |         15 |         46 |        430 |
+| services                                                                                                                             |          1 |         17 |          2 |          8 |         27 |
++--------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                                                             | language   | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| d:\AngularProject\Polerace\src\app\Platform\transaction\components\subscription-history\subscription-history.component.html          | HTML       |        126 |          5 |          6 |        137 |
+| d:\AngularProject\Polerace\src\app\Platform\transaction\components\subscription-history\subscription-history.component.scss          | SCSS       |        110 |          3 |         20 |        133 |
+| d:\AngularProject\Polerace\src\app\Platform\transaction\components\subscription-history\subscription-history.component.spec.ts       | TypeScript |         20 |          0 |          6 |         26 |
+| d:\AngularProject\Polerace\src\app\Platform\transaction\components\subscription-history\subscription-history.component.ts            | TypeScript |        157 |          0 |         22 |        179 |
+| d:\AngularProject\Polerace\src\app\Platform\transaction\components\viewsubscriptionhistory\viewsubscriptionhistory.component.html    | HTML       |         73 |          5 |          4 |         82 |
+| d:\AngularProject\Polerace\src\app\Platform\transaction\components\viewsubscriptionhistory\viewsubscriptionhistory.component.scss    | SCSS       |        110 |          3 |         20 |        133 |
+| d:\AngularProject\Polerace\src\app\Platform\transaction\components\viewsubscriptionhistory\viewsubscriptionhistory.component.spec.ts | TypeScript |         20 |          0 |          6 |         26 |
+| d:\AngularProject\Polerace\src\app\Platform\transaction\components\viewsubscriptionhistory\viewsubscriptionhistory.component.ts      | TypeScript |        166 |          7 |         16 |        189 |
+| d:\AngularProject\Polerace\src\app\Platform\transaction\services\transaction-service.service.ts                                      | TypeScript |         17 |          2 |          8 |         27 |
+| d:\AngularProject\Polerace\src\app\Platform\transaction\transaction-routing.module.ts                                                | TypeScript |         18 |          0 |          4 |         22 |
+| d:\AngularProject\Polerace\src\app\Platform\transaction\transaction.module.ts                                                        | TypeScript |         28 |          0 |          2 |         30 |
+| Total                                                                                                                                |            |        845 |         25 |        114 |        984 |
++--------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

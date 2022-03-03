@@ -74,7 +74,6 @@ export class ApiService {
   postExcelData<T>(url: string, data, reqAPIParams: ApiParams[]): Observable<any> {
     ; let headers = new HttpHeaders()
       //.set('content-type', 'multipart/form-data')
-
       .set('Access-Control-Allow-Origin', '*')
       .set('Authorization', `Bearer ${this.getToken()}`);
     let newHTTPParams = new HttpParams();

@@ -42,10 +42,11 @@ export class SubcategoryListingComponent implements OnInit {
   constructor(private inventoryService: InventoryService,private fb:FormBuilder, private notificationService: NotificationService, private dialog: MatDialog, private router: Router) { }
 
   ngOnInit(): void {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser') ? localStorage.getItem('currentUser') : sessionStorage.getItem('currentUser'));
+    this.getSubCategoriesByCompanyId();
     this.form = this.fb.group({
       columns: [this.baseColoumns]
     });
-    this.currentUser = JSON.parse(localStorage.getItem('currentUser') ? localStorage.getItem('currentUser') : sessionStorage.getItem('currentUser'));
     this.cols = [
       { field: 'categoryName', header: 'Subcategory Name' },
       { field: 'parentCategoryName', header: 'Category Name' },
@@ -55,7 +56,6 @@ export class SubcategoryListingComponent implements OnInit {
       { field: 'isActive', header: 'Status' },
       { field: 'createdDate', header: 'Created Date' }
     ];
-    this.getSubCategoriesByCompanyId();
   }
 
   showId(categoryID: number) {

@@ -13,16 +13,6 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   },
-
-  // {
-  //   path: 'visits',
-  //   loadChildren: () => import('./Platform/visits/visits.module').then(m => m.VisitsModule)
-  // },
-
-  // {
-  //   path: 'channels',
-  //   loadChildren: () => import('./Platform/listing/listing.module').then(m => m.ListingModule)
-  // },
   {
     path: '*', redirectTo: 'home'
   }

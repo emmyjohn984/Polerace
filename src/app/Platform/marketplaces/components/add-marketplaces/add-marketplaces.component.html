@@ -62,8 +62,8 @@
           <div class="form-group col-md-6">
             <label>Global Marketplace Name</label>
             <select formControlName="globalMarketplaceId" (change)="onMarketPlaceChange($event)"
-            [ngClass]="{'is-invalid':submitted && f.globalMarketplaceId.errors}"
-            name="globalMarketplaceId" class="form-control">
+              [ngClass]="{'is-invalid':submitted && f.globalMarketplaceId.errors}" name="globalMarketplaceId"
+              class="form-control">
               <option value="">Select GlobalMarketplace</option>
               <option *ngFor="let market of globalmarket" [value]="market.globalMarketplaceId">
                 {{market.globalMarketplaceName}}</option>
@@ -132,7 +132,8 @@
 
               <div class="form-group col-md-6">
                 <label>Global MarketplaceSiteName</label>
-                <select formControlName="globalMarketplaceSiteId" name="globalMarketplaceSiteId" class="form-control" placeholder="Select MarketplaceSiteName">
+                <select formControlName="globalMarketplaceSiteId" name="globalMarketplaceSiteId" class="form-control"
+                  placeholder="Select MarketplaceSiteName">
                   <option value="">Select GlobalMarketplaceSiteName</option>
                   <option *ngFor="let site of globalsite" [value]="site.globalMarketplaceSiteId">
                     {{site.globalMarketplaceSiteName}}</option>
