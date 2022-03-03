@@ -11,21 +11,15 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { MatSelectModule } from '@angular/material/select';
 import { MatListModule } from '@angular/material/list';
 import { ViewsubscriptionhistoryComponent } from './components/viewsubscriptionhistory/viewsubscriptionhistory.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [SubscriptionHistoryComponent, ViewsubscriptionhistoryComponent],
   imports: [
     CommonModule,
     TransactionRoutingModule,
-    TableModule,
-    DropdownModule,
-    ButtonModule,
+    SharedModule,
     NgxStripeModule,
-    FormsModule,
-    MultiSelectModule,
-    MatSelectModule,
-    MatListModule,
-    ReactiveFormsModule
   ]
 })
 export class TransactionModule { }

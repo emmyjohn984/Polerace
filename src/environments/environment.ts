@@ -8,8 +8,8 @@ export const environment = {
    //docUrl: 'https://localhost:5001/Docs/',
    //apiUrl: 'https://mscore.stagingsdei.com:9101/api/',
     // apiUrl: 'https://localhost:44317/api/'
-      // apiUrl:'http://52.25.96.244:7062/api/',
-    apiUrl: 'https://localhost:44317/api/',
+       apiUrl:'http://52.25.96.244:7062/api/',
+   // apiUrl: 'https://localhost:44317/api/',
 
 };
 

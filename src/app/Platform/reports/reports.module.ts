@@ -8,23 +8,17 @@ import { ReportsService } from './services/reports.service';
 import {DropdownModule} from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
-import {InputTextModule} from 'primeng/inputtext';
+import { InputTextModule} from 'primeng/inputtext';
 import { MatSelectModule } from '@angular/material/select';
 import { MatListModule } from '@angular/material/list';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [ProfitListComponent, MarketPlacesProfitListComponent],
   imports: [
     CommonModule,
     ReportsRoutingModule,
-    TableModule,
-    DropdownModule,
-    FormsModule,
-    ButtonModule,
-    InputTextModule,
-    MatSelectModule,
-    MatListModule,
-    ReactiveFormsModule
+    SharedModule
   ],
   providers:[ReportsService]
 })
