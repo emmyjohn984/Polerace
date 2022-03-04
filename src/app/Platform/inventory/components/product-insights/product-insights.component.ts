@@ -154,7 +154,6 @@ export class ProductInsightsComponent implements OnInit {
   cols: any;
   keys: any;
   rowData: any = [];
-  selectedColoumns: any[];
   baseColoumns = [
     'productName',
     'sku',
@@ -255,7 +254,7 @@ export class ProductInsightsComponent implements OnInit {
 
   addColoumns(e?) {
     let Array = [];
-    this.selectedColoumns.map((res) => {
+    this.form.value.columns.map((res) => {
       Array.push(res);
     });
 

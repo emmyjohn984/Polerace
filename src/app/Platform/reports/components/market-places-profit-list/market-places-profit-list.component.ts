@@ -78,6 +78,14 @@ export class MarketPlacesProfitListComponent implements OnInit {
     this.getMarketPlacesProfitList(this.productId, this.marketid, this.days, this.startDate, this.endDate);
   }
 
+  // fixWidth(e){
+  //   e=document.querySelectorAll('option')
+    // e.forEach(x=>{
+    // if(x.textContent.length>14)
+    // x.textContent=x.textContent.substring(0,13)+'...';
+    // })
+  // }
+
   getData(value: any) {
     var formats = [
       moment.ISO_8601,
@@ -100,8 +108,6 @@ export class MarketPlacesProfitListComponent implements OnInit {
       .getProductList(this.userData.companyId)
       .subscribe(res => {
         this.data = res.body.data;
-        console.log(this.data);
-        let product = [];
         this.data.map(r => {
           this.productTitle.push({ label: r.products.title, value: r.products.productId })
           this.productID.push(r.products.productId);
@@ -115,7 +121,6 @@ export class MarketPlacesProfitListComponent implements OnInit {
       (res) => {
         this.data = res.body.data;
         this.marketplaces = res.body.data;
-        console.log(this.marketplaces)
       },
       (err) => {
         this.toastrService.error(
@@ -159,7 +164,6 @@ export class MarketPlacesProfitListComponent implements OnInit {
 
   secondDrop(event) {
     this.borderRadius = true;
-    console.log(event.target.value);
     this.productId = event.target.value;
     this.getMarketPlacesProfitList(this.productId, this.marketid, this.days, this.startDate, this.endDate)
   }
@@ -329,7 +333,6 @@ export class MarketPlacesProfitListComponent implements OnInit {
 
   onMarketplaceChange(e) {
     this.borderRadius = true;
-    console.log(e.target.value);
     this.marketid = e.target.value;
     this.getMarketPlacesProfitList(
       this.productId,

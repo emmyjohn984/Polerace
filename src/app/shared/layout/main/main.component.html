@@ -275,7 +275,7 @@
 
     <ul *ngIf="sidebarToggled" class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled"
       id="accordionSidebar">
-      <a class="sidebar-brand" routerLink="/dashboard">
+      <a *ngIf="userData.roleId!=3" class="sidebar-brand" routerLink="/dashboard/staffdashboard">
         <div class="sidebar-brand-icon rotate-n-15">
           <img src="../../../../assets/admin/img/logo-icon.png" alt="" />
         </div>
@@ -284,7 +284,15 @@
           <img src="../../../../assets/admin/img/logo1.png" alt="" />
         </div>
       </a>
+      <a *ngIf="userData.roleId==3" class="sidebar-brand" routerLink="/dashboard/admindashboard">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <img src="../../../../assets/admin/img/logo-icon.png" alt="" />
+        </div>
 
+        <div class="sidebar-brand-text mx-3">
+          <img src="../../../../assets/admin/img/logo1.png" alt="" />
+        </div>
+      </a>
       <li *ngIf="userData.roleId!=3" class="nav-item" routerLinkActive="active">
         <a class="nav-link" routerLink="/dashboard/staffdashboard"><img
             src="../../../../assets/admin/img/manage-products.png" class="mr-2" alt="" />

@@ -63,7 +63,7 @@
         </div>
         <div class="form-group">
           <label>Validity</label>
-          <input type="number" readonly onkeydown="return event.keyCode !== 190" formControlName="validity" maxlength="50" [ngClass]="{'is-invalid': submitted && f.validity.errors}"
+          <input type="number" readonly onkeydown=" return event.keyCode !== 190" formControlName="validity" maxlength="50" [ngClass]="{'is-invalid': submitted && f.validity.errors}"
             class="form-control form-control" />
         </div>
         <div class="form-group">

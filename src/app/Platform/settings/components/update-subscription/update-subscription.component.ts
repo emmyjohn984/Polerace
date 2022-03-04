@@ -95,9 +95,9 @@ export class UpdateSubscriptionComponent implements OnInit {
   }
 
   getUserSubscriptionByUserId(id) {
+    this.loading = true;
     this.userService.getSubscriptionByUser(id).subscribe(
       (res) => {
-        this.loading = true;
         if (res) {
           this.subs = res.body.data?.subscriptionId;
           this.getSubscriptionById(this.subs);

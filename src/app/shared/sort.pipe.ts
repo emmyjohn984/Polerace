@@ -1,19 +1,5 @@
-// @Pipe({ name: 'orderBy' })
-// export class MyOrderByPipe implements PipeTransform {
-//   transform(categoryName: any[], field: string, reverse: boolean = false): any[] {
-//     if (!categoryName) return [];
-
-//     if (categoryName) categoryName.sort((a, b) => a[field] > b[field] ? 1 : -1);
-//     else categoryName.sort((a, b) => a > b ? 1 : -1);
-
-//     if (reverse) categoryName.reverse();
-
-//     return categoryName;
-//   }
-// }
-
 import { Pipe, PipeTransform } from '@angular/core';
-@Pipe({name: 'orderBy',pure: true})
+@Pipe({ name: 'orderBy', pure: true })
 
 export class OrderByPipe implements PipeTransform {
 
@@ -23,5 +9,4 @@ export class OrderByPipe implements PipeTransform {
     else
       return value;
   }
-
 }

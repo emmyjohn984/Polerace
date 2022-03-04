@@ -127,7 +127,7 @@
 
               <ng-template pTemplate="emptymessage">
                 <tr>
-                  <td [attr.colspan]="baseColoumns ? baseColoumns.length : 0">
+                  <td [attr.colspan]="form.value.columns ? form.value.columns.length : 0">
                     No records found
                   </td>
                 </tr>

@@ -46,13 +46,11 @@
           <ng-template pTemplate="caption">
             <form class="form-caption form-inline">
               <div class="input-group  col-lg-2 col-sm-6  pb-2">
-                <select class="form-control select border w-100" [(ngModel)]="title"
+                <select class="form-control select border" [(ngModel)]="title"
                   [ngModelOptions]="{standalone: true}" (change)="secondDrop($event)"
                   [ngClass]="title !=''? 'input-groups':'border'">
-                  <option value="" disabled>Filter By Products</option>
-                  <ng-container>
+                    <option value="" disabled>Filter By Products</option>
                     <option *ngFor="let data of productTitle" [value]="data.value">{{data.label}}</option>
-                  </ng-container>
                 </select>
                 <!-- <p-dropdown
                       [options]="data"
