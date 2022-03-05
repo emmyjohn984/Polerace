@@ -68,6 +68,7 @@ export class ProductorderlistbysupplierComponent implements OnInit {
   }
 
   getData(value: any) {
+    this.loading=true;
     var formats = [
       moment.ISO_8601,
       "MM/DD/YYYY  :)  HH*mm*ss"
@@ -88,6 +89,7 @@ export class ProductorderlistbysupplierComponent implements OnInit {
         array.push(moment(value[this.cols[i].field]).format('MM-DD-YYYY'));
       }
     }
+    this.loading = false;
     return array;
   }
 

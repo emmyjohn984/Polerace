@@ -19,7 +19,6 @@ import { PhoneMaskingDirective } from './shared/directives/phone-masking.directi
 import { NumberOnlyDirective } from './shared/directives/number-only.directive';
 import { HomeModule } from './Platform/home/home.module';
 import { SubscriptionModule } from './Platform/subscription/subscription.module';
-import { ChangepasswordComponent } from './platform/setting/components/changepassword/changepassword.component';
 import { SidebarComponent } from './shared/layout/sidebar/sidebar.component';
 import { SolutionsComponent } from './home/components/solutions/solutions.component';
 import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.component';
@@ -34,7 +33,7 @@ export function createTranslateLoader(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent, DashboardComponent, LanguageSelectorComponent, HeaderComponent, FooterComponent, MainComponent, ConfirmationDialogComponent, PhoneMaskingDirective, NumberOnlyDirective, ChangepasswordComponent, SidebarComponent, SolutionsComponent, ConfirmDialogComponent],
+  declarations: [AppComponent, DashboardComponent, LanguageSelectorComponent, HeaderComponent, FooterComponent, MainComponent, ConfirmationDialogComponent, PhoneMaskingDirective, NumberOnlyDirective, SidebarComponent, SolutionsComponent, ConfirmDialogComponent],
   imports: [
     BrowserModule,
     DashboardModule,

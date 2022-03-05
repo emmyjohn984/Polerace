@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from 'libs/core-services/src/lib/notification-service/notification.service';
@@ -33,8 +33,7 @@ export class UpdateSubscriptionComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userService: UsersService,
     private router: Router,
-    private notificationService: NotificationService,
-    private route: ActivatedRoute
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {
