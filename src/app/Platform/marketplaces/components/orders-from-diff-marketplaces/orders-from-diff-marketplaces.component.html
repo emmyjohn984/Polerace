@@ -83,7 +83,7 @@
             <ng-template pTemplate="header" let-columns>
               <tr>
                 <th style="width: 3rem">
-                  <p-tableHeaderCheckbox style="text-align: center;" (click)="select()"></p-tableHeaderCheckbox>
+                  <p-tableHeaderCheckbox  (click)="select()"></p-tableHeaderCheckbox>
                 </th>
                 <th *ngFor="let col of cols" [pSortableColumn]="col.field">
                   {{ col.header }}
@@ -94,8 +94,10 @@
             </ng-template>
             <ng-template pTemplate="body" let-Orders>
               <tr>
-                <p-tableCheckbox [value]="Orders" (click)="selectOrders(Orders.orderId, Orders.globalMarketplaceId)">
-                </p-tableCheckbox>
+                <td>
+                  <p-tableCheckbox [value]="Orders" (click)="selectOrders(Orders.orderId, Orders.globalMarketplaceId)">
+                  </p-tableCheckbox>
+                </td>
                 <td *ngFor="let data of getData(Orders)">{{ data }}</td>
                 <td *ngIf="form.value.columns.length">
                   <a pTooltip="View" tooltipPosition="top" type="button"
