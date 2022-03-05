@@ -53,11 +53,8 @@ export class ProductorderlistbysupplierComponent implements OnInit {
   //To get products
   getSuppliersList() {
     this.inventoryService.getSuppliers(this.userData.companyId).subscribe(response => {
-      this.loading = true;
       if (response.body.data) {
-        this.dataSource = response.body.data;
         this.suppliers = response.body.data;
-        this.loading=false;
       }else{
         this.loading = false;
       }
@@ -68,7 +65,6 @@ export class ProductorderlistbysupplierComponent implements OnInit {
   }
 
   getData(value: any) {
-    this.loading=true;
     var formats = [
       moment.ISO_8601,
       "MM/DD/YYYY  :)  HH*mm*ss"
@@ -89,7 +85,6 @@ export class ProductorderlistbysupplierComponent implements OnInit {
         array.push(moment(value[this.cols[i].field]).format('MM-DD-YYYY'));
       }
     }
-    this.loading = false;
     return array;
   }
 

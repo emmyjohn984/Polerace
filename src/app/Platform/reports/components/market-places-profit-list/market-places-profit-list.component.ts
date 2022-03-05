@@ -80,10 +80,10 @@ export class MarketPlacesProfitListComponent implements OnInit {
 
   // fixWidth(e){
   //   e=document.querySelectorAll('option')
-    // e.forEach(x=>{
-    // if(x.textContent.length>14)
-    // x.textContent=x.textContent.substring(0,13)+'...';
-    // })
+  //   e.forEach(x=>{
+  //   if(x.textContent.length>14)
+  //   x.textContent=x.textContent.substring(0,13)+'...';
+  //   })
   // }
 
   getData(value: any) {

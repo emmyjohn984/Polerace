@@ -141,7 +141,6 @@ export class UpdateprofileComponent implements OnInit {
             } else {
               this.userData.firstName = response.body.data.firstName;
               this.userData.lastName = response.body.data.lastName;
-
               sessionStorage.setItem(
                 'currentUser',
                 JSON.stringify(this.userData)

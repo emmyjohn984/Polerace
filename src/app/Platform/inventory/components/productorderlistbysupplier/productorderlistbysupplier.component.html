@@ -7,12 +7,7 @@
       <li class="breadcrumb-item">
         <a href="#" class="text-muted" routerLink="/dashboard">Dashboard</a>
       </li>
-      <li
-        class="breadcrumb-item active"
-        routerLinkActive="Active"
-        aria-current="page"
-        style="cursor: pointer"
-      >
+      <li class="breadcrumb-item active" routerLinkActive="Active" aria-current="page" style="cursor: pointer">
         ProductListBySuppliers
       </li>
     </ol>
@@ -26,9 +21,7 @@
   <!-- Content Row -->
   <div class="row">
     <div class="col-lg-12">
-      <div
-        class="d-sm-flex align-items-center justify-content-between mt-4 mb-3"
-      >
+      <div class="d-sm-flex align-items-center justify-content-between mt-4 mb-3">
         <h5 class="text-uppercase font-weight-bold">
           List of product by suppliers
         </h5>
@@ -46,59 +39,29 @@
       <div class="card card2 shadow mb-4">
         <!-- Card Body -->
         <div class="card-body">
-          <p-table
-            #dt
-            [value]="dataSource"
-            [columns]="cols"
-            [paginator]="true"
-            paginatorPosition="bottom"
-            [rows]="10"
-            [rowHover]="true"
-            [rowsPerPageOptions]="[5, 10, 15, 20]"
-            totalRecords="totalRecords"
-            pageLinks="3"
+          <p-table #dt [value]="dataSource" [columns]="cols" [paginator]="true" paginatorPosition="bottom" [rows]="10"
+            [rowHover]="true" [rowsPerPageOptions]="[5, 10, 15, 20]" totalRecords="totalRecords" pageLinks="3"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            [showCurrentPageReport]="true"
-            [globalFilterFields]="baseColoumns"
-            styleClass="p-datatable-customers"
-            [filterDelay]="0"
-          >
+            [showCurrentPageReport]="true" [globalFilterFields]="baseColoumns" styleClass="p-datatable-customers"
+            [filterDelay]="0">
             <ng-template pTemplate="caption">
               <div class="p-d-flex">
                 <div class="pull-right">
                   <span class="p-input-icon-left p-ml-auto">
-                    <i
-                      class="pi pi-search"
-                      style="position: absolute;margin: 10px;"
-                    ></i>
-                    <input
-                      pInputText
-                      style="padding-left:30px;margin-bottom: 5px;"
-                      type="text"
-                      (input)="dt.filterGlobal($event.target.value, 'contains')"
-                      placeholder="Search keyword"
-                    />
+                    <i class="pi pi-search" style="position: absolute;margin: 10px;"></i>
+                    <input pInputText style="padding-left:30px;margin-bottom: 5px;" type="text"
+                      (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
                   </span>
                 </div>
 
                 <div class="drop">
-                  <p-dropdown
-                    [options]="suppliers"
-                    (onChange)="onSupplierChange($event.value.supplierId)"
-                    placeholder="Filter By Supplier"
-                    optionLabel="firstName"
-                    optionValue="firstName"
-                    [(ngModel)]="firstName"
-                  >
+                  <p-dropdown [options]="suppliers" (onChange)="onSupplierChange($event.value.supplierId)"
+                    placeholder="Filter By Supplier" optionLabel="firstName" optionValue="firstName"
+                    [(ngModel)]="firstName">
                   </p-dropdown>
-                  <p-button
-                    type="button"
-                    *ngIf="firstName!=''"
-                    class=" float-end "
-                    icon="pi pi-refresh"
+                  <p-button type="button" *ngIf="firstName!=''" class=" float-end " icon="pi pi-refresh"
                     (click)="filterReset();dt.filterGlobal('', 'contains')"
-                    styleClass="p-button-text p-button-outlined"
-                  ></p-button>
+                    styleClass="p-button-text p-button-outlined"></p-button>
                 </div>
               </div>
             </ng-template>
@@ -130,24 +93,13 @@
   <!-- /.container-fluid -->
 </div>
 
-<div
-  class="modal fade"
-  id="deleteModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Ready to Delete?</h5>
-        <button
-          class="close"
-          type="button"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
       </div>
@@ -158,12 +110,7 @@
         <button class="btn btn-secondary" type="button" data-dismiss="modal">
           Cancel
         </button>
-        <a
-          class="btn btn-primary"
-          style="color: white !important"
-          data-dismiss="modal"
-          >Delete</a
-        >
+        <a class="btn btn-primary" style="color: white !important" data-dismiss="modal">Delete</a>
       </div>
     </div>
   </div>
