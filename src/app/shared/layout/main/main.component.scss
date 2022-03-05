@@ -5,3 +5,8 @@ a{
 .list{
   list-style-type: square;
 }
+
+.sidebar .nav-item .collapse .collapse-inner .collapse-item.active{
+  font-weight: bold;
+  font-size: 13px;
+}
